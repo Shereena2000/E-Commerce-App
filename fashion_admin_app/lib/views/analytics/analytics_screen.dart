@@ -1,4 +1,5 @@
-import 'package:fashion_admin_app/widgets/bottom_navigation_bar.dart';
+import 'package:fashion_admin_app/constants/colors.dart';
+import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:flutter/material.dart';
 
 class AnalyticsScreen extends StatelessWidget {
@@ -6,6 +7,12 @@ class AnalyticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(body: Center(child: Text('i am analatyics'),), );
+    return Scaffold(
+      body:  AppBar(automaticallyImplyLeading: false,backgroundColor: beigeColor,
+          title:const Text(
+        'Analytics',
+        style: screenText,
+      )),
+    );
   }
 }

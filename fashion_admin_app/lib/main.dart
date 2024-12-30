@@ -1,13 +1,19 @@
 import 'package:fashion_admin_app/constants/colors.dart';
-import 'package:fashion_admin_app/views/analytics/analytics_screen.dart';
-import 'package:fashion_admin_app/views/dashboard/dashboard_screen.dart';
-import 'package:fashion_admin_app/views/more/more_screen.dart';
-import 'package:fashion_admin_app/views/selling/selling_screen.dart';
+import 'package:fashion_admin_app/firebase_options.dart';
+import 'package:fashion_admin_app/views/authentication/forgot_screen.dart';
+import 'package:fashion_admin_app/views/authentication/login_screen.dart';
+import 'package:fashion_admin_app/views/authentication/sign_up_screen.dart';
+import 'package:fashion_admin_app/views/authentication/welcome_screen.dart';
 import 'package:fashion_admin_app/views/splash/splash_screen.dart';
-import 'package:fashion_admin_app/widgets/bottom_navigation_bar.dart';
+import 'package:fashion_admin_app/widgets/bottom_bar_wrapper.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -17,21 +23,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Fashion Admin App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: beigeColor,
+      theme: ThemeData(
+        scaffoldBackgroundColor: beigeColor,
         colorScheme: ColorScheme.fromSeed(
           seedColor: colorTheme,
         ),
         useMaterial3: true,
       ),
-       initialRoute: '/',
+      initialRoute: '/',
       routes: {
-        '/': (context) => const SplashScreen(),
-        '/dashboard': (context) => CurvedNavigationbar(child: const DashboardScreen(), initialIndex: 0),
-        '/analytics': (context) =>  CurvedNavigationbar(child: const AnalyticsScreen(), initialIndex: 1),
-        '/selling': (context) =>  CurvedNavigationbar(child: const SellingScreen(), initialIndex: 2),
-        '/more': (context) =>  CurvedNavigationbar(child: const MoreScreen(), initialIndex: 3),
+        '/': (context) => SplashScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/signUp': (context) => const SignUp(),
+        '/forgot': (context) => const ForgotScreen(),
+        '/welcome': (context) => const WelcomeScreen(),
+        '/home': (context) => const BottomNavWrapper(),
       },
     );
   }

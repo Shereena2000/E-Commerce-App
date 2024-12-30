@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111153909184",
+    "project_id": "admin-app-1f284",
+    "storage_bucket": "admin-app-1f284.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111153909184:android:1ab68a060422aca16b0c25",
+        "android_client_info": {
+          "package_name": "com.example.fashion_admin_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7vbu2tRSZX-k0l2XM-lvDRkrtaPQHauE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

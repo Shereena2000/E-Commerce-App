@@ -1,4 +1,7 @@
+
 import 'package:fashion_admin_app/constants/colors.dart';
+import 'package:fashion_admin_app/constants/texts.dart';
+
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -10,11 +13,12 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(backgroundColor: beigeColor,
           title: Text(
         'Home',
-        style: TextStyle(fontSize: 30),
+        style: screenText,
       )),
       body: Center(
         child: Text("hi ia m dashbord"),
       ),
+      
     );
   }
 }
