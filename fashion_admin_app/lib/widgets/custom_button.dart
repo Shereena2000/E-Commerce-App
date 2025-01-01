@@ -1,5 +1,6 @@
 import 'package:fashion_admin_app/constants/Texts.dart';
 import 'package:fashion_admin_app/constants/colors.dart';
+
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -8,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final double height;
   final double width;
   final Gradient gradient;
+  final Icon? icon;
   const CustomButton({
     super.key,
     required this.text,
@@ -15,6 +17,7 @@ class CustomButton extends StatelessWidget {
     this.height = 45,
     this.width = 120,
     this.gradient = linearBrownColor,
+    this.icon,
   });
 
   @override
@@ -27,7 +30,15 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
             gradient: gradient, borderRadius: BorderRadius.circular(23)),
         child: Center(
-          child: Text(text, style: buttonText),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (icon != null) ...[
+                icon!,
+              ],
+              Text(text, style: buttonText),
+            ],
+          ),
         ),
       ),
     );

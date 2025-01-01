@@ -1,18 +1,27 @@
+import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/controllers/auth_service.dart';
+import 'package:fashion_admin_app/utils/my_validator.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/alternative_login_widget.dart';
+import 'package:fashion_admin_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+  State<SignUp> createState() => _SignUpState();
+}
 
+class _SignUpState extends State<SignUp> {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+  bool _obsecureText = true;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -20,63 +29,87 @@ class SignUp extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
-              const Text(
-                'Create Account',
-                style: headlineText,
-                textAlign: TextAlign.center,
+              smallSpacing,
+              AuthHeader(
+                title: 'Create Account',
+                subtitle:
+                    'Fill your information below or register with your social account',
               ),
-              const SizedBox(height: 10),
-              const Text(
-                'Fill your information below or register with your social account',
-                textAlign: TextAlign.center,
-                style: extraSmallText,
-              ),
-              const SizedBox(height: 40),
+              smallSpacing,
               Form(
                 key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    smallSpacing,
                     const Text(
                       'Email',
                       style: normalText,
                     ),
-                    const SizedBox(height: 10),
                     TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Enter your email',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
+                        decoration: InputDecoration(
+                          hintText: 'Enter your email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
                         ),
-                      ),
-                      controller: _emailController,
-                      validator: (value) =>
-                          value!.isEmpty ? "Email cannot be empty." : null,
-                    ),
-                    const SizedBox(height: 20),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
+                        validator: (value) =>
+                            MyValidator.emailValidator(value)),
+                    moderateSpacing,
                     const Text(
                       'Password',
                       style: normalText,
                     ),
-                    const SizedBox(height: 10),
                     TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'Enter your password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
+                        decoration: InputDecoration(
+                          hintText: 'Enter your password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
                         ),
-                      ),
-                      controller: _passwordController,
-                      validator: (value) => value!.length < 8
-                          ? "Password should have at least 8 characters."
-                          : null,
+                        textInputAction: TextInputAction.next,
+                        controller: _passwordController,
+                        validator: (value) =>
+                            MyValidator.PasswordValidator(value)),
+                    moderateSpacing,
+                    const Text(
+                      'Confirm Password',
+                      style: normalText,
                     ),
+                    TextFormField(
+                        obscureText: _obsecureText,
+                        decoration: InputDecoration(
+                          hintText: '..............',
+                          hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _obsecureText = !_obsecureText;
+                              });
+                            },
+                            icon: Icon(
+                              _obsecureText
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                            ),
+                          ),
+                        ),
+                        textInputAction: TextInputAction.next,
+                        controller: _confirmPasswordController,
+                        validator: (value) =>
+                            MyValidator.repeatPasswordValidator(
+                                value: value,
+                                password: _passwordController.text)),
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              largerSpacing,
               CustomButton(
                 text: 'Sign Up',
                 onPressed: () {
@@ -99,9 +132,9 @@ class SignUp extends StatelessWidget {
                   }
                 },
               ),
-              const SizedBox(height: 30),
+              largerSpacing,
               const AlternativeLoginWidget(),
-              const SizedBox(height: 20),
+              largerSpacing,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

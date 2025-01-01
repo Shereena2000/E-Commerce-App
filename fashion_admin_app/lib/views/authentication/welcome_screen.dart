@@ -25,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Spacer(flex: 3),
+                const Spacer(flex: 4),
                 CustomButton(
                   text: 'Get Started',
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -53,7 +53,8 @@ class WelcomeScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-           const     AlternativeLoginWidget(
+                const AlternativeLoginWidget(
+                  whiteSocialButton: true,
                   colour: whiteColor,
                   textColor: whiteColor,
                 ),

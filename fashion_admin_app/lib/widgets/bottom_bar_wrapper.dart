@@ -37,9 +37,9 @@ class _BottomNavWrapperState extends State<BottomNavWrapper> {
           },
           items: const [
             Icon(Icons.dashboard),
-            Icon(Icons.analytics),
-            Icon(Icons.sell),
-            Icon(Icons.more_horiz),
+            Icon(Icons.bar_chart),
+            Icon(Icons.shopping_cart),
+            Icon(Icons.menu),
           ],
         ));
   }

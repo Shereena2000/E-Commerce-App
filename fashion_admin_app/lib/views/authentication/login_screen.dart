@@ -1,19 +1,27 @@
+import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/controllers/auth_service.dart';
+import 'package:fashion_admin_app/utils/my_validator.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/alternative_login_widget.dart';
+import 'package:fashion_admin_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+  State<LoginScreen> createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  bool _obsecureText = true;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -21,19 +29,9 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
-              const Text(
-                'Sign In',
-                style: headlineText,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                'Hi! Welcome back, you’ve been missed',
-                textAlign: TextAlign.center,
-                style: extraSmallText,
-              ),
-              const SizedBox(height: 40),
+            largerSpacing,
+              AuthHeader(title:'Sign In' ,subtitle:'Hi! Welcome back, you’ve been missed' ,),
+              largerSpacing,
               Form(
                 key: formKey,
                 child: Column(
@@ -45,39 +43,50 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'Enter your email',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
+                        decoration: InputDecoration(
+                          hintText: 'Enter your email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
                         ),
-                      ),
-                      controller: _emailController,
-                      validator: (value) =>
-                          value!.isEmpty ? "Email cannot be empty." : null,
-                    ),
-                    const SizedBox(height: 20),
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _emailController,
+                        validator: (value) =>
+                            MyValidator.emailValidator(value)),
+                 largerSpacing,
                     const Text(
                       'Password',
                       style: normalText,
                     ),
-                    const SizedBox(height: 10),
+                  smallSpacing,
                     TextFormField(
-                      obscureText: true,
+                      obscureText: _obsecureText,
                       decoration: InputDecoration(
                         hintText: 'Enter your password',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
-                      ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _obsecureText = !_obsecureText;
+                            });
+                          },
+                          icon: Icon(
+                            _obsecureText
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
+                          ),
+                        ),
+                      ), textInputAction: TextInputAction.done,
                       controller: _passwordController,
-                      validator: (value) => value!.length < 8
-                          ? "Password should have at least 8 characters."
-                          : null,
+                      validator: (value) => MyValidator.PasswordValidator(value)
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+             smallSpacing,
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -90,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+             largerSpacing,
               CustomButton(
                 text: 'Sign In',
                 onPressed: () {
@@ -111,9 +120,9 @@ class LoginScreen extends StatelessWidget {
                   }
                 },
               ),
-              const SizedBox(height: 30),
+             largerSpacing,
               const AlternativeLoginWidget(),
-              const SizedBox(height: 20),
+             largerSpacing,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

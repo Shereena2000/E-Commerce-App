@@ -1,5 +1,9 @@
 import 'package:fashion_admin_app/constants/colors.dart';
+import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
+import 'package:fashion_admin_app/controllers/auth_service.dart';
+import 'package:fashion_admin_app/utils/my_validator.dart';
+import 'package:fashion_admin_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -15,22 +19,16 @@ class ForgotScreen extends StatelessWidget {
         backgroundColor: beigeColor,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 30),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+        ),
         child: Column(
           children: [
-            const SizedBox(height: 20),
-            const Text(
-              'Forgot',
-              style: headlineText,
-              textAlign: TextAlign.center,
+            const AuthHeader(
+              title: 'Forgot',
+              subtitle: 'Please enter your email to reset your password',
             ),
-            const SizedBox(height: 10),
-            const Text(
-              'Please enter your email to reset your password',
-              textAlign: TextAlign.center,
-              style: extraSmallText,
-            ),
-            const SizedBox(height: 40),
+            largerSpacing,
             Form(
               key: formKey,
               child: Column(
@@ -40,7 +38,7 @@ class ForgotScreen extends StatelessWidget {
                     'Email',
                     style: normalText,
                   ),
-                  const SizedBox(height: 10),
+                  smallSpacing,
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: 'Enter your email',
@@ -48,19 +46,28 @@ class ForgotScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(25),
                       ),
                     ),
+                    keyboardType: TextInputType.emailAddress,
                     controller: emailController,
-                    validator: (value) =>
-                        value!.isEmpty ? "Email cannot be empty." : null,
+                    validator: (value) => MyValidator.emailValidator(value),
                   ),
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            smallSpacing,
             CustomButton(
               text: 'Continue',
-              onPressed: () {},
+              onPressed: () {
+                AuthService().resetPassword(emailController.text).then((value) {
+                  if (value == "Mail Sent") {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text('Password reset link sent to your email')));
+                  } else {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(value)));
+                  }
+                });
+              },
             )
           ],
         ),
