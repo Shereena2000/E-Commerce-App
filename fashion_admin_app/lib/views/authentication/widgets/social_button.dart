@@ -17,7 +17,7 @@ final VoidCallback onPressed;
       icon: Image.asset(
       imagePath,
       ),
-      onPressed: () {},
+      onPressed: onPressed,
       label: Text(title),
       style: ElevatedButton.styleFrom(backgroundColor:useWhiteBackground?whiteColor:beigeColor),
     );

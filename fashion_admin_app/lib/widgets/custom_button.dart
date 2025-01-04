@@ -1,4 +1,4 @@
-import 'package:fashion_admin_app/constants/Texts.dart';
+import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/constants/colors.dart';
 
 import 'package:flutter/material.dart';
