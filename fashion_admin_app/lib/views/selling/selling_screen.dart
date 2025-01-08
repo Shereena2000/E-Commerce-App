@@ -1,7 +1,7 @@
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/views/selling/banner_tab_screen.dart';
-import 'package:fashion_admin_app/views/selling/categories_tab_screen.dart';
+import 'package:fashion_admin_app/views/selling/categories/categories_tab_screen.dart';
 import 'package:fashion_admin_app/views/selling/order_tab_screen.dart';
 import 'package:fashion_admin_app/views/selling/product_tab_screens.dart';
 import 'package:fashion_admin_app/views/selling/propmotion_tab_screen.dart';
@@ -35,7 +35,7 @@ class SellingScreen extends StatelessWidget {
           children: [
             OrderTabScreen(),
             ProductTabScreens(),
-            CategoriesTabScreen(),
+           CategoriesTabScreen(),
             PropmotionTabScreen(),
             BannerTabScreen(),
            
