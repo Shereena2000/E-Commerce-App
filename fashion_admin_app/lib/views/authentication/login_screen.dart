@@ -1,12 +1,13 @@
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/constants/colors.dart';
-import 'package:fashion_admin_app/controllers/auth_service.dart';
+import 'package:fashion_admin_app/providers/auth_state_provider.dart';
 import 'package:fashion_admin_app/utils/my_validator.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,11 +20,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obsecureText = true;
-  bool _isLoading = false;
+  // bool _obsecureText = true;
+  // bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    final authStateProvider=Provider.of<AuthStateProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -64,22 +66,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Text('Password', style: normalText),
                         smallSpacing,
                         TextFormField(
-                          obscureText: _obsecureText,
+                          obscureText: authStateProvider.obsecureText,
                           decoration: InputDecoration(
                             hintText: 'Enter your password',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
                             ),
                             suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    _obsecureText = !_obsecureText;
-                                  },
-                                );
-                              },
+                              onPressed: authStateProvider.toggleObsecureText,
                               icon: Icon(
-                                _obsecureText
+                               authStateProvider.obsecureText
                                     ? Icons.visibility_off_outlined
                                     : Icons.visibility_outlined,
                               ),
@@ -109,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   largerSpacing,
                   CustomButton(
                     text: 'Sign In',
-                    onPressed: _handleSignIn,
+                    onPressed: (){_handleSignIn(context);},
                   ),
                   largerSpacing,
                   const AlternativeLoginWidget(),
@@ -130,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          if (_isLoading)
+          if (authStateProvider.isLoading)
             Container(
               color: Colors.black.withOpacity(0.5),
               child: const Center(
@@ -142,47 +138,70 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _handleSignIn() {
+  // void _handleSignIn() {
+  //   if (formKey.currentState!.validate()) {
+  //     // setState(
+  //     //   () {
+  //     //     _isLoading = true;
+  //     //   },
+  //     // );
+
+  //     AuthService()
+  //         .loginWithEmail(_emailController.text, _passwordController.text)
+  //         .then(
+  //       (value) {
+  //         setState(
+  //           () {
+  //             _isLoading = false;
+  //           },
+  //         );
+
+  //         if (value == "Login Success") {
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //             const SnackBar(content: Text("Login Successful")),
+  //           );
+  //           Navigator.pushReplacementNamed(context, '/home');
+  //         } else {
+  //           ScaffoldMessenger.of(context).showSnackBar(
+  //             SnackBar(content: Text(value)),
+  //           );
+  //         }
+  //       },
+  //     ).catchError(
+  //       (error) {
+  //         setState(
+  //           () {
+  //             _isLoading = false;
+  //           },
+  //         );
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(content: Text("Error: $error")),
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
+    void _handleSignIn(BuildContext context) {
     if (formKey.currentState!.validate()) {
-      setState(
-        () {
-          _isLoading = true;
-        },
-      );
-
-      AuthService()
-          .loginWithEmail(_emailController.text, _passwordController.text)
-          .then(
-        (value) {
-          setState(
-            () {
-              _isLoading = false;
-            },
-          );
-
-          if (value == "Login Success") {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Login Successful")),
-            );
-            Navigator.pushReplacementNamed(context, '/home');
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(value)),
-            );
-          }
-        },
-      ).catchError(
-        (error) {
-          setState(
-            () {
-              _isLoading = false;
-            },
-          );
+      final authStateProvider = Provider.of<AuthStateProvider>(context, listen: false);
+      authStateProvider
+          .login(_emailController.text, _passwordController.text)
+          .then((result) {
+        if (result == "Login Success") {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Error: $error")),
+            const SnackBar(content: Text("Login Successful")),
           );
-        },
-      );
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(result)),
+          );
+        }
+      }).catchError((error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: $error")),
+        );
+      });
     }
   }
 }

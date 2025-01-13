@@ -1,12 +1,13 @@
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
-import 'package:fashion_admin_app/controllers/auth_service.dart';
+import 'package:fashion_admin_app/providers/auth_state_provider.dart';
 import 'package:fashion_admin_app/utils/my_validator.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -20,21 +21,15 @@ class _SignUpState extends State<SignUp> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
-  bool _obsecureText = true;
-  bool _isLoading = false;
+  // bool _obsecureText = true;
+  // bool _isLoading = false;
 
-  void _handleSignUp() async {
+  void _handleSignUp(BuildContext context) async {
     if (formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
+     final authStateProvider = Provider.of<AuthStateProvider>(context, listen: false);
+     authStateProvider.signup(_emailController.text, _passwordController.text).then((result){
 
-      final result = await AuthService()
-          .createAccountwithEmail(_emailController.text, _passwordController.text);
-
-      setState(() {
-        _isLoading = false;
-      });
+     
 
       if (result == "Account is created") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -44,11 +39,13 @@ class _SignUpState extends State<SignUp> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
       }
+    });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final authStateProvider=Provider.of<AuthStateProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -59,7 +56,7 @@ class _SignUpState extends State<SignUp> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   smallSpacing,
-                  AuthHeader(
+                const  AuthHeader(
                     title: 'Create Account',
                     subtitle:
                         'Fill your information below or register with your social account',
@@ -108,7 +105,7 @@ class _SignUpState extends State<SignUp> {
                           style: normalText,
                         ),
                         TextFormField(
-                            obscureText: _obsecureText,
+                            obscureText: authStateProvider.obsecureText,
                             decoration: InputDecoration(
                               hintText: 'Re-enter Password',
                             
@@ -117,12 +114,10 @@ class _SignUpState extends State<SignUp> {
                               ),
                               suffixIcon: IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    _obsecureText = !_obsecureText;
-                                  });
+                                 authStateProvider.toggleObsecureText();
                                 },
                                 icon: Icon(
-                                  _obsecureText
+                                 authStateProvider.obsecureText
                                       ? Icons.visibility_off_outlined
                                       : Icons.visibility_outlined,
                                 ),
@@ -140,7 +135,7 @@ class _SignUpState extends State<SignUp> {
                   largerSpacing,
                   CustomButton(
                     text: 'Sign Up',
-                    onPressed: _handleSignUp,
+                    onPressed: (){_handleSignUp(context);},
                   ),
                   largerSpacing,
                   const AlternativeLoginWidget(),
@@ -162,7 +157,7 @@ class _SignUpState extends State<SignUp> {
                 ],
               ),
             ),
-            if (_isLoading)
+            if (authStateProvider.isLoading)
               Container(
                 color: Colors.black54,
                 child: Center(

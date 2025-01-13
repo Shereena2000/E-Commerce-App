@@ -43,7 +43,7 @@ class AlternativeLoginWidget extends StatelessWidget {
           imagePath: "assets/google_icon.png",
           title: 'Sigin with google',
           onPressed: () {
-            print('first');
+            
             handleGoogleSignIn(context);
           },
           useWhiteBackground: whiteSocialButton,
@@ -53,23 +53,23 @@ class AlternativeLoginWidget extends StatelessWidget {
   }
   void handleGoogleSignIn(BuildContext context) {
   AuthService().signInWithGoogle().then((value) {
-    print('Second');
+   
     print(value);
 
     if (value == "Google sign-in successful") {
-      print('Print 3rd');
+    
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Login Successful")),
       );
-      print('Print 4');
+     
       Navigator.pushReplacementNamed(context, '/home');
-      print('5');
+   
     } else {
-      print('6');
+     
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(value)),
       );
-      print("7");
+     
     }
   });
 }

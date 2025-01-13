@@ -16,6 +16,11 @@ class CategoriesTabScreen extends StatelessWidget {
     return Scaffold(
       body: Consumer<AdminProviders>(
         builder: (context, value, child) {
+          if (value.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           List<CategoriesModel> categories =
               CategoriesModel.fromJsonList(value.categories);
           if (categories.isEmpty) {
@@ -23,6 +28,7 @@ class CategoriesTabScreen extends StatelessWidget {
               child: Text("No Categories Found"),
             );
           }
+
           return ListView.builder(
             padding:const EdgeInsets.only(
               top: 8,

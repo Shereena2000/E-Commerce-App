@@ -1,5 +1,5 @@
 import 'package:fashion_client_app/constants/colors.dart';
-import 'package:fashion_client_app/views.dart/authentication/widgets/alternative_login_widget.dart';
+import 'package:fashion_client_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'Get Started',
-                  width: MediaQuery.of(context).size.width * 0.8,
+                 
                   onPressed: () =>
                       Navigator.pushReplacementNamed(context, '/signUp'),
                 ), Row(
@@ -35,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
                       const Text('Already have an accouny?', style: TextStyle(color: whiteColor),),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/login');
+                          Navigator.pushReplacementNamed(context, '/signin');
                         },
                         child: const Text(
                           'Log in',

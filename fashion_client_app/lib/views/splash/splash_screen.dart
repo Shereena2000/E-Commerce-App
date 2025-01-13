@@ -1,3 +1,4 @@
+import 'package:fashion_client_app/controllers/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,7 +26,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void>_navigateToWelcomeScreen() async{
      await Future.delayed(const Duration(seconds: 2));
      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/welcome');
-     }
+      AuthService().isLoggedIn().then((value) {
+        if (value) {
+        Navigator.pushReplacementNamed(context, '/navBar');}
+      else {
+          Navigator.pushReplacementNamed(context, '/welcome');
+        }
+      });
   }
+}
 }

@@ -7,3 +7,4 @@ const LinearGradient linearBlacColor = LinearGradient(
 );
 const Color blackColor=Colors.black;
 const Color whiteColor=Colors.white;
+const Color blueColor=Colors.blue;

@@ -1,6 +1,7 @@
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/firebase_options.dart';
 import 'package:fashion_admin_app/providers/admin_providers.dart';
+import 'package:fashion_admin_app/providers/auth_state_provider.dart';
 import 'package:fashion_admin_app/views/authentication/forgot_screen.dart';
 import 'package:fashion_admin_app/views/authentication/login_screen.dart';
 import 'package:fashion_admin_app/views/authentication/sign_up_screen.dart';
@@ -26,28 +27,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context)=>AdminProviders(),builder: (context, child) => 
-       MaterialApp(
-        title: 'Fashion Admin App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: beigeColor,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: colorTheme,
+    return MultiProvider(
+      providers:[ ChangeNotifierProvider(
+        create: (context)=>AdminProviders()),
+        ChangeNotifierProvider(create: (context)=>AuthStateProvider())],child:  
+         MaterialApp(
+          title: 'Fashion Admin App',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor: beigeColor,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: colorTheme,
+            ),
+            useMaterial3: true,
           ),
-          useMaterial3: true,
+          initialRoute: '/',
+          routes: {
+            '/': (context) => SplashScreen(),
+            '/login': (context) => const LoginScreen(),
+            '/signUp': (context) => const SignUp(),
+            '/forgot': (context) => const ForgotScreen(),
+            '/welcome': (context) => const WelcomeScreen(),
+            '/home': (context) => const BottomNavWrapper(),   
+          },
         ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => SplashScreen(),
-          '/login': (context) => const LoginScreen(),
-          '/signUp': (context) => const SignUp(),
-          '/forgot': (context) => const ForgotScreen(),
-          '/welcome': (context) => const WelcomeScreen(),
-          '/home': (context) => const BottomNavWrapper(),
-        },
-      ),
+      
     );
   }
 }

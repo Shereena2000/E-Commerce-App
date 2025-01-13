@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/controllers/cloudinary_service.dart';
@@ -36,8 +35,7 @@ class _AddAndModifyCategoryState extends State<AddAndModifyCategory> {
   TextEditingController categoryController = TextEditingController();
   TextEditingController priorityController = TextEditingController();
   TextEditingController imageController = TextEditingController();
-  String selectedValue ='Women';
- 
+  String selectedValue = 'Women';
 
   void _pickImageAndCloudinaryUpload() async {
     try {
