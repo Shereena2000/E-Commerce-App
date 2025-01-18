@@ -9,20 +9,16 @@ import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatelessWidget {
+   LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  // bool _obsecureText = true;
-  // bool _isLoading = false;
 
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
+
+  // bool _obsecureText = true;
   @override
   Widget build(BuildContext context) {
     final authStateProvider=Provider.of<AuthStateProvider>(context);
@@ -139,48 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // void _handleSignIn() {
-  //   if (formKey.currentState!.validate()) {
-  //     // setState(
-  //     //   () {
-  //     //     _isLoading = true;
-  //     //   },
-  //     // );
-
-  //     AuthService()
-  //         .loginWithEmail(_emailController.text, _passwordController.text)
-  //         .then(
-  //       (value) {
-  //         setState(
-  //           () {
-  //             _isLoading = false;
-  //           },
-  //         );
-
-  //         if (value == "Login Success") {
-  //           ScaffoldMessenger.of(context).showSnackBar(
-  //             const SnackBar(content: Text("Login Successful")),
-  //           );
-  //           Navigator.pushReplacementNamed(context, '/home');
-  //         } else {
-  //           ScaffoldMessenger.of(context).showSnackBar(
-  //             SnackBar(content: Text(value)),
-  //           );
-  //         }
-  //       },
-  //     ).catchError(
-  //       (error) {
-  //         setState(
-  //           () {
-  //             _isLoading = false;
-  //           },
-  //         );
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(content: Text("Error: $error")),
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
     void _handleSignIn(BuildContext context) {
     if (formKey.currentState!.validate()) {
       final authStateProvider = Provider.of<AuthStateProvider>(context, listen: false);

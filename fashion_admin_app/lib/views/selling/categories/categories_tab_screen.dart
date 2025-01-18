@@ -4,6 +4,7 @@ import 'package:fashion_admin_app/models/categories_model.dart';
 import 'package:fashion_admin_app/providers/admin_providers.dart';
 import 'package:fashion_admin_app/views/selling/categories/add_and_modify_category.dart';
 import 'package:fashion_admin_app/widgets/additional_confirm.dart';
+import 'package:fashion_admin_app/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,7 @@ class CategoriesTabScreen extends StatelessWidget {
             itemCount: categories.length,
             itemBuilder: (context, index) {
               return Container(
-                margin: EdgeInsets.only(bottom: 8),
+                margin:const EdgeInsets.only(bottom: 8),
                 decoration: const BoxDecoration(
                   color: beigeColor,
                   boxShadow: [
@@ -88,7 +89,7 @@ class CategoriesTabScreen extends StatelessWidget {
                                   context: context,
                                   builder: (context) => AdditionalConfirm(
                                         contentText:
-                                            "Are you sure you want to delete this",
+                                            "Are you sure you want to delete this?",
                                         onNo: () {
                                           Navigator.pop(context);
                                         },
@@ -128,10 +129,8 @@ class CategoriesTabScreen extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: colorTheme,
-        onPressed: () {
-          showDialog(
+      floatingActionButton:CustomFloatingActionButton(onPressed: (){
+        showDialog(
               context: context,
               builder: (context) => const AddAndModifyCategory(
                     isUpdating: false,
@@ -140,12 +139,9 @@ class CategoriesTabScreen extends StatelessWidget {
                     type: "",
                   ));
         },
-        child: const Icon(
-          Icons.add,
-          color: whiteColor,
-        ),
-      ),
+      )
     );
+
   }
 }
 

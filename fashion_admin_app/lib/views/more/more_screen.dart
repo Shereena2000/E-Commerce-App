@@ -2,6 +2,7 @@
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/controllers/auth_service.dart';
+import 'package:fashion_admin_app/widgets/additional_confirm.dart';
 import 'package:flutter/material.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -57,15 +58,12 @@ class MoreScreen extends StatelessWidget {
               style: TextStyle(color: Colors.red),
             ),
             onTap: () {
-              AuthService().logOut();
-              Navigator.pushNamedAndRemoveUntil(context, '/login', (route)=>false);
+              showDialog(context: context, builder: (context)=>AdditionalConfirm(contentText: "Are you sure you want to log out?", onYes: (){ AuthService().logOut();
+              Navigator.pushNamedAndRemoveUntil(context, '/login', (route)=>false);}, onNo:(){ Navigator.pop(context);}));
             },
-          ),
-         
+          ),       
         ],
       ),
-
-  
     );
   }
 }

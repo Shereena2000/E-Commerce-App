@@ -34,6 +34,7 @@ print("cloudname$cloudName");
   // Add other form fields like 'upload_preset' and 'resource_type'
   request.fields['upload_preset'] = "preset-for-file-upload";
   request.fields['resource_type'] = "image";
+  request.fields['folder'] = 'products';//specific folder
 
   // Send the request and await the response
   var response = await request.send();

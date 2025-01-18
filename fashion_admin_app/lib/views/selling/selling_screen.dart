@@ -3,7 +3,7 @@ import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/views/selling/banner_tab_screen.dart';
 import 'package:fashion_admin_app/views/selling/categories/categories_tab_screen.dart';
 import 'package:fashion_admin_app/views/selling/order_tab_screen.dart';
-import 'package:fashion_admin_app/views/selling/product_tab_screens.dart';
+import 'package:fashion_admin_app/views/selling/products/product_tab_screens.dart';
 import 'package:fashion_admin_app/views/selling/propmotion_tab_screen.dart';
 import 'package:flutter/material.dart';
 

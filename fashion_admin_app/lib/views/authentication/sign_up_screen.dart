@@ -9,21 +9,18 @@ import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class SignUpScreen extends StatelessWidget {
+   SignUpScreen({super.key});
 
-  @override
-  State<SignUp> createState() => _SignUpState();
-}
-
-class _SignUpState extends State<SignUp> {
   final formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
-  // bool _obsecureText = true;
-  // bool _isLoading = false;
 
+ final TextEditingController _emailController = TextEditingController();
+
+ final TextEditingController _passwordController = TextEditingController();
+
+final  TextEditingController _confirmPasswordController = TextEditingController();
+
+  
   void _handleSignUp(BuildContext context) async {
     if (formKey.currentState!.validate()) {
      final authStateProvider = Provider.of<AuthStateProvider>(context, listen: false);
