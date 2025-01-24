@@ -26,13 +26,13 @@ List<String> colorVariants;
   });
 
   factory ProductModels.fromJson(Map<String, dynamic> json, String id) {
-    print("-------------------------");
+   
      print("Parsed newPrice: ${json["new_price"]}");
     return ProductModels(
     name: json["name"] ?? "",
       description: json["description"] ?? "no description",
       images: List<String>.from(json["images"] ?? []),
-      oldPrice: json["oldPric"] ?? 0,
+      oldPrice: json["oldPrice"] ?? 0,
       newPrice: json["newPrice"] ?? 0,
       category: json["category"] ?? "",
       id: id,

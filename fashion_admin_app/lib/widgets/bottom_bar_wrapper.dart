@@ -4,7 +4,7 @@ import 'package:fashion_admin_app/providers/bottom_nav_provider.dart';
 import 'package:fashion_admin_app/views/analytics/analytics_screen.dart';
 import 'package:fashion_admin_app/views/dashboard/dashboard_screen.dart';
 import 'package:fashion_admin_app/views/more/more_screen.dart';
-import 'package:fashion_admin_app/views/selling/selling_screen.dart';
+import 'package:fashion_admin_app/views/console/console_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,7 @@ class BottomNavWrapper extends StatelessWidget {
   final List<Widget> _pages = const [
     DashboardScreen(),
     AnalyticsScreen(),
-    SellingScreen(),
+    ConsoleScreen(),
     MoreScreen()
   ];
 

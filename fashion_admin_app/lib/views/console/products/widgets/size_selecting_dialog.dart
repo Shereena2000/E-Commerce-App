@@ -15,7 +15,7 @@ class SizeSelectingDialog extends StatelessWidget {
       title: const Center(child: Text("Select Size")),
       content: Consumer<ProductProvider>(
         builder: (context, productProvider, child) {
-          // Temporary selected sizes list, directly referring to the provider's state
+     
           List<String> selectedSizes = productProvider.selectedSize;
 
           return Column(
@@ -25,7 +25,7 @@ class SizeSelectingDialog extends StatelessWidget {
                 title: Text(size),
                 value: selectedSizes.contains(size),
                 onChanged: (bool? value) {
-                  // Toggle the selection of sizes
+         
                   productProvider.toggleSize(size);
                 },
               );

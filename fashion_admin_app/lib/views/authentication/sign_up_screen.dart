@@ -2,7 +2,7 @@ import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/providers/auth_state_provider.dart';
-import 'package:fashion_admin_app/utils/my_validator.dart';
+import 'package:fashion_admin_app/utils/auth_validator.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';

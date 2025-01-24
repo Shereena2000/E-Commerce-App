@@ -1,5 +1,8 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/firebase_options.dart';
+import 'package:fashion_client_app/provider/auth_state_provider.dart';
+import 'package:fashion_client_app/provider/home_state_provider.dart';
+import 'package:fashion_client_app/provider/product_detail_provider.dart';
 import 'package:fashion_client_app/provider/profile_provider.dart';
 import 'package:fashion_client_app/views/add_details_screen.dart';
 import 'package:fashion_client_app/views/authentication/forgot_screen.dart';
@@ -16,11 +19,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   runApp(const MyApp());
 }
 
@@ -28,12 +31,18 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ProfileProvider(),builder: (context, child) => 
-       MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => HomeStateProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => AuthStateProvider()),
+        ChangeNotifierProvider(create: (context) => ProductDetailProvider())
+      ],
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fashion',
-        theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: whiteColor),
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(backgroundColor: whiteColor),
           primaryColor: Colors.black,
           scaffoldBackgroundColor: Colors.white,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
@@ -48,16 +57,17 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),
-          '/signin': (context) => const SigninScreen(),
-          '/signUp': (context) => const SigupScreen(),
+          '/signin': (context) => SigninScreen(),
+          '/signUp': (context) => SigupScreen(),
           '/welcome': (context) => const WelcomeScreen(),
           '/navBar': (context) => const CustomNavBar(),
           '/home': (context) => const HomeScreen(),
           '/categories': (context) => const CategoriesScreen(),
           '/search': (context) => const SearchScreen(),
           '/cart': (context) => const CartScreen(),
-          '/addDetails': (context) => const AddDetailsScreen(profileId: "", isModify: false ),
-           '/forgot':(context) => const ForgotScreen(),
+          '/addDetails': (context) =>
+              const AddDetailsScreen(profileId: "", isModify: false),
+          '/forgot': (context) => const ForgotScreen(),
         },
       ),
     );

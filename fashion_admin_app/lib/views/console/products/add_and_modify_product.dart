@@ -2,8 +2,9 @@ import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/providers/admin_providers.dart';
 import 'package:fashion_admin_app/providers/product_provider.dart';
-import 'package:fashion_admin_app/views/selling/products/widgets/color_selecting_dialog.dart';
-import 'package:fashion_admin_app/views/selling/products/widgets/size_selecting_dialog.dart';
+import 'package:fashion_admin_app/utils/app_utils.dart';
+import 'package:fashion_admin_app/views/console/products/widgets/color_selecting_dialog.dart';
+import 'package:fashion_admin_app/views/console/products/widgets/size_selecting_dialog.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:fashion_admin_app/widgets/custom_text_form_feild.dart';
 import 'package:flutter/material.dart';
@@ -12,30 +13,13 @@ import 'package:provider/provider.dart';
 
 class AddAndModifyProduct extends StatelessWidget {
   final bool isUpdating;
-  // final String? name;
-  // final String? oldPrice;
-  // final String? newPrice;
-  // final String? quantity;
-  // final String? category;
-  // final String? description;
-  // final List<String>? sizeVariants;
-  // final List<String>? colorVariants;
-  // final List<String> ?imageUrl;
-  final String ?id;
+ 
+  final String? id;
   const AddAndModifyProduct(
       {super.key,
       required this.isUpdating,
-      // this.name,
-      // this.oldPrice,
-      // this.newPrice,
-      // this.quantity,
-      // this.category,
-      // this.description,
-      // this.sizeVariants,
-      // this.colorVariants,
-      // this.imageUrl,
-       this.id
-      });
+     
+      this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -45,21 +29,7 @@ class AddAndModifyProduct extends StatelessWidget {
       ),
       body: Consumer<ProductProvider>(
         builder: (context, provider, child) {
-          //  if (provider.nameController.text.isNotEmpty && isUpdating) {
-          //   WidgetsBinding.instance.addPostFrameCallback((_) {
-          //     provider.initializeForm(
-          //       name: name ?? '',
-          //      oldPrice: oldPrice??'',
-          //      newPrice: newPrice??'',
-          //      quantity: quantity??'',
-          //      category: category??'',
-          //      description: description??'',
-          //      sizeVariants: sizeVariants??[],
-          //      colorVariants: colorVariants??[],
-          //     imageUrls: imageUrl?? [],
-          //     );
-          //   });
-          // }
+       
           List<String> imageUrls = provider.imageUrlsController.text.isNotEmpty
               ? provider.imageUrlsController.text.split(',')
               : [];
@@ -136,33 +106,42 @@ class AddAndModifyProduct extends StatelessWidget {
                             context: context,
                             builder: (context) => AlertDialog(
                                   backgroundColor: whiteColor,
-                                  title: const Center(
-                                      child: Text("Select Category ")),
+                                  title:const Text("Select Category "),
                                   content: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      Consumer<AdminProviders>(
-                                          builder: (context, value, child) =>
-                                              SingleChildScrollView(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: value.categories
-                                                      .map((e) => TextButton(
-                                                          onPressed: () {
-                                                            provider
-                                                                .categoriesController
-                                                                .text = e["name"];
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child:
-                                                              Text(e["name"])))
-                                                      .toList(),
-                                                ),
-                                              ))
+                                      ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                            maxHeight: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.6),
+                                        child: SingleChildScrollView(
+                                          child: Consumer<AdminProviders>(
+                                              builder: (context, value,
+                                                      child) =>
+                                                  Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: value.categories
+                                                        .map((e) => TextButton(
+                                                            onPressed: () {
+                                                              provider
+                                                                  .categoriesController
+                                                                  .text = e["name"];
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                                e["name"],style:const TextStyle(color: blackColor),)))
+                                                        .toList(),
+                                                  )),
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ));
@@ -264,7 +243,7 @@ class AddAndModifyProduct extends StatelessWidget {
                                     width: 50,
                                     height: 50,
                                     decoration: BoxDecoration(
-                                      color: provider.colorMap[color],
+                                      color: colorMap[color],
                                       shape: BoxShape.circle,
                                       border: Border.all(
                                         color: Colors.black,
@@ -312,7 +291,8 @@ class AddAndModifyProduct extends StatelessWidget {
                     CustomButton(
                         text: isUpdating ? 'Submit' : 'Add',
                         onPressed: () {
-                          provider.handleSubmit(context, isUpdating, isUpdating?id!:"");
+                          provider.handleSubmit(
+                              context, isUpdating, isUpdating ? id! : "");
                         })
                   ],
                 ),

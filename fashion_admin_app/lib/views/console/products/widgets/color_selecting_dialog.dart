@@ -1,3 +1,4 @@
+import 'package:fashion_admin_app/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fashion_admin_app/constants/colors.dart';
@@ -12,8 +13,7 @@ class ColorSelectingDialog extends StatelessWidget {
       backgroundColor: whiteColor,
       title: const Text("Pick colors!"),
       content: Wrap(
-        children: Provider.of<ProductProvider>(context, listen: false)
-            .colorMap.keys
+        children: colorMap.keys
             .map((color) {
           return Consumer<ProductProvider>(
             builder: (context, productProvider, child) {
@@ -26,7 +26,7 @@ class ColorSelectingDialog extends StatelessWidget {
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                        color: productProvider.colorMap[color],
+                        color:colorMap[color],
                         shape: BoxShape.circle,
                         border: Border.all(color: blackColor, width: 3)),
                     child: isSelected

@@ -8,7 +8,7 @@ class CategoryProvider extends ChangeNotifier {
   TextEditingController categoryController = TextEditingController();
   TextEditingController priorityController = TextEditingController();
   TextEditingController imageController = TextEditingController();
-  String selectedValue = 'Women';
+  String selectedValue = "Women's Western Wear";
   XFile? image;
   
 
@@ -57,7 +57,7 @@ class CategoryProvider extends ChangeNotifier {
           },
         );
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Category Updated")));
+            .showSnackBar(const SnackBar(content: Text("Category Updated")));
       } else {
         await DbService().createCategories(
           data: {
@@ -68,7 +68,7 @@ class CategoryProvider extends ChangeNotifier {
           },
         );
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Category Added")));
+            .showSnackBar(const SnackBar(content: Text("Category Added")));
       }
       Navigator.of(context).pop();
     }

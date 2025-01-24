@@ -1,14 +1,14 @@
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
-import 'package:fashion_admin_app/views/selling/banner_tab_screen.dart';
-import 'package:fashion_admin_app/views/selling/categories/categories_tab_screen.dart';
-import 'package:fashion_admin_app/views/selling/order_tab_screen.dart';
-import 'package:fashion_admin_app/views/selling/products/product_tab_screens.dart';
-import 'package:fashion_admin_app/views/selling/propmotion_tab_screen.dart';
+import 'package:fashion_admin_app/views/console/banners/banner_tab_screen.dart';
+import 'package:fashion_admin_app/views/console/categories/categories_tab_screen.dart';
+import 'package:fashion_admin_app/views/console/ordres/order_tab_screen.dart';
+import 'package:fashion_admin_app/views/console/products/product_tab_screens.dart';
+import 'package:fashion_admin_app/views/console/promotions/propmotion_tab_screen.dart';
 import 'package:flutter/material.dart';
 
-class SellingScreen extends StatelessWidget {
-  const SellingScreen({super.key});
+class ConsoleScreen extends StatelessWidget {
+  const ConsoleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class SellingScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(backgroundColor: beigeColor,
           automaticallyImplyLeading: false,
-          title: const Text('Selling ',style: screenText,),
+          title: const Text('Console ',style: screenText,),
           bottom: const TabBar(isScrollable: true,
           labelStyle: normalText,
             tabs: [ 

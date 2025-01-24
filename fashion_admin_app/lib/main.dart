@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         title: 'Fashion Admin App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          appBarTheme: AppBarTheme(backgroundColor: beigeColor),
+          appBarTheme:const AppBarTheme(backgroundColor: beigeColor),
           scaffoldBackgroundColor: beigeColor,
           colorScheme: ColorScheme.fromSeed(
             seedColor: colorTheme,

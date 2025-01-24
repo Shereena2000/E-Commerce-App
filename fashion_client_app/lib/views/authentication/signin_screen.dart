@@ -1,28 +1,27 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/constants/spacing.dart';
 import 'package:fashion_client_app/constants/texts.dart';
-import 'package:fashion_client_app/controllers/auth_service.dart';
+
+import 'package:fashion_client_app/provider/auth_state_provider.dart';
 import 'package:fashion_client_app/utils/my_validator.dart';
 import 'package:fashion_client_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_client_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SigninScreen extends StatefulWidget {
-  const SigninScreen({super.key});
+class SigninScreen extends StatelessWidget {
+ SigninScreen({super.key});
 
-  @override
-  State<SigninScreen> createState() => _SigninScreenState();
-}
-
-class _SigninScreenState extends State<SigninScreen> {
-    final formKey = GlobalKey<FormState>();
+  // final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
-  bool _obsecureText = true;
-  bool _isLoading = false;
+
+  // bool _obsecureText = true;
   @override
   Widget build(BuildContext context) {
+    final authStateProvider = Provider.of<AuthStateProvider>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -40,7 +39,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   ),
                   largerSpacing,
                   Form(
-                    key: formKey,
+                    key: authStateProvider.formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -63,7 +62,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         const Text('Password', style: normalText),
                         smallSpacing,
                         TextFormField(
-                          obscureText: _obsecureText,
+                          obscureText: authStateProvider.obsecureText,
                           decoration: InputDecoration(
                             hintText: 'Enter your password',
                             border: OutlineInputBorder(
@@ -71,14 +70,10 @@ class _SigninScreenState extends State<SigninScreen> {
                             ),
                             suffixIcon: IconButton(
                               onPressed: () {
-                                setState(
-                                  () {
-                                    _obsecureText = !_obsecureText;
-                                  },
-                                );
+                                authStateProvider.toggleObsecure();
                               },
                               icon: Icon(
-                                _obsecureText
+                                authStateProvider.obsecureText
                                     ? Icons.visibility_off_outlined
                                     : Icons.visibility_outlined,
                               ),
@@ -108,7 +103,10 @@ class _SigninScreenState extends State<SigninScreen> {
                   largerSpacing,
                   CustomButton(
                     text: 'Sign In',
-                    onPressed: _handleSignIn,
+                    onPressed: () {
+                      authStateProvider.handleSignIn(context,
+                          _emailController.text, _passwordController.text);
+                    },
                   ),
                   largerSpacing,
                   const AlternativeLoginWidget(),
@@ -119,7 +117,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       const Text('Don\'t have an account? '),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacementNamed(context,'/signUp');
+                          Navigator.pushReplacementNamed(context, '/signUp');
                         },
                         child: const Text('Sign Up'),
                       ),
@@ -129,58 +127,18 @@ class _SigninScreenState extends State<SigninScreen> {
               ),
             ),
           ),
-          if (_isLoading)
+          if (authStateProvider.isLoading)
             Container(
               color: Colors.black.withOpacity(0.5),
               child: const Center(
-                child: CircularProgressIndicator(color: blackColor,backgroundColor: whiteColor,),
+                child: CircularProgressIndicator(
+                  color: blackColor,
+                  backgroundColor: whiteColor,
+                ),
               ),
             ),
         ],
       ),
     );
-  }
-  void _handleSignIn() {
-    if (formKey.currentState!.validate()) {
-      setState(
-        () {
-          _isLoading = true;
-        },
-      );
-
-      AuthService()
-          .loginWithEmail(_emailController.text, _passwordController.text)
-          .then(
-        (value) {
-          setState(
-            () {
-              _isLoading = false;
-            },
-          );
-
-          if (value == "Login Success") {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Login Successful")),
-            );
-            Navigator.pushReplacementNamed(context, '/navBar');
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(value)),
-            );
-          }
-        },
-      ).catchError(
-        (error) {
-          setState(
-            () {
-              _isLoading = false;
-            },
-          );
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Error: $error")),
-          );
-        },
-      );
-    }
   }
 }

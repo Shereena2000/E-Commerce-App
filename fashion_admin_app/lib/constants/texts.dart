@@ -9,3 +9,4 @@ const TextStyle headlineText = TextStyle(color: Colors.black, fontSize: 30);
 const TextStyle normalText = TextStyle(fontSize: 15);
 const TextStyle extraSmallText = TextStyle(fontSize: 14);
 const TextStyle screenText = TextStyle(fontSize: 30, color: colorTheme);
+const TextStyle boldText =TextStyle(fontWeight: FontWeight.bold);

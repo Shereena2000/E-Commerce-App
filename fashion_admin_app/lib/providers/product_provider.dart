@@ -50,13 +50,6 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  final Map<String, Color> colorMap = {
-    'Red': Colors.red,
-    'Yellow': Colors.yellow,
-    'Blue': Colors.blue,
-    'White': Colors.white,
-    'Black': Colors.black,
-  };
   void setSelectedSize(List<String> selectedSize) {
     _selectedSize = selectedSize;
     notifyListeners();
@@ -96,31 +89,32 @@ class ProductProvider extends ChangeNotifier {
   }
 
   //clear values
-void clearForm() {
-  nameController.clear();
-  oldPriceController.clear();
-  newPriceController.clear();
-  quantityController.clear();
-  categoriesController.clear();
-  discriptionController.clear();
-  imageUrlsController.clear();
-  _selectedSize = [];
-  _selectedColors = [];
-  notifyListeners();
-}
+  void clearForm() {
+    nameController.clear();
+    oldPriceController.clear();
+    newPriceController.clear();
+    quantityController.clear();
+    categoriesController.clear();
+    discriptionController.clear();
+    imageUrlsController.clear();
+    _selectedSize = [];
+    _selectedColors = [];
+    notifyListeners();
+  }
+
 //
-void updateProductDetails(ProductModels product) {
-  nameController.text = product.name;
-  oldPriceController.text = product.oldPrice.toString();
-  newPriceController.text = product.newPrice.toString();
-  quantityController.text = product.maxQuantity.toString();
-  categoriesController.text = product.category;
-  discriptionController.text = product.description;
-  _selectedSize = product.sizeVariants;
-  _selectedColors = product.colorVariants;
-  imageUrlsController.text = product.images.join(',');
-  notifyListeners();
-}
+  void updateProductDetails(ProductModels product) {
+    nameController.text = product.name;
+    oldPriceController.text = product.oldPrice.toString();
+    newPriceController.text = product.newPrice.toString();
+    quantityController.text = product.maxQuantity.toString();
+    categoriesController.text = product.category;
+    discriptionController.text = product.description;
+    _selectedSize = product.sizeVariants;
+    _selectedColors = product.colorVariants;
+    imageUrlsController.text = product.images.join(',');
+    notifyListeners();
+  }
 
 //validation color
   bool validateColor(BuildContext context) {
@@ -188,7 +182,6 @@ void updateProductDetails(ProductModels product) {
         });
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text("Product Updated")));
-
       } else {
         await DbService().createProducts(data: {
           "name": nameController.text,
@@ -206,6 +199,9 @@ void updateProductDetails(ProductModels product) {
             .showSnackBar(SnackBar(content: Text("Product Added")));
       }
       clearForm();
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Please provide details")));
     }
     Navigator.of(context).pop();
   }

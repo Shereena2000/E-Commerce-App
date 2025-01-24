@@ -1,8 +1,8 @@
 import 'package:fashion_admin_app/models/product_models.dart';
 import 'package:fashion_admin_app/providers/admin_providers.dart';
 import 'package:fashion_admin_app/providers/product_provider.dart';
-import 'package:fashion_admin_app/views/selling/products/add_and_modify_product.dart';
-import 'package:fashion_admin_app/views/selling/products/widgets/product_card.dart';
+import 'package:fashion_admin_app/views/console/products/add_and_modify_product.dart';
+import 'package:fashion_admin_app/views/console/products/widgets/product_card.dart';
 import 'package:fashion_admin_app/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,15 +31,11 @@ class ProductTabScreens extends StatelessWidget {
             childAspectRatio: 0.7,
           ),
           itemBuilder: (context, index) {
-            String imageUrl = (products[index].images.isNotEmpty)
+            (products[index].images.isNotEmpty)
                 ? products[index].images[0]
                 : "https://demofree.sirv.com/nope-not-here.jpg";
             return ProductCard(
-              //     imageUrls:imageUrl,
-              //    name: products[index].name,
-              //  newPrice:products[index].newPrice.toString() ,
-              //    category: products[index].category,
-              //    productid: products[index].id,
+            
               products: products[index],
             );
           },
@@ -53,15 +49,7 @@ class ProductTabScreens extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => const AddAndModifyProduct(
                       isUpdating: false,
-                      // name: '',
-                      // oldPrice: '',
-                      // newPrice: '',
-                      // quantity: '',
-                      // category: '',
-                      // description: '',
-                      // sizeVariants: [],
-                      // colorVariants: [],
-                      // imageUrl: [],
+                   
                     )));
       }),
     );

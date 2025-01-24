@@ -1,55 +1,31 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/constants/spacing.dart';
 import 'package:fashion_client_app/constants/texts.dart';
-import 'package:fashion_client_app/controllers/auth_service.dart';
+
+import 'package:fashion_client_app/provider/auth_state_provider.dart';
 import 'package:fashion_client_app/utils/my_validator.dart';
 import 'package:fashion_client_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_client_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SigupScreen extends StatefulWidget {
-  const SigupScreen({super.key});
+class SigupScreen extends StatelessWidget {
+  SigupScreen({super.key});
 
-  @override
-  State<SigupScreen> createState() => _SigupScreenState();
-}
+  final TextEditingController _emailController = TextEditingController();
 
-class _SigupScreenState extends State<SigupScreen> {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
-  bool _obsecureText = true;
-  bool _isLoading = false;
+  final TextEditingController _passwordController = TextEditingController();
 
-  void _handleSignUp() async {
-    if (formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
-      final result = await AuthService().createAccountwithEmail(
-          _emailController.text, _passwordController.text);
-
-      setState(() {
-        _isLoading = false;
-      });
-
-      if (result == "Account is created") {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content:const Text("Account created successfully"),
-        ));
-        Navigator.pushReplacementNamed(context, '/navBar');
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(result)));
-      }
-    }
-  }
+  // bool _obsecureText = true;
+  
 
   @override
   Widget build(BuildContext context) {
+    final authStateProvide = Provider.of<AuthStateProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -68,7 +44,7 @@ class _SigupScreenState extends State<SigupScreen> {
                   ),
                   smallSpacing,
                   Form(
-                    key: formKey,
+                    key: authStateProvide.formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -111,7 +87,7 @@ class _SigupScreenState extends State<SigupScreen> {
                           style: normalText,
                         ),
                         TextFormField(
-                            obscureText: _obsecureText,
+                            obscureText: authStateProvide.obsecureText,
                             decoration: InputDecoration(
                               hintText: 'Re-enter Password',
                               border: OutlineInputBorder(
@@ -119,12 +95,10 @@ class _SigupScreenState extends State<SigupScreen> {
                               ),
                               suffixIcon: IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    _obsecureText = !_obsecureText;
-                                  });
+                                  authStateProvide.toggleObsecure();
                                 },
                                 icon: Icon(
-                                  _obsecureText
+                                  authStateProvide.obsecureText
                                       ? Icons.visibility_off_outlined
                                       : Icons.visibility_outlined,
                                 ),
@@ -142,7 +116,11 @@ class _SigupScreenState extends State<SigupScreen> {
                   largerSpacing,
                   CustomButton(
                     text: 'Sign Up',
-                    onPressed: _handleSignUp,
+                    onPressed: () => authStateProvide.handleSignUp(
+                      context,
+                      _emailController.text,
+                      _passwordController.text,
+                    ),
                   ),
                   largerSpacing,
                   const AlternativeLoginWidget(),
@@ -164,7 +142,7 @@ class _SigupScreenState extends State<SigupScreen> {
                 ],
               ),
             ),
-            if (_isLoading)
+            if (authStateProvide.isLoading)
               Container(
                 color: Colors.black54,
                 child: const Center(
