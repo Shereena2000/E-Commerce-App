@@ -1,5 +1,5 @@
 import 'package:fashion_client_app/model/promo_model.dart';
-import 'package:fashion_client_app/views/home/widget/horizontal_page_indicator.dart';
+
 import 'package:fashion_client_app/views/home/widget/horizontal_page_view.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +18,7 @@ class HomeView extends StatelessWidget {
           promo: promo,
           horizontalController: horizontalController,
         ),
-        HorizontalPageIndicator(
-          horizontalController: horizontalController,
-          pageCount: promo.imageUrls.length,
-        ),
+       
       ],
     );
   }

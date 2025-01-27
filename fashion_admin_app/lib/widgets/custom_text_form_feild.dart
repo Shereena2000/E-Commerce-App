@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 class CustomTextFormFeild extends StatelessWidget {
   final IconData icon;
   final String hint;
+  final String label;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   const CustomTextFormFeild({
     super.key, required this.icon, required this.hint,  this.controller,
-    this.validator,
+    this.validator, required this.label,
   });
 
   @override
@@ -25,6 +26,7 @@ class CustomTextFormFeild extends StatelessWidget {
           ),
         ),
         hintText: hint,
+        labelText: label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(28),
         ),

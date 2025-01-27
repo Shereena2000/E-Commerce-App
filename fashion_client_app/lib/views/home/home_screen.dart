@@ -1,4 +1,3 @@
-
 import 'package:fashion_client_app/views/home/widget/vertical_indicator.dart';
 import 'package:fashion_client_app/views/home/widget/vertical_page_view.dart';
 import 'package:flutter/material.dart';
@@ -38,4 +37,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

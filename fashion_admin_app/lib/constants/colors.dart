@@ -6,6 +6,8 @@ const Color whiteColor = Colors.white;
 const Color blackColor = Colors.black;
 const Color greyColor = Colors.blueGrey;
 const Color greenColor = Colors.green;
+const Color blueColor = Colors.blueAccent;
+const Color transparent = Colors.transparent;
 
 const Color beigeLiteShadowColor = Color.fromARGB(255, 226, 224, 213);
 const Color beigeDarkShadowColor = Color.fromARGB(255, 238, 234, 207);

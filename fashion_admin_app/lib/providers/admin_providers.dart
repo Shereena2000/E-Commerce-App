@@ -35,14 +35,13 @@ class AdminProviders extends ChangeNotifier {
       products = snapshot.docs;
       totalProducts = snapshot.docs.length;
       isLoadingProducts = false;
-       print("Products fetched: ${totalProducts}");
+      print("Products fetched: ${totalProducts}");
 
-    // Debug: Log each product's data
-    for (var doc in snapshot.docs) {
-      print("Product data: ${doc.data()}");
-    }
+      // Debug: Log each product's data
+      for (var doc in snapshot.docs) {
+        print("Product data: ${doc.data()}");
+      }
       notifyListeners();
-
     });
   }
 }

@@ -26,11 +26,11 @@ class ProductDiscription extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              products.newPrice.toString(),
+             ' ₹${products.newPrice.toString()}',
               style: const TextStyle(color: greenColor, fontSize: 16),
             ),
             Text(
-              products.oldPrice.toString(),
+              '₹${products.oldPrice.toString()}',
               style: const TextStyle(
                   color: greenColor,
                   fontSize: 16,

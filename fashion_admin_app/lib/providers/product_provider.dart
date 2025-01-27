@@ -24,6 +24,10 @@ class ProductProvider extends ChangeNotifier {
   List<String> get selectedSize => _selectedSize;
   List<String> get selectedColors => _selectedColors;
 
+  get image => null;
+
+  get imageController => null;
+
   void initializeForm({
     required String name,
     required String oldPrice,
@@ -82,7 +86,7 @@ class ProductProvider extends ChangeNotifier {
   bool validateSize(BuildContext context) {
     if (_selectedSize.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please select at least one size.")));
+       const   SnackBar(content: Text("Please select at least one size.")));
       return false;
     }
     return true;
@@ -102,7 +106,7 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-//
+
   void updateProductDetails(ProductModels product) {
     nameController.text = product.name;
     oldPriceController.text = product.oldPrice.toString();
@@ -120,54 +124,76 @@ class ProductProvider extends ChangeNotifier {
   bool validateColor(BuildContext context) {
     if (_selectedColors.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please select at least one color.")));
+       const   SnackBar(content: Text("Please select at least one color.")));
       return false;
     }
     return true;
   }
 
 //image vallidation
-  bool validateImage(BuildContext context) {
-    if (imageUrlsController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please upload at least one image.")));
-      return false;
-    }
-    return true;
+bool validateImage(BuildContext context, bool isUpdating) {
+  if (imageUrlsController.text.isEmpty && !isUpdating) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Please upload at least one image.")),
+    );
+    return false;
   }
+  return true;
+}
 
-  Future<void> pickImagesAndUpload() async {
-    final picker = ImagePicker();
-    try {
-      final selectedImages = await picker.pickMultiImage();
-      if (selectedImages.isNotEmpty) {
-        setLoading(true);
-        List<String?> imageUrls = [];
-        for (var image in selectedImages) {
-          String? imageUrl = await uploadToCloudinary(image);
-          if (imageUrl != null) {
-            imageUrls.add(imageUrl); // Add the uploaded image URL to the list
-          }
+
+Future<void> pickImagesAndUpload() async {
+  final picker = ImagePicker();
+  try {
+    final newImages = await picker.pickMultiImage();
+    if (newImages.isNotEmpty) {
+      setLoading(true); // Start loading
+
+      // Split the existing URLs and filter out empty strings
+      List<String> currentUrls = imageUrlsController.text
+          .split(',')
+          .where((url) => url.isNotEmpty) // Filter out empty strings
+          .toList();
+
+      for (var image in newImages) {
+        String? imageUrl = await uploadToCloudinary(image);
+        if (imageUrl != null) {
+          currentUrls.add(imageUrl); // Add the new image URL
+          imageUrlsController.text = currentUrls.join(','); // Update the controller
+          notifyListeners(); // Notify listeners to update the UI
         }
-        imageUrlsController.text = imageUrls.join(
-            ','); // Example of joining image URLs as a comma-separated string
-
-        print("Uploaded Images: $imageUrls");
-        notifyListeners();
       }
-    } catch (e) {
-      print('Error picking images: $e');
-    } finally {
-      setLoading(false);
     }
+  } catch (e) {
+    print('Error picking images: $e');
+  } finally {
+    setLoading(false); // Stop loading
   }
-
+}
+void removeImage(int index) {
+  List<String> currentUrls = imageUrlsController.text.split(',');
+  if (index >= 0 && index < currentUrls.length) {
+    currentUrls.removeAt(index); // Remove the image at the specified index
+    imageUrlsController.text = currentUrls.join(',');
+    notifyListeners();
+  }
+}
   Future<void> handleSubmit(
       BuildContext context, bool isUpdating, String productId) async {
+        print("--------------------------");
+          print('Form Valid: ${formKey.currentState!.validate()}');
+  print('Size Valid: ${validateSize(context)}');
+  print('Color Valid: ${validateColor(context)}');
+  print('Image Valid: ${validateImage(context, isUpdating)}');
+    print('Product Name: ${nameController.text}');
+  print('Original Price: ${oldPriceController.text}');
+  print('Sell Price: ${newPriceController.text}');
+  print('Quantity Left: ${quantityController.text}');
+  print('Description: ${discriptionController.text}');
     if (formKey.currentState!.validate() &&
         validateSize(context) &&
         validateColor(context) &&
-        validateImage(context)) {
+        validateImage(context,isUpdating)) {
       if (isUpdating) {
         await DbService().updateProducts(doId: productId, data: {
           "name": nameController.text,
@@ -180,8 +206,9 @@ class ProductProvider extends ChangeNotifier {
           "colorVariants": selectedColors,
           "images": imageUrlsController.text.split(','),
         });
+         Navigator.of(context).pop();
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Product Updated")));
+            .showSnackBar(const SnackBar(content: Text("Product Updated")));
       } else {
         await DbService().createProducts(data: {
           "name": nameController.text,
@@ -194,15 +221,18 @@ class ProductProvider extends ChangeNotifier {
           "colorVariants": selectedColors,
           "images": imageUrlsController.text.split(','),
         });
-
+ Navigator.of(context).pop();
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Product Added")));
+            .showSnackBar(const SnackBar(content: Text("Product Added")));
       }
       clearForm();
-    } else {
+    } else if( !validateSize(context) &&
+        !validateColor(context) &&
+       ! validateImage(context,isUpdating)){
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Please provide details")));
+          .showSnackBar(const SnackBar(content: Text("Please provide details")));
+           Navigator.of(context).pop();
     }
-    Navigator.of(context).pop();
+   
   }
 }

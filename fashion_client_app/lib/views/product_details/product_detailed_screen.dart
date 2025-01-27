@@ -6,7 +6,7 @@ import 'package:fashion_client_app/views/product_details/widget/size_varaint_sel
 import 'package:fashion_client_app/widgets/app_bar_logo_title.dart';
 import 'package:fashion_client_app/widgets/cart_button.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
-import 'package:fashion_client_app/widgets/product_view.dart';
+import 'package:fashion_client_app/widgets/product_image_container.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailedScreen extends StatelessWidget {
@@ -31,7 +31,8 @@ class ProductDetailedScreen extends StatelessWidget {
               liteSpacing,
               Align(
                 alignment: Alignment.center,
-                child: ProductView(
+                child: ProductImageContainer(
+                  showCarousel: true,
                   productImage: product.images,
                   width: width * 0.85,
                   height: height * 0.5,

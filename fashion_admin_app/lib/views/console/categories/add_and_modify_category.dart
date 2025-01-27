@@ -4,6 +4,7 @@ import 'package:fashion_admin_app/providers/category_provider.dart';
 import 'package:fashion_admin_app/views/console/categories/widgets/category_drop_down.dart';
 import 'package:fashion_admin_app/views/console/categories/widgets/category_name_field.dart';
 import 'package:fashion_admin_app/views/console/categories/widgets/image_picker_widget.dart';
+
 import 'package:fashion_admin_app/views/console/categories/widgets/priority_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +56,7 @@ class AddAndModifyCategory extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ImagePickerWidget(provider: provider,),
+                  ImagePickerWidget(provider: provider,),
                     moderateSpacing,
                     CategoryNameField(provider: provider,),
                     moderateSpacing,

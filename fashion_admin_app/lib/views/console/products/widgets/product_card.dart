@@ -39,7 +39,7 @@ class ProductCard extends StatelessWidget {
               width: double.infinity,
             ),
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding:const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -48,7 +48,7 @@ class ProductCard extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    products.newPrice.toString(),
+                    '₹${products.newPrice.toString()}',
                     style: const TextStyle(color: Colors.green),
                   ),
                   Text(
