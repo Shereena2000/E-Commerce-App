@@ -1,5 +1,5 @@
 import 'package:fashion_client_app/views/products/services/product_service.dart';
-import 'package:fashion_client_app/views/products/widgets/product_card.dart';
+import 'package:fashion_client_app/widgets/product_card.dart';
 import 'package:fashion_client_app/widgets/app_bar_logo_title.dart';
 import 'package:flutter/material.dart';
 

@@ -7,6 +7,7 @@ import 'package:fashion_admin_app/views/console/product_view/product_view_screen
 import 'package:fashion_admin_app/widgets/additional_confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recase/recase.dart';
 
 class ProductCard extends StatelessWidget {
 
@@ -44,7 +45,7 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    products.name,
+                    ReCase(products.name).titleCase,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(

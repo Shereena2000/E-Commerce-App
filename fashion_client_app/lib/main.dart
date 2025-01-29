@@ -4,6 +4,7 @@ import 'package:fashion_client_app/provider/auth_state_provider.dart';
 import 'package:fashion_client_app/provider/home_state_provider.dart';
 import 'package:fashion_client_app/provider/product_detail_provider.dart';
 import 'package:fashion_client_app/provider/profile_provider.dart';
+import 'package:fashion_client_app/provider/search_provider.dart';
 import 'package:fashion_client_app/views/add_details_screen.dart';
 import 'package:fashion_client_app/views/authentication/forgot_screen.dart';
 import 'package:fashion_client_app/views/authentication/signin_screen.dart';
@@ -36,13 +37,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => HomeStateProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => AuthStateProvider()),
-        ChangeNotifierProvider(create: (context) => ProductDetailProvider())
+        ChangeNotifierProvider(create: (context) => ProductDetailProvider()),
+         ChangeNotifierProvider(create: (context) => SearchProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fashion',
         theme: ThemeData(
-          appBarTheme: AppBarTheme(backgroundColor: whiteColor),
+          appBarTheme:const AppBarTheme(backgroundColor: whiteColor),
           primaryColor: Colors.black,
           scaffoldBackgroundColor: Colors.white,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),

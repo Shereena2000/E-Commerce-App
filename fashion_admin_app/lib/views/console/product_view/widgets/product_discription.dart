@@ -3,6 +3,7 @@ import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/models/product_models.dart';
 import 'package:fashion_admin_app/utils/app_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:recase/recase.dart';
 
 class ProductDiscription extends StatelessWidget {
   final ProductModels products;
@@ -18,7 +19,7 @@ class ProductDiscription extends StatelessWidget {
       children: [
         Center(
           child: Text(
-            products.name,
+           ReCase( products.name).titleCase,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),

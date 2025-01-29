@@ -196,7 +196,7 @@ void removeImage(int index) {
         validateImage(context,isUpdating)) {
       if (isUpdating) {
         await DbService().updateProducts(doId: productId, data: {
-          "name": nameController.text,
+          "name": nameController.text.toLowerCase(),
           "oldPrice": int.parse(oldPriceController.text),
           "newPrice": int.parse(newPriceController.text),
           "maxQuantity": int.parse(quantityController.text),
@@ -211,7 +211,7 @@ void removeImage(int index) {
             .showSnackBar(const SnackBar(content: Text("Product Updated")));
       } else {
         await DbService().createProducts(data: {
-          "name": nameController.text,
+          "name": nameController.text.toLowerCase(),
           "oldPrice": int.parse(oldPriceController.text),
           "newPrice": int.parse(newPriceController.text),
           "maxQuantity": int.parse(quantityController.text),

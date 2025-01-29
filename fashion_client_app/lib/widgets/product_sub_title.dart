@@ -20,11 +20,11 @@ class ProductSubTitle extends StatelessWidget {
       children: [
         Text(
           productName,
-          style: TextStyle(fontSize: 13),
+          style:const TextStyle(fontSize: 13),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        Text('₹${newPrice}',
+        Text('₹$newPrice',
             style:const TextStyle(color: greenColor, fontWeight: FontWeight.bold)),
         // Text(
         //  originalPrice,
