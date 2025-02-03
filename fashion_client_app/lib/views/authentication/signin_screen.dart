@@ -1,7 +1,6 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/constants/spacing.dart';
 import 'package:fashion_client_app/constants/texts.dart';
-
 import 'package:fashion_client_app/provider/auth_state_provider.dart';
 import 'package:fashion_client_app/utils/my_validator.dart';
 import 'package:fashion_client_app/views/authentication/widgets/alternative_login_widget.dart';
@@ -11,14 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SigninScreen extends StatelessWidget {
- SigninScreen({super.key});
+  SigninScreen({super.key});
 
-  // final formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
 
-  // bool _obsecureText = true;
   @override
   Widget build(BuildContext context) {
     final authStateProvider = Provider.of<AuthStateProvider>(context);
@@ -39,7 +37,7 @@ class SigninScreen extends StatelessWidget {
                   ),
                   largerSpacing,
                   Form(
-                    key: authStateProvider.formKey,
+                    key:formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -105,7 +103,7 @@ class SigninScreen extends StatelessWidget {
                     text: 'Sign In',
                     onPressed: () {
                       authStateProvider.handleSignIn(context,
-                          _emailController.text, _passwordController.text);
+                          _emailController.text, _passwordController.text,formKey);
                     },
                   ),
                   largerSpacing,

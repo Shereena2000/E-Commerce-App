@@ -1,26 +1,36 @@
 import 'package:fashion_client_app/constants/dimension.dart';
 import 'package:fashion_client_app/provider/product_detail_provider.dart';
+import 'package:fashion_client_app/widgets/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductImageContainer extends StatelessWidget {
   final List<String> productImage;
-  final double width ;
-  final double height ;
+  final String productId;
+  final double width;
+  final double height;
   final bool showCarousel;
-  const ProductImageContainer({super.key, required this.productImage,  this.width = 150,
-   this.showCarousel = false,
-    this.height = 200,});
+  final double? favoriteIconSize;
+  const ProductImageContainer({
+    super.key,
+    required this.productImage,
+    this.width = 150,
+    this.showCarousel = false,
+    this.height = 200,
+    required this.productId,
+    this.favoriteIconSize ,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return  Consumer<ProductDetailProvider>(builder: (context, provider, child) {
-      return Stack(
-              alignment: AlignmentDirectional.topEnd,
-              children: [
-                ClipRRect(
-                  borderRadius: radius5,
-                  child: SizedBox(
+    return Consumer<ProductDetailProvider>(
+      builder: (context, provider, child) {
+        return Stack(
+          alignment: AlignmentDirectional.topEnd,
+          children: [
+            ClipRRect(
+              borderRadius: radius5,
+              child: SizedBox(
                 width: width,
                 height: height,
                 child: showCarousel
@@ -41,16 +51,19 @@ class ProductImageContainer extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
               ),
-                ),
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Image.asset("assets/Favorite.png"),
-                ),
-                if (showCarousel)
+            ),
+            Positioned(
+              right: -4,
+              top: -3,
+              child: FavoriteButton(
+                productId: productId,
+                size: favoriteIconSize,
+              ),
+            ),
+            if (showCarousel)
               Positioned(
                 bottom: 10,
-                right: width/2,
+                right: width / 2,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
@@ -69,10 +82,9 @@ class ProductImageContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              ],
-            );
-    },
-      
+          ],
+        );
+      },
     );
   }
 }

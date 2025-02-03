@@ -1,7 +1,5 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/constants/spacing.dart';
-import 'package:fashion_client_app/constants/texts.dart';
-
 import 'package:fashion_client_app/provider/auth_state_provider.dart';
 import 'package:fashion_client_app/utils/my_validator.dart';
 import 'package:fashion_client_app/views/authentication/widgets/alternative_login_widget.dart';
@@ -14,14 +12,12 @@ class SigupScreen extends StatelessWidget {
   SigupScreen({super.key});
 
   final TextEditingController _emailController = TextEditingController();
-
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-
-  // bool _obsecureText = true;
-  
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +40,28 @@ class SigupScreen extends StatelessWidget {
                   ),
                   smallSpacing,
                   Form(
-                    key: authStateProvide.formKey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         smallSpacing,
-                        const Text(
-                          'Email',
-                          style: normalText,
-                        ),
                         TextFormField(
                             decoration: InputDecoration(
+                              labelText: 'Name',
+                              hintText: 'Enter your name',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.name,
+                            controller: _nameController,
+                            validator: (value) =>
+                                MyValidator.displayNameValidator(value)),
+                        moderateSpacing,
+                        TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Email',
                               hintText: 'Enter your email',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25),
@@ -66,12 +73,9 @@ class SigupScreen extends StatelessWidget {
                             validator: (value) =>
                                 MyValidator.emailValidator(value)),
                         moderateSpacing,
-                        const Text(
-                          'Password',
-                          style: normalText,
-                        ),
                         TextFormField(
                             decoration: InputDecoration(
+                              labelText: 'Password',
                               hintText: 'Enter your password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25),
@@ -82,13 +86,10 @@ class SigupScreen extends StatelessWidget {
                             validator: (value) =>
                                 MyValidator.PasswordValidator(value)),
                         moderateSpacing,
-                        const Text(
-                          'Confirm Password',
-                          style: normalText,
-                        ),
                         TextFormField(
                             obscureText: authStateProvide.obsecureText,
                             decoration: InputDecoration(
+                              labelText: 'Confirm Password',
                               hintText: 'Re-enter Password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25),
@@ -117,10 +118,11 @@ class SigupScreen extends StatelessWidget {
                   CustomButton(
                     text: 'Sign Up',
                     onPressed: () => authStateProvide.handleSignUp(
-                      context,
-                      _emailController.text,
-                      _passwordController.text,
-                    ),
+                        context,
+                        _nameController.text,
+                        _emailController.text,
+                        _passwordController.text,
+                        formKey),
                   ),
                   largerSpacing,
                   const AlternativeLoginWidget(),

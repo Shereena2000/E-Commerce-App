@@ -27,7 +27,7 @@ class ProductCard extends StatelessWidget {
       },
       child: Column(
         children: [
-          ProductImageContainer(productImage: product.images),
+          ProductImageContainer(productImage: product.images,productId: product.id,),
           ProductSubTitle(
             productName: product.name,
             newPrice: product.newPrice.toString(),

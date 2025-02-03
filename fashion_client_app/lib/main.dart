@@ -1,10 +1,14 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/firebase_options.dart';
 import 'package:fashion_client_app/provider/auth_state_provider.dart';
+import 'package:fashion_client_app/provider/cart_provider.dart';
+import 'package:fashion_client_app/provider/wishlist_provider.dart';
+import 'package:fashion_client_app/provider/filter_state_provider.dart';
 import 'package:fashion_client_app/provider/home_state_provider.dart';
 import 'package:fashion_client_app/provider/product_detail_provider.dart';
 import 'package:fashion_client_app/provider/profile_provider.dart';
 import 'package:fashion_client_app/provider/search_provider.dart';
+import 'package:fashion_client_app/provider/user_provider.dart';
 import 'package:fashion_client_app/views/add_details_screen.dart';
 import 'package:fashion_client_app/views/authentication/forgot_screen.dart';
 import 'package:fashion_client_app/views/authentication/signin_screen.dart';
@@ -38,13 +42,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => AuthStateProvider()),
         ChangeNotifierProvider(create: (context) => ProductDetailProvider()),
-         ChangeNotifierProvider(create: (context) => SearchProvider()),
+        ChangeNotifierProvider(create: (context) => SearchProvider()),
+        ChangeNotifierProvider(create: (context) => FilterStateProvider()),
+        ChangeNotifierProvider(create: (context) => WishlistProvider()),
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+                ChangeNotifierProvider(create: (context) =>CartProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fashion',
         theme: ThemeData(
-          appBarTheme:const AppBarTheme(backgroundColor: whiteColor),
+          appBarTheme: const AppBarTheme(backgroundColor: whiteColor),
           primaryColor: Colors.black,
           scaffoldBackgroundColor: Colors.white,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),

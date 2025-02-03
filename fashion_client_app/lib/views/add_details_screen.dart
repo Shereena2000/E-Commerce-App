@@ -1,5 +1,7 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/controllers/profile_service.dart';
+import 'package:fashion_client_app/utils/form_validator.dart';
+import 'package:fashion_client_app/utils/my_validator.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -100,7 +102,7 @@ late TextEditingController nameController;
                 children: [
                   const SizedBox(height: 10),
                   TextFormField(
-                    validator: (value) => value!.isEmpty ? "This field cannot be empty" : null,
+                    validator: (value) => validateNotEmpty(value),
                     controller: nameController,
                     decoration: const InputDecoration(
                       labelText: 'Name',
@@ -111,7 +113,7 @@ late TextEditingController nameController;
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: emailController,
-                    validator: (value) => value!.isEmpty ? "This field cannot be empty" : null,
+                    validator: (value) => MyValidator.emailValidator(value),
                     decoration: const InputDecoration(
                       labelText: 'Email',
                       border: OutlineInputBorder(
@@ -121,7 +123,7 @@ late TextEditingController nameController;
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: addressController,
-                    validator: (value) => value!.isEmpty ? "This field cannot be empty" : null,
+                    validator: (value) => validateNotEmpty(value),
                     maxLines: 3,
                     decoration: const InputDecoration(
                       labelText: 'Address',
@@ -135,7 +137,7 @@ late TextEditingController nameController;
                       Expanded(
                         child: TextFormField(
                           controller: pinCodeController,
-                          validator: (value) => value!.isEmpty ? "This field cannot be empty" : null,
+                          validator: (value) => validateNumber(value),
                           decoration: const InputDecoration(
                             labelText: 'Pin Code',
                             border: OutlineInputBorder(
@@ -176,7 +178,7 @@ late TextEditingController nameController;
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: phoneNumberController,
-                    validator: (value) => value!.isEmpty ? "This field cannot be empty" : null,
+                    validator: (value) =>validateNumber(value),
                     decoration: const InputDecoration(
                       labelText: 'Phone Number',
                       border: OutlineInputBorder(

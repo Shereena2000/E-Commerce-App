@@ -1,7 +1,12 @@
 import 'package:fashion_client_app/controllers/auth_service.dart';
-import 'package:fashion_client_app/views/more/profile/saved_details_screen.dart';
+import 'package:fashion_client_app/provider/user_provider.dart';
+import 'package:fashion_client_app/views/more/widgets/user_alert_dialog.dart';
+import 'package:fashion_client_app/views/profile/profile_details_screen.dart';
+import 'package:fashion_client_app/views/wishlist/wishlist_screen.dart';
 import 'package:fashion_client_app/widgets/additional_confirm.dart';
+import 'package:fashion_client_app/widgets/app_bar_logo_title.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({super.key});
@@ -9,13 +14,34 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: AppBarLogoTitle(),
+      ),
       body: SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/logo.png',
-              width: 170,
+            Consumer<UserProvider>(
+              builder: (context, userProvider, child) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Hello ${userProvider.name}!"),
+                    IconButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return UserAlertDialog(
+                                  name: userProvider.name,
+                                  email: userProvider.email,
+                                );
+                              });
+                        },
+                        icon: Image.asset("assets/edit_icon.png"))
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 20),
             _buildMenuItem(
@@ -26,7 +52,10 @@ class MoreScreen extends StatelessWidget {
             _buildMenuItem(
               icon: Icons.favorite,
               title: 'My Wishlist',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => WishlistScreen()));
+              },
             ),
             _buildMenuItem(
               icon: Icons.local_offer,
@@ -40,7 +69,7 @@ class MoreScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const SavedDetailsScreen()));
+                        builder: (context) => const ProfileDetailsScreen()));
               },
             ),
             _buildMenuItem(

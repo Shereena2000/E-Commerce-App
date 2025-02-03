@@ -13,7 +13,7 @@ class BuildAddressCard extends StatelessWidget {
   final String pinCode;
   final String email;
   final String? state;
-  BuildAddressCard({
+ const BuildAddressCard({
     super.key,
     required this.id,
     required this.name,

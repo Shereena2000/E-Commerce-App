@@ -32,10 +32,12 @@ class ProductDetailedScreen extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: ProductImageContainer(
+                  productId: product.id,
                   showCarousel: true,
                   productImage: product.images,
                   width: width * 0.85,
                   height: height * 0.5,
+                  favoriteIconSize: 30,
                 ),
               ),
               Padding(
@@ -58,7 +60,7 @@ class ProductDetailedScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CustomButton(text: "BUY NOW", onPressed: () {}),
-                  const CartButton(),
+                   CartButton(productId: product.id,),
                 ],
               ),
               largerSpacing

@@ -14,3 +14,27 @@ final Map<String, Color> colorMap = {
     "Men's Wear",
     "Kids Wear",
   ];
+  Map<String, bool> productSize = {
+    'XS': false,
+    'S': false,
+    'M': false,
+    'L': false,
+    'XL': false,
+    'XXL': false,
+  };
+   Map<String, bool> productColor = {
+    'Red': false,
+    'Yellow': false,
+     'Blue': false,
+    'White': false,
+    'Black': false,
+   
+  };
+ Map<String, bool> productPriceRange = {
+  "Below ₹500": false,
+  "₹500 - ₹1,000": false,
+  "₹1,000 - ₹2,500": false,
+  "₹2,500 - ₹5,000": false,
+  "₹5,000 - ₹10,000": false,
+  "Above ₹10,000": false,
+};
