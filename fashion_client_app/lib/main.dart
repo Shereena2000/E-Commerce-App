@@ -9,7 +9,7 @@ import 'package:fashion_client_app/provider/product_detail_provider.dart';
 import 'package:fashion_client_app/provider/profile_provider.dart';
 import 'package:fashion_client_app/provider/search_provider.dart';
 import 'package:fashion_client_app/provider/user_provider.dart';
-import 'package:fashion_client_app/views/add_details_screen.dart';
+import 'package:fashion_client_app/views/address/add_address_screen.dart';
 import 'package:fashion_client_app/views/authentication/forgot_screen.dart';
 import 'package:fashion_client_app/views/authentication/signin_screen.dart';
 import 'package:fashion_client_app/views/authentication/sigup_screen.dart';
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => FilterStateProvider()),
         ChangeNotifierProvider(create: (context) => WishlistProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
-                ChangeNotifierProvider(create: (context) =>CartProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
           '/search': (context) => const SearchScreen(),
           '/cart': (context) => const CartScreen(),
           '/addDetails': (context) =>
-              const AddDetailsScreen(profileId: "", isModify: false),
+              AddAddressScreen(id: "", isModify: false),
           '/forgot': (context) => const ForgotScreen(),
         },
       ),

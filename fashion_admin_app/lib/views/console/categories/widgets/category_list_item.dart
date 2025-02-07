@@ -41,9 +41,21 @@ class CategoryListItem extends StatelessWidget {
             SizedBox(
               height: 100,
               width: 100,
-              child: Image.network(categories.image == ""
-                  ? "https://demofree.sirv.com/nope-not-here.jpg"
-                  : categories.image),
+              child: FadeInImage.assetNetwork(
+                  placeholder: "assets/placeholder.jpg",
+                  image: categories.image == ""
+                      ? "assets/placeholder.jpg"
+                      : categories.image,
+                  imageErrorBuilder: (context, error, StackTrace) {
+                    return Image.asset(
+                      "assets/placeholder.jpg",
+                      fit: BoxFit.contain,
+                    );
+                  }),
+
+              // child: Image.network(categories.image == ""
+              //     ? "https://demofree.sirv.com/nope-not-here.jpg"
+              //     : categories.image),
             ),
             smallWidthSpacing,
             Expanded(

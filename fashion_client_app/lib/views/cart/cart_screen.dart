@@ -34,7 +34,7 @@ class CartScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      itemCount: value.cart.length, // Example count
+                      itemCount: value.cart.length,
                       itemBuilder: (context, index) {
                         return CartItem(
                             image: value.product[index].images[0],
@@ -47,8 +47,8 @@ class CartScreen extends StatelessWidget {
                       },
                     ),
                   ),
-                  CouponInput(),
-                  OrderSummary(),
+                  // CouponInput(),
+                  OrderSummary(totalCost: value.totalCost.toString()),
                   CustomButton(text: "Place Order", onPressed: () {})
                 ],
               );
@@ -88,12 +88,21 @@ class CartItem extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  image, // Replace with actual image
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
+                child: FadeInImage.assetNetwork(
+                    placeholder: "assets/placeholder.jpg",
+                    image: image,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, StackTrace) {
+                      return Image.asset(
+                        "assets/placeholder.jpg",
+                        fit: BoxFit.contain,
+                        width: 100,
+                        height: 100,
+                      );
+                    }),
+                
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -106,7 +115,7 @@ class CartItem extends StatelessWidget {
                         name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const Row(
                         children: [
@@ -115,6 +124,8 @@ class CartItem extends StatelessWidget {
                         ],
                       ),
                       const Text("Size: S"),
+                      Text(" \₹$new_price",
+                          style: const TextStyle(color: greenColor)),
                       smallSpacing,
                       Row(
                         children: [
@@ -123,7 +134,7 @@ class CartItem extends StatelessWidget {
                             maxQuantity: maxQuantity,
                           ),
                           const Spacer(),
-                          Text(" \₹$new_price",
+                          Text("Total: \₹${new_price}",
                               style: TextStyle(fontWeight: FontWeight.bold)),
                         ],
                       ),
@@ -154,36 +165,38 @@ class CartItem extends StatelessWidget {
   }
 }
 
-class CouponInput extends StatelessWidget {
+// class CouponInput extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: TextField(
+//         decoration: InputDecoration(
+//           contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+//           hintText: "Enter Coupon code",
+//           suffixIcon: Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: ElevatedButton(
+//               style: ElevatedButton.styleFrom(
+//                 backgroundColor: whiteColor,
+//               ),
+//               onPressed: () {},
+//               child: const Text("Apply"),
+//             ),
+//           ),
+//           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class OrderSummary extends StatelessWidget {
+  const OrderSummary({required this.totalCost});
+  final String totalCost;
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-          hintText: "Enter Coupon code",
-          suffixIcon: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: whiteColor,
-              ),
-              onPressed: () {},
-              child: const Text("Apply"),
-            ),
-          ),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      ),
-    );
-  }
-}
-
-class OrderSummary extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
         color: whiteColor,
@@ -198,22 +211,23 @@ class OrderSummary extends StatelessWidget {
               const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [Text("Total MRP"), Text("₹6,998")],
+                children: [const Text("Total MRP"), Text("₹$totalCost")],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text("Delivery Charges"),
-                  Text("₹99 FREE", style: TextStyle(color: Colors.green))
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: const [
+              //     Text("Delivery Charges"),
+              //     Text("₹99 FREE", style: TextStyle(color: Colors.green))
+              //   ],
+              // ),
               const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text("Amount payable",
+                children: [
+                  const Text("Amount payable",
                       style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text("₹6,998", style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text("₹$totalCost",
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
             ],
@@ -238,27 +252,30 @@ class QuantitySelector extends StatefulWidget {
 }
 
 class _QuantitySelectorState extends State<QuantitySelector> {
-  int count = 1;
+  int countValue = 1;
   increaseCount(int max) async {
-    if (count >= max) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Maximum Quantity reached")));
+    if (countValue >= max) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Maximum Quantity reached"),
+        ),
+      );
       return;
     } else {
-      Provider.of<CartProvider>(context, listen: false)
-          .addToCart(CartModel(productId: widget.productId, quantity: count));
+      Provider.of<CartProvider>(context, listen: false).addToCart(
+          CartModel(productId: widget.productId, quantity: countValue));
       setState(() {
-        count++;
+        countValue++;
       });
     }
   }
 
   decreaseCount() async {
-    if (count > 1) {
+    if (countValue > 1) {
       Provider.of<CartProvider>(context, listen: false)
           .decreaseCount(widget.productId);
       setState(() {
-        count--;
+        countValue--;
       });
     }
   }
@@ -285,8 +302,8 @@ class _QuantitySelectorState extends State<QuantitySelector> {
             ),
           ),
           Text(
-            "$count",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+            "$countValue",
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
           ),
           IconButton(
             onPressed: () {

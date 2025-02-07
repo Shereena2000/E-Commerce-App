@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class DbService {
   User? user = FirebaseAuth.instance.currentUser;
 
-//aad the user to firebase
+//ad the user to firebase
 
   Future saveUserData({required String name, required String email}) async {
     try {
@@ -130,63 +130,101 @@ class DbService {
 
   //readwishlist
   Stream<QuerySnapshot> readWishlist() {
-  try {
-    if (user == null) {
-      print("User is not logged in");
-      return const Stream.empty();
+    try {
+      if (user == null) {
+        print("User is not logged in");
+        return const Stream.empty();
+      }
+      return FirebaseFirestore.instance
+          .collection("users")
+          .doc(user!.uid)
+          .collection("wishlist")
+          .snapshots();
+    } on FirebaseException catch (e) {
+      print("firebase exception on read wishlist: ${e.code}");
+      return const Stream.empty(); // Return an empty stream in case of an error
     }
-    return FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .collection("wishlist")
-        .snapshots();
-  } on FirebaseException catch (e) {
-    print("firebase exception on read wishlist: ${e.code}");
-    return const Stream.empty(); // Return an empty stream in case of an error
   }
-}
 
 // Add to wishlist
-Future addToWishlist({required String productId}) async {
-  try {
-    if (user == null) {
-      print("User is not logged in");
-      return;
-    }
-    final wishlistRef = FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .collection("wishlist")
-        .doc(productId);
+  Future addToWishlist({required String productId}) async {
+    try {
+      if (user == null) {
+        print("User is not logged in");
+        return;
+      }
+      final wishlistRef = FirebaseFirestore.instance
+          .collection("users")
+          .doc(user!.uid)
+          .collection("wishlist")
+          .doc(productId);
 
-    final doc = await wishlistRef.get();
-    if (!doc.exists) {
-      await wishlistRef.set({
-        "product_id": productId,
-      });
-    } else {
-      print("Product already exists in wishlist");
+      final doc = await wishlistRef.get();
+      if (!doc.exists) {
+        await wishlistRef.set({
+          "product_id": productId,
+        });
+      } else {
+        print("Product already exists in wishlist");
+      }
+    } on FirebaseException catch (e) {
+      print("firebase exception on add wishlist : ${e.code}");
     }
-  } on FirebaseException catch (e) {
-    print("firebase exception on add wishlist : ${e.code}");
   }
-}
 
 // Delete from wishlist
-Future deleteItemFromWishlist({required String productId}) async {
-  try {
-    if (user == null) {
-      print("User is not logged in");
-      return;
+  Future deleteItemFromWishlist({required String productId}) async {
+    try {
+      if (user == null) {
+        print("User is not logged in");
+        return;
+      }
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user!.uid)
+          .collection("wishlist")
+          .doc(productId)
+          .delete();
+    } on FirebaseException catch (e) {
+      print("firebase exception on delete wishlist : ${e.code}");
     }
+  }
+
+  // profle for saving address
+  Future addAddress({required Map<String, dynamic> data}) async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
-        .collection("wishlist")
-        .doc(productId)
-        .delete();
-  } on FirebaseException catch (e) {
-    print("firebase exception on delete wishlist : ${e.code}");
+        .collection("address")
+        .add(data);
   }
-}
+
+  Future updateAddress(
+      {required String doId, required Map<String, dynamic> data}) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .collection("address")
+        .doc(doId)
+        .update(data);
+  }
+
+  Future deleteAddress({
+    required String doId,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .collection("address")
+        .doc(doId)
+        .delete();
+  }
+
+  Stream<QuerySnapshot> readAddress() {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .collection("address")
+        .snapshots();
+  }
 }

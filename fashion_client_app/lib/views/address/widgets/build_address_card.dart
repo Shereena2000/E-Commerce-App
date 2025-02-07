@@ -1,7 +1,9 @@
 import 'package:fashion_client_app/constants/colors.dart';
-import 'package:fashion_client_app/controllers/profile_service.dart';
-import 'package:fashion_client_app/views/add_details_screen.dart';
-
+import 'package:fashion_client_app/constants/spacing.dart';
+import 'package:fashion_client_app/constants/texts.dart';
+import 'package:fashion_client_app/controllers/db_service.dart';
+import 'package:fashion_client_app/views/address/add_address_screen.dart';
+import 'package:fashion_client_app/widgets/additional_confirm.dart';
 import 'package:flutter/material.dart';
 
 class BuildAddressCard extends StatelessWidget {
@@ -13,7 +15,7 @@ class BuildAddressCard extends StatelessWidget {
   final String pinCode;
   final String email;
   final String? state;
- const BuildAddressCard({
+  const BuildAddressCard({
     super.key,
     required this.id,
     required this.name,
@@ -27,9 +29,7 @@ class BuildAddressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(label);
     return Container(
-      padding: const EdgeInsets.all(16.0),
       color: whiteColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,8 +53,18 @@ class BuildAddressCard extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            AddDetailsScreen(profileId: id, isModify: true)),
+                      builder: (context) => AddAddressScreen(
+                        id: id,
+                        isModify: true,
+                        name: name,
+                        email: email,
+                        address: address,
+                        pinCode: pinCode,
+                        state: state,
+                        phoneNumber: phone,
+                        addresslabel: label,
+                      ),
+                    ),
                   );
                 },
               ),
@@ -66,12 +76,31 @@ class BuildAddressCard extends StatelessWidget {
                   size: 20,
                 ),
                 onPressed: () {
-                  ProfileService().deleteProfiles(doId: id);
+                    showDialog(
+        context: context,
+        builder: (context) => AdditionalConfirm(
+              contentText: "Are you sure you want to delete this?",
+              onNo: () {
+                Navigator.pop(context);
+              },
+              onYes: () {
+            DbService().deleteAddress(doId: id);
+                Navigator.pop(context);
+              },
+            ));
+
                 },
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          Text(address, style: normalText),
+          Text('Pincode:  $pinCode', style: normalText),
+          state != null
+              ? Text('State:  $state', style: normalText)
+              : const SizedBox(),
+          Text(email, style: normalText),
+          Text(phone, style: normalText),
+          liteSpacing,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
@@ -87,48 +116,13 @@ class BuildAddressCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   )
-                : SizedBox(),
+                : const SizedBox(),
           ),
-          const SizedBox(height: 8),
-          Text(
-            address,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black54,
-            ),
-          ),
-          state != null
-              ? Text(
-                  'State:  $state',
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black54,
-                  ),
-                )
-              : SizedBox(),
-          Text(
-            'Pin code:  $pinCode',
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black54,
-            ),
-          ),
-          Text(
-            email,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black54,
-            ),
-          ),
-          Text(
-            phone,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.black54,
-            ),
-          ),
+          liteSpacing,
         ],
       ),
     );
   }
 }
+
+  

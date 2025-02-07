@@ -18,7 +18,7 @@ class ProductImageContainer extends StatelessWidget {
     this.showCarousel = false,
     this.height = 200,
     required this.productId,
-    this.favoriteIconSize ,
+    this.favoriteIconSize,
   });
 
   @override
@@ -31,26 +31,32 @@ class ProductImageContainer extends StatelessWidget {
             ClipRRect(
               borderRadius: radius5,
               child: SizedBox(
-                width: width,
-                height: height,
-                child: showCarousel
-                    ? PageView.builder(
-                        itemCount: productImage.length,
-                        onPageChanged: (index) {
-                          provider.setCurrentPage(index); // Update current page
-                        },
-                        itemBuilder: (context, index) {
-                          return Image.network(
-                            productImage[index],
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      )
-                    : Image.network(
-                        productImage[0], // Show only the first image
-                        fit: BoxFit.cover,
-                      ),
-              ),
+                  width: width,
+                  height: height,
+                  child: showCarousel
+                      ? PageView.builder(
+                          itemCount: productImage.length,
+                          onPageChanged: (index) {
+                            provider
+                                .setCurrentPage(index); // Update current page
+                          },
+                          itemBuilder: (context, index) {
+                            return Image.network(
+                              productImage[index],
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                      : FadeInImage.assetNetwork(
+                          placeholder: "assets/placeholder.jpg",
+                          image: productImage[0],
+                          fit: BoxFit.cover,
+                          imageErrorBuilder: (context, error, StackTrace) {
+                            return Image.asset(
+                              "assets/placeholder.jpg",
+                              fit: BoxFit.contain,
+                            );
+                          })),
             ),
             Positioned(
               right: -4,

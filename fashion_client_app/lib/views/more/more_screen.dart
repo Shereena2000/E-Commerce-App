@@ -1,7 +1,7 @@
 import 'package:fashion_client_app/controllers/auth_service.dart';
 import 'package:fashion_client_app/provider/user_provider.dart';
 import 'package:fashion_client_app/views/more/widgets/user_alert_dialog.dart';
-import 'package:fashion_client_app/views/profile/profile_details_screen.dart';
+import 'package:fashion_client_app/views/address/saved_address_screen.dart';
 import 'package:fashion_client_app/views/wishlist/wishlist_screen.dart';
 import 'package:fashion_client_app/widgets/additional_confirm.dart';
 import 'package:fashion_client_app/widgets/app_bar_logo_title.dart';
@@ -69,7 +69,7 @@ class MoreScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ProfileDetailsScreen()));
+                        builder: (context) =>const SavedAddressScreen()));
               },
             ),
             _buildMenuItem(

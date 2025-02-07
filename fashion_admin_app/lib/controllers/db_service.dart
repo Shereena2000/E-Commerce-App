@@ -27,25 +27,28 @@ class DbService {
         .doc(doId)
         .delete();
   }
+
   //Product
- Stream<QuerySnapshot> readProducts() {
+  Stream<QuerySnapshot> readProducts() {
     return FirebaseFirestore.instance
         .collection("shop_products")
         .orderBy("category", descending: true)
         .snapshots();
   }
 
-    Future createProducts({required Map<String, dynamic> data}) async {
+  Future createProducts({required Map<String, dynamic> data}) async {
     await FirebaseFirestore.instance.collection("shop_products").add(data);
   }
-    Future updateProducts(
+
+  Future updateProducts(
       {required String doId, required Map<String, dynamic> data}) async {
     await FirebaseFirestore.instance
         .collection("shop_products")
         .doc(doId)
         .update(data);
   }
-    Future deleteProducts({required String doId}) async {
+
+  Future deleteProducts({required String doId}) async {
     await FirebaseFirestore.instance
         .collection("shop_products")
         .doc(doId)

@@ -1,76 +1,125 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fashion_client_app/controllers/db_service.dart';
-import 'package:fashion_client_app/model/profile_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 class ProfileProvider extends ChangeNotifier {
-  StreamSubscription<DocumentSnapshot>? _profileSubscription;
-  bool isLoading = true;
-
-  String name = "User";
-  String address = "";
-  String phone = "";
-  String email = "";
-  String pinCode = "";
-  String state = "";
-  String? addressLabel = "";
-
   ProfileProvider() {
-    loadProfileData();
+    getProfiles();
   }
 
-  // Method to load profile data
-  void loadProfileData() {
-    _profileSubscription?.cancel(); // Cancel any existing subscription
+  // Store form data for each address instance
+  final Map<String, AddressFormData> _formDataMap = {};
+  List<QueryDocumentSnapshot> profiles = [];
+  StreamSubscription<QuerySnapshot>? _profileSubscription;
+  int totalProfiles = 0;
+  bool isLoading = true;
+
+  // Get form data for specific instance
+  AddressFormData getFormData(String id) {
+    return _formDataMap[id] ?? AddressFormData(
+      addressLabel: 'Home',
+      state: 'state 1',
+    );
+  }
+   void initializeFormData(String id, {String? state, String? addressLabel}) {
+    if (!_formDataMap.containsKey(id)) {
+      _formDataMap[id] = AddressFormData(
+        addressLabel: addressLabel ?? 'Home',
+        state: state ?? 'state 1',
+      );
+    }
+  }
+
+  // Update form data
+  void updateFormData(String id, {String? state, String? addressLabel}) {
+    final currentData = getFormData(id);
+    _formDataMap[id] = AddressFormData(
+      addressLabel: addressLabel ?? currentData.addressLabel,
+      state: state ?? currentData.state,
+    );
+    notifyListeners();
+  }
+
+  // Clear form data
+  void clearFormData(String id) {
+    _formDataMap.remove(id);
+    notifyListeners();
+  }
+
+  void getProfiles() {
+    _profileSubscription?.cancel();
     isLoading = true;
-    _profileSubscription = DbService().readUserData().listen((snapshot) {
-      if (snapshot.exists) {
-        // Extract data from the snapshot
-        final profileData = snapshot.data() as Map<String, dynamic>;
-        final profile = ProfileModel.fromJson(profileData, snapshot.id);
-
-        // Update the provider's state
-        name = profile.name;
-        address = profile.address;
-        phone = profile.phone;
-        email = profile.email;
-        pinCode = profile.pinCode;
-        state = profile.state;
-        addressLabel = profile.addressLabel;
-        isLoading = false;
-
-        // Notify listeners to update the UI
-        notifyListeners();
-      } else {
-        print("User profile not found");
-      }
+    _profileSubscription = DbService().readAddress().listen((snapshot) {
+      profiles = snapshot.docs;
+      totalProfiles = snapshot.docs.length;
+      isLoading = false;
+      notifyListeners();
     });
   }
 
-  // Dispose the subscription when the provider is no longer needed
+  Future<void> handleSubmit({
+    required GlobalKey<FormState> formKey,
+    required bool isModify,
+    required String id,
+    required String name,
+    required String email,
+    required String addAddress,
+    required String pinCode,
+    required String phoneNumber,
+    required BuildContext context,
+  }) async {
+    if (formKey.currentState!.validate()) {
+      final formData = getFormData(id);
+      
+      final data = {
+        "name": name,
+        "email": email,
+        "address": addAddress,
+        "pinCode": pinCode,
+        "state": formData.state,
+        "phoneNumber": phoneNumber,
+        "addresslabel": formData.addressLabel,
+      };
+
+      try {
+        if (isModify) {
+          await DbService().updateAddress(doId: id, data: data);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Address Updated"))
+          );
+        } else {
+          await DbService().addAddress(data: data);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Address Added"))
+          );
+        }
+        
+        clearFormData(id);
+        Navigator.pop(context);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error: ${e.toString()}"))
+        );
+      }
+    }
+  }
+
   @override
   void dispose() {
     _profileSubscription?.cancel();
+    _formDataMap.clear();
     super.dispose();
   }
-
-//   List<QueryDocumentSnapshot> profiles = [];
-//   StreamSubscription<QuerySnapshot>? _profileSubscription;
-//   int totalProfiles = 0;
-//   bool isLoading = true;
-//   ProfileProvider() {
-//     getProfiles();
-//   }
-//   void getProfiles() {
-//     _profileSubscription?.cancel();
-//     isLoading = true;
-//     _profileSubscription = ProfileService().readProfiles().listen((snapshot) {
-//       profiles = snapshot.docs;
-//       totalProfiles = snapshot.docs.length;
-//       isLoading = false;
-//       notifyListeners();
-//     });
-//   }
 }
+
+// Data class to hold form state
+class AddressFormData {
+  final String addressLabel;
+  final String state;
+
+  AddressFormData({
+    required this.addressLabel,
+    required this.state,
+  });
+}
+

@@ -26,7 +26,15 @@ class _ProductImageState extends State<ProductImage> {
           width: widget.width,
           child: AspectRatio(
             aspectRatio: 1,
-            child: Image.network(widget.products.images[selectedImage]),
+            child: FadeInImage.assetNetwork(
+                placeholder: "assets/placeholder.jpg",
+                image: widget.products.images[selectedImage],
+                imageErrorBuilder: (context, error, StackTrace) {
+                  return Image.asset(
+                    "assets/placeholder.jpg",
+                    fit: BoxFit.contain,
+                  );
+                }),
           ),
         ),
         Row(
@@ -55,11 +63,25 @@ class _ProductImageState extends State<ProductImage> {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
                 color:
-                    selectedImage == index ?blackColor : Colors.transparent)),
+                    selectedImage == index ? blackColor : Colors.transparent)),
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(widget.products.images[index])),
-      ),
-    );
+          borderRadius: BorderRadius.circular(10),
+          child: FadeInImage.assetNetwork(
+                placeholder: "assets/placeholder.jpg",
+               
+                image:widget.products.images[index],
+                imageErrorBuilder: (context, error, StackTrace) {
+                  return Image.asset(
+                    "assets/placeholder.jpg",
+                    fit: BoxFit.contain,
+                  );
+                }),
+
+          //  Image.network(
+          //   widget.products.images[index],
+          ),
+        ),
+      );
+    
   }
 }
