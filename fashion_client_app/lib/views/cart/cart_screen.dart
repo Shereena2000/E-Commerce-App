@@ -1,4 +1,5 @@
 import 'package:fashion_client_app/constants/texts.dart';
+import 'package:fashion_client_app/model/products_model.dart';
 import 'package:fashion_client_app/provider/cart_provider.dart';
 import 'package:fashion_client_app/views/cart/widgets/cart_item.dart';
 import 'package:fashion_client_app/views/cart/widgets/order_summary.dart';
@@ -32,29 +33,72 @@ class CartScreen extends StatelessWidget {
               return Column(
                 children: [
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: value.cart.length,
-                      itemBuilder: (context, index) {
-                        if (index >= value.product.length) {
-                          return const SizedBox(); // Prevent index out of bounds
-                        }
+  child:ListView.builder(
+  itemCount: value.cart.length,
+  itemBuilder: (context, index) {
+    // Ensure the product list matches cart length
+    if (index >= value.product.length) {
+      return const SizedBox();
+    }
 
-                        return CartItem(
-                          image: (value.product[index].images.isNotEmpty)
-                              ? value.product[index].images[0]
-                              : "assets/placeholder.jpg",
-                          name: value.product[index].name,
-                          newPrice: value.product[index].newPrice,
-                          size: value.cart[index].size,
-                          color: value.cart[index].color,
-                          cartId: value.cart[index].cartId,
-                          maxQuantity:
-                              value.product[index].maxQuantity, // Add this
-                          productId: value.product[index].id,
-                        );
-                      },
-                    ),
-                  ),
+    // Find the matching product for this cart item
+    ProductModels matchingProduct = value.product.firstWhere(
+      (p) => p.id == value.cart[index].productId,
+      orElse: () => ProductModels(
+        name: "Unknown Product",
+        description: "No description available",
+        images: [],
+        oldPrice: 0,
+        newPrice: 0,
+        category: "Unknown",
+        id: value.cart[index].productId, // Assign cart product ID
+        maxQuantity: 0,
+        colorVariants: [],
+        sizeVariants: [],
+      ), // Handle missing products
+    );
+
+    return CartItem(
+      image: (matchingProduct.images.isNotEmpty) 
+        ? matchingProduct.images[0] 
+        : "assets/placeholder.jpg",
+      name: matchingProduct.name,
+      newPrice: matchingProduct.newPrice,
+      size: value.cart[index].size,
+      color: value.cart[index].color,
+      cartId: value.cart[index].cartId,
+      maxQuantity: matchingProduct.maxQuantity, 
+      productId: matchingProduct.id,
+    );
+  },
+),
+
+),
+
+                  // Expanded(
+                  //   child: ListView.builder(
+                  //     itemCount: value.cart.length,
+                  //     itemBuilder: (context, index) {
+                  //       if (index >= value.product.length) {
+                  //         return const SizedBox(); // Prevent index out of bounds
+                  //       }
+
+                  //       return CartItem(
+                  //         image: (value.product[index].images.isNotEmpty)
+                  //             ? value.product[index].images[0]
+                  //             : "assets/placeholder.jpg",
+                  //         name: value.product[index].name,
+                  //         newPrice: value.product[index].newPrice,
+                  //         size: value.cart[index].size,
+                  //         color: value.cart[index].color,
+                  //         cartId: value.cart[index].cartId,
+                  //         maxQuantity:
+                  //             value.product[index].maxQuantity, // Add this
+                  //         productId: value.product[index].id,
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   // CouponInput(),
                   OrderSummary(totalCost: value.totalCost.toString()),
                   CustomButton(text: "Place Order", onPressed: () {})
@@ -68,31 +112,5 @@ class CartScreen extends StatelessWidget {
   }
 }
 
-
-// class CouponInput extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: TextField(
-//         decoration: InputDecoration(
-//           contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-//           hintText: "Enter Coupon code",
-//           suffixIcon: Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: ElevatedButton(
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: whiteColor,
-//               ),
-//               onPressed: () {},
-//               child: const Text("Apply"),
-//             ),
-//           ),
-//           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 
