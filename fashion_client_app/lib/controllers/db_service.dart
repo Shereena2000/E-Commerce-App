@@ -62,37 +62,38 @@ class DbService {
         .collection("cart")
         .snapshots();
   }
+//add cart data
+ Future addToCart({required CartModel cartData}) async {
+  try {
+  String cartId = cartData.cartId;
 
-  Future addToCart({required CartModel cartData}) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user!.uid)
-          .collection("Cart")
-          .doc(cartData.productId)
-          .update({
-        "product_id": cartData.productId,
-        "quantity": FieldValue.increment(1)
+
+    DocumentReference cartRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .collection("cart")
+        .doc(cartId);
+
+    DocumentSnapshot doc = await cartRef.get();
+
+    if (doc.exists) {
+      await cartRef.update({
+        "quantity": FieldValue.increment(1),
       });
-    } on FirebaseException catch (e) {
-      print("firebase exception : ${e.code}");
-      if (e.code == "not-found") {
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(user!.uid)
-            .collection("cart")
-            .doc(cartData.productId)
-            .set({"product_id": cartData.productId, "quantity": 1});
-      }
+    } else {
+      await cartRef.set(cartData.toJson());
     }
+  } on FirebaseException catch (e) {
+    print("Firebase exception: ${e.code}");
   }
+}
 
-  Future deleteItemFromCart({required String productId}) async {
+  Future deleteItemFromCart({required String cartId}) async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
         .collection("cart")
-        .doc(productId)
+        .doc(cartId)
         .delete();
   }
 
@@ -109,14 +110,22 @@ class DbService {
     });
   }
 
-  Future decreaseCount({required String productId}) async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .collection("cart")
-        .doc(productId)
-        .update({"quantity": FieldValue.increment(-1)});
+ Future decreaseCount({required String cartId}) async {
+  DocumentReference cartRef = FirebaseFirestore.instance
+      .collection("users")
+      .doc(user!.uid)
+      .collection("cart")
+      .doc(cartId);
+
+  DocumentSnapshot doc = await cartRef.get();
+
+  if (doc.exists && (doc.data() as Map<String, dynamic>)["quantity"] > 1) {
+    await cartRef.update({"quantity": FieldValue.increment(-1)});
+  } else {
+    await cartRef.delete(); // Remove item if quantity becomes 0
   }
+}
+
 
   //search product by docs ids
   Stream<QuerySnapshot> searchProducts(List<String> docIds) {

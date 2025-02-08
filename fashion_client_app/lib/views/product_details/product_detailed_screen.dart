@@ -1,5 +1,6 @@
 import 'package:fashion_client_app/constants/spacing.dart';
 import 'package:fashion_client_app/model/products_model.dart';
+import 'package:fashion_client_app/provider/product_detail_provider.dart';
 import 'package:fashion_client_app/views/product_details/widget/color_variant_selector.dart';
 import 'package:fashion_client_app/views/product_details/widget/product_info.dart';
 import 'package:fashion_client_app/views/product_details/widget/size_varaint_selector.dart';
@@ -8,6 +9,7 @@ import 'package:fashion_client_app/widgets/cart_button.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:fashion_client_app/widgets/product_image_container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailedScreen extends StatelessWidget {
   final ProductModels product;
@@ -22,7 +24,7 @@ class ProductDetailedScreen extends StatelessWidget {
       appBar: AppBar(
         title: const AppBarLogoTitle(),
       ),
-      body: SingleChildScrollView(
+      body:Consumer<ProductDetailProvider>(builder: (context,productDetailprovider,child){return  SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: paddingSize - 30),
           child: Column(
@@ -60,14 +62,14 @@ class ProductDetailedScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   CustomButton(text: "BUY NOW", onPressed: () {}),
-                   CartButton(productId: product.id,),
+                   CartButton(productId: product.id,selectedSize: productDetailprovider.selectedSize,selectedColor: productDetailprovider.selectedColor,),
                 ],
               ),
               largerSpacing
             ],
           ),
         ),
-      ),
+      );})
     );
   }
 }

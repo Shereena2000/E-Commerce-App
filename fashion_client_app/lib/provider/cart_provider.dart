@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fashion_client_app/controllers/db_service.dart';
 import 'package:fashion_client_app/model/cart_model.dart';
@@ -29,15 +28,17 @@ class CartProvider extends ChangeNotifier {
     isLoading = true;
     _cartSubscription?.cancel();
     _cartSubscription = DbService().readCart().listen((snapshot) {
-      List<CartModel> cartsData =
-          CartModel.fromJsonList(snapshot.docs) as List<CartModel>;
+      List<CartModel> cartsData = snapshot.docs
+          .map((doc) => CartModel.fromJson(doc.data() as Map<String, dynamic>))
+          .toList();
+
       cart = cartsData;
       cartUids = [];
       for (int i = 0; i < cart.length; i++) {
         cartUids.add(cart[i].productId);
         print("cartUids :${cartUids[i]}");
       }
-      if (cart.length > 0) {
+      if (cart.isNotEmpty) {
         readCartProducts(cartUids);
       }
       isLoading = false;
@@ -45,16 +46,27 @@ class CartProvider extends ChangeNotifier {
     });
   }
 
-  void deleteItem(String productId) {
-    DbService().deleteItemFromCart(productId: productId);
+  void deleteItem(String cartId) {
+    DbService().deleteItemFromCart(cartId: cartId);
     readCartData();
     notifyListeners();
   }
+  void increaseQuantity(String cartId) {
+  addToCart(CartModel(
+    cartId: cartId,
+    productId: cartId,
+    size: "",  // These will be preserved
+    color: "", // These will be preserved
+    quantity: 1,
+  ));
+  notifyListeners();
+}
+
 
 //decrease the count of product
-  void decreaseCount(String productId) {
-    DbService().decreaseCount(productId: productId);
-  
+  void decreaseCount(String cartId) {
+    DbService().decreaseCount(cartId: cartId);
+
     notifyListeners();
   }
 
@@ -72,15 +84,28 @@ class CartProvider extends ChangeNotifier {
     });
   }
 
+  // void addCost(List<ProductModels> products, List<CartModel> cart) {
+  //   totalCost = 0;
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     for (int i = 0; i < cart.length; i++) {
+  //       totalCost += cart[i].quantity * products[i].newPrice;
+  //     }
+  //     notifyListeners();
+  //   });
+  // }
   void addCost(List<ProductModels> products, List<CartModel> cart) {
-    totalCost = 0;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      for (int i = 0; i < cart.length; i++) {
+  totalCost = 0;
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    for (int i = 0; i < cart.length; i++) {
+      if (i < products.length) { // Ensure the index is within the valid range
         totalCost += cart[i].quantity * products[i].newPrice;
+      } else {
+        print("Index out of bounds: $i");
       }
-      notifyListeners();
-    });
-  }
+    }
+    notifyListeners();
+  });
+}
 
   void calculateTotalQuantity() {
     totalQuantity = 0;

@@ -10,3 +10,4 @@ const Color whiteColor=Colors.white;
 const Color blueColor=Colors.blue;
 const Color greenColor=Colors.green;
 const Color greyColor=Colors.grey;
+const Color darkRedColor=Color(0xFFc72c41);

@@ -1,8 +1,7 @@
-import 'package:fashion_client_app/constants/colors.dart';
-import 'package:fashion_client_app/constants/spacing.dart';
 import 'package:fashion_client_app/constants/texts.dart';
-import 'package:fashion_client_app/model/cart_model.dart';
 import 'package:fashion_client_app/provider/cart_provider.dart';
+import 'package:fashion_client_app/views/cart/widgets/cart_item.dart';
+import 'package:fashion_client_app/views/cart/widgets/order_summary.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,14 +35,23 @@ class CartScreen extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: value.cart.length,
                       itemBuilder: (context, index) {
+                        if (index >= value.product.length) {
+                          return const SizedBox(); // Prevent index out of bounds
+                        }
+
                         return CartItem(
-                            image: value.product[index].images[0],
-                            name: value.product[index].name,
-                            new_price: value.product[index].newPrice,
-                            old_price: value.product[index].oldPrice,
-                            maxQuantity: value.product[index].maxQuantity,
-                            selectedQuantity: value.cart[index].quantity,
-                            productId: value.product[index].id);
+                          image: (value.product[index].images.isNotEmpty)
+                              ? value.product[index].images[0]
+                              : "assets/placeholder.jpg",
+                          name: value.product[index].name,
+                          newPrice: value.product[index].newPrice,
+                          size: value.cart[index].size,
+                          color: value.cart[index].color,
+                          cartId: value.cart[index].cartId,
+                          maxQuantity:
+                              value.product[index].maxQuantity, // Add this
+                          productId: value.product[index].id,
+                        );
                       },
                     ),
                   ),
@@ -60,110 +68,6 @@ class CartScreen extends StatelessWidget {
   }
 }
 
-class CartItem extends StatelessWidget {
-  final String image, name, productId;
-  final int new_price, old_price, maxQuantity, selectedQuantity;
-  CartItem({
-    super.key,
-    required this.image,
-    required this.name,
-    required this.productId,
-    required this.new_price,
-    required this.old_price,
-    required this.maxQuantity,
-    required this.selectedQuantity,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: whiteColor,
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: FadeInImage.assetNetwork(
-                    placeholder: "assets/placeholder.jpg",
-                    image: image,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.cover,
-                    imageErrorBuilder: (context, error, StackTrace) {
-                      return Image.asset(
-                        "assets/placeholder.jpg",
-                        fit: BoxFit.contain,
-                        width: 100,
-                        height: 100,
-                      );
-                    }),
-                
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const Row(
-                        children: [
-                          Text("Color: "),
-                          CircleAvatar(radius: 5, backgroundColor: Colors.red),
-                        ],
-                      ),
-                      const Text("Size: S"),
-                      Text(" \₹$new_price",
-                          style: const TextStyle(color: greenColor)),
-                      smallSpacing,
-                      Row(
-                        children: [
-                          QuantitySelector(
-                            productId: productId,
-                            maxQuantity: maxQuantity,
-                          ),
-                          const Spacer(),
-                          Text("Total: \₹${new_price}",
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                              onPressed: () async {
-                                Provider.of<CartProvider>(context,
-                                        listen: false)
-                                    .deleteItem(productId);
-                              },
-                              child: const Text("Remove")),
-                          TextButton(
-                              onPressed: () {},
-                              child: const Text("Move to Wishlist")),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 // class CouponInput extends StatelessWidget {
 //   @override
@@ -191,131 +95,4 @@ class CartItem extends StatelessWidget {
 //   }
 // }
 
-class OrderSummary extends StatelessWidget {
-  const OrderSummary({required this.totalCost});
-  final String totalCost;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        color: whiteColor,
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Order Summary",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [const Text("Total MRP"), Text("₹$totalCost")],
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: const [
-              //     Text("Delivery Charges"),
-              //     Text("₹99 FREE", style: TextStyle(color: Colors.green))
-              //   ],
-              // ),
-              const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Amount payable",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text("₹$totalCost",
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-class QuantitySelector extends StatefulWidget {
-  final String productId;
-  final int maxQuantity;
-  const QuantitySelector({
-    Key? key,
-    required this.productId,
-    required this.maxQuantity,
-  }) : super(key: key);
-
-  @override
-  _QuantitySelectorState createState() => _QuantitySelectorState();
-}
-
-class _QuantitySelectorState extends State<QuantitySelector> {
-  int countValue = 1;
-  increaseCount(int max) async {
-    if (countValue >= max) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Maximum Quantity reached"),
-        ),
-      );
-      return;
-    } else {
-      Provider.of<CartProvider>(context, listen: false).addToCart(
-          CartModel(productId: widget.productId, quantity: countValue));
-      setState(() {
-        countValue++;
-      });
-    }
-  }
-
-  decreaseCount() async {
-    if (countValue > 1) {
-      Provider.of<CartProvider>(context, listen: false)
-          .decreaseCount(widget.productId);
-      setState(() {
-        countValue--;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 35,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            onPressed: () async {
-              decreaseCount();
-              setState(() {});
-            },
-            icon: const Icon(
-              Icons.remove,
-              size: 15,
-            ),
-          ),
-          Text(
-            "$countValue",
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-          ),
-          IconButton(
-            onPressed: () {
-              increaseCount(widget.maxQuantity);
-            },
-            icon: const Icon(
-              Icons.add,
-              size: 15,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
