@@ -31,7 +31,7 @@ class AddressModel {
     email: json["email"] ?? "",
     pinCode: json["pinCode"] ?? "",
     state: json["state"] ?? "",
-    addressLabel: json["addresslabel"] ?? "", // Ensure correct field name
+    addressLabel: json["addresslabel"] ?? "", 
   );
 }
 

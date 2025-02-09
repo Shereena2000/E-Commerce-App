@@ -236,4 +236,13 @@ class DbService {
         .collection("address")
         .snapshots();
   }
+  //Discount
+    // DISCOUNTS
+// read discount coupons
+  Stream<QuerySnapshot> readDiscounts() {
+    return FirebaseFirestore.instance
+        .collection("shop_coupons")
+        .orderBy("discount", descending: true)
+        .snapshots();
+  }
 }

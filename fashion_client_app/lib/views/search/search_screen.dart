@@ -14,51 +14,53 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Seach Products",
-            style: headlineText,
-          ),
+      appBar: AppBar(
+        title: const Text(
+          "Seach Products",
+          style: headlineText,
         ),
-        body: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ProductSearchBar(),
-            ),
-            smallSpacing,
-            Expanded(
-                child: StreamBuilder<List<ProductModels>>(
-                    stream: ProductSearchService().searchProducts(
-                      context.watch<SearchProvider>().searchQuery,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text("Eroor:${snapshot.error}"),
-                        );
-                      }
-                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text("No products found"));
-                      }
-                      final products = snapshot.data!;
+      ),
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ProductSearchBar(),
+          ),
+          smallSpacing,
+          Expanded(
+            child: StreamBuilder<List<ProductModels>>(
+              stream: ProductSearchService().searchProducts(
+                context.watch<SearchProvider>().searchQuery,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text("Eroor:${snapshot.error}"),
+                  );
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text("No products found"));
+                }
+                final products = snapshot.data!;
 
-                      return GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.75,
-                        ),
-                        itemCount: products.length,
-                        itemBuilder: (context, index) {
-                          return ProductCard(product: products[index]);
-                        },
-                      );
-                    }))
-          ],
-        ));
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.75,
+                  ),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    return ProductCard(product: products[index]);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

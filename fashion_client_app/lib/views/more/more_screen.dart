@@ -60,7 +60,7 @@ class MoreScreen extends StatelessWidget {
             _buildMenuItem(
               icon: Icons.local_offer,
               title: 'Discount & offers',
-              onTap: () {},
+              onTap: () {Navigator.pushNamed(context, '/discount');},
             ),
             _buildMenuItem(
               icon: Icons.save_alt,

@@ -8,11 +8,14 @@ class AnalyticsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  AppBar(automaticallyImplyLeading: false,backgroundColor: beigeColor,
-          title:const Text(
-        'Analytics',
-        style: screenText,
-      )),
+      body: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: beigeColor,
+        title: const Text(
+          'Analytics',
+          style: screenText,
+        ),
+      ),
     );
   }
 }

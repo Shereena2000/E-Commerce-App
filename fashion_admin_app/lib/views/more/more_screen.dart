@@ -21,7 +21,13 @@ class MoreScreen extends StatelessWidget {
           ListTile(
             title:const Text("Coupons"),
             trailing:const Icon(Icons.arrow_forward_ios),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(
+    context,
+    '/coupon',
+    
+  );
+            },
           ),
         const  Divider(),
           ListTile(

@@ -9,6 +9,7 @@ import 'package:fashion_admin_app/views/authentication/forgot_screen.dart';
 import 'package:fashion_admin_app/views/authentication/login_screen.dart';
 import 'package:fashion_admin_app/views/authentication/sign_up_screen.dart';
 import 'package:fashion_admin_app/views/authentication/welcome_screen.dart';
+import 'package:fashion_admin_app/views/console/coupons/coupons_screens.dart';
 import 'package:fashion_admin_app/views/splash/splash_screen.dart';
 import 'package:fashion_admin_app/widgets/bottom_bar_wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -57,7 +58,9 @@ class MyApp extends StatelessWidget {
           '/forgot': (context) => const ForgotScreen(),
           '/welcome': (context) => const WelcomeScreen(),
           '/home': (context) => const BottomNavWrapper(),
+           '/coupon': (context) => const CouponsScreens(),
         },
+
       ),
     );
   }

@@ -16,6 +16,7 @@ import 'package:fashion_client_app/views/authentication/sigup_screen.dart';
 import 'package:fashion_client_app/views/authentication/welcome_screen.dart';
 import 'package:fashion_client_app/views/cart/cart_screen.dart';
 import 'package:fashion_client_app/views/categories/categories_screen.dart';
+import 'package:fashion_client_app/views/discount/discount_screen.dart';
 import 'package:fashion_client_app/views/home/home_screen.dart';
 import 'package:fashion_client_app/views/search/search_screen.dart';
 import 'package:fashion_client_app/views/splash/splash_screen.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
           '/addDetails': (context) =>
               AddAddressScreen(id: "", isModify: false),
           '/forgot': (context) => const ForgotScreen(),
+          '/discount': (context) => const DiscountScreen()
         },
       ),
     );
