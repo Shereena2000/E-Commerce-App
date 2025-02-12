@@ -53,6 +53,15 @@ class DbService {
         .snapshots();
   }
 
+//reduce Quantity
+  Future reduceQuantity(
+      {required String productId, required int quantity}) async {
+    await FirebaseFirestore.instance
+        .collection("shop_products")
+        .doc(productId)
+        .update({"maxQuantity": FieldValue.increment(-quantity)});
+  }
+
   //cart
   //read cart
   Stream<QuerySnapshot> readCart() {
@@ -62,31 +71,31 @@ class DbService {
         .collection("cart")
         .snapshots();
   }
+
 //add cart data
- Future addToCart({required CartModel cartData}) async {
-  try {
-  String cartId = cartData.cartId;
+  Future addToCart({required CartModel cartData}) async {
+    try {
+      String cartId = cartData.cartId;
 
+      DocumentReference cartRef = FirebaseFirestore.instance
+          .collection("users")
+          .doc(user!.uid)
+          .collection("cart")
+          .doc(cartId);
 
-    DocumentReference cartRef = FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .collection("cart")
-        .doc(cartId);
+      DocumentSnapshot doc = await cartRef.get();
 
-    DocumentSnapshot doc = await cartRef.get();
-
-    if (doc.exists) {
-      await cartRef.update({
-        "quantity": FieldValue.increment(1),
-      });
-    } else {
-      await cartRef.set(cartData.toJson());
+      if (doc.exists) {
+        await cartRef.update({
+          "quantity": FieldValue.increment(1),
+        });
+      } else {
+        await cartRef.set(cartData.toJson());
+      }
+    } on FirebaseException catch (e) {
+      print("Firebase exception: ${e.code}");
     }
-  } on FirebaseException catch (e) {
-    print("Firebase exception: ${e.code}");
   }
-}
 
   Future deleteItemFromCart({required String cartId}) async {
     await FirebaseFirestore.instance
@@ -110,22 +119,21 @@ class DbService {
     });
   }
 
- Future decreaseCount({required String cartId}) async {
-  DocumentReference cartRef = FirebaseFirestore.instance
-      .collection("users")
-      .doc(user!.uid)
-      .collection("cart")
-      .doc(cartId);
+  Future decreaseCount({required String cartId}) async {
+    DocumentReference cartRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .collection("cart")
+        .doc(cartId);
 
-  DocumentSnapshot doc = await cartRef.get();
+    DocumentSnapshot doc = await cartRef.get();
 
-  if (doc.exists && (doc.data() as Map<String, dynamic>)["quantity"] > 1) {
-    await cartRef.update({"quantity": FieldValue.increment(-1)});
-  } else {
-    await cartRef.delete(); // Remove item if quantity becomes 0
+    if (doc.exists && (doc.data() as Map<String, dynamic>)["quantity"] > 1) {
+      await cartRef.update({"quantity": FieldValue.increment(-1)});
+    } else {
+      await cartRef.delete(); // Remove item if quantity becomes 0
+    }
   }
-}
-
 
   //search product by docs ids
   Stream<QuerySnapshot> searchProducts(List<String> docIds) {
@@ -236,13 +244,45 @@ class DbService {
         .collection("address")
         .snapshots();
   }
+
   //Discount
-    // DISCOUNTS
+  // DISCOUNTS
 // read discount coupons
   Stream<QuerySnapshot> readDiscounts() {
     return FirebaseFirestore.instance
         .collection("shop_coupons")
         .orderBy("discount", descending: true)
+        .snapshots();
+  }
+
+  Future<QuerySnapshot> verifyDiscount({required String code}) {
+    print("seraching for code : $code");
+    return FirebaseFirestore.instance
+        .collection("shop_coupons")
+        .where("code", isEqualTo: code)
+        .get();
+  }
+
+  // create a new order
+  Future createOrder({required Map<String, dynamic> data}) async {
+    await FirebaseFirestore.instance.collection("shop_orders").add(data);
+  }
+
+  // update the status of order
+  Future updateOrderStatus(
+      {required String docId, required Map<String, dynamic> data}) async {
+    await FirebaseFirestore.instance
+        .collection("shop_orders")
+        .doc(docId)
+        .update(data);
+  }
+
+  // read the order data of specific user
+  Stream<QuerySnapshot> readOrders() {
+    return FirebaseFirestore.instance
+        .collection("shop_orders")
+        .where("user_id", isEqualTo: user!.uid)
+        .orderBy("created_at", descending: true)
         .snapshots();
   }
 }

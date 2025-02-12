@@ -33,75 +33,54 @@ class CartScreen extends StatelessWidget {
               return Column(
                 children: [
                   Expanded(
-  child:ListView.builder(
-  itemCount: value.cart.length,
-  itemBuilder: (context, index) {
-    // Ensure the product list matches cart length
-    if (index >= value.product.length) {
-      return const SizedBox();
-    }
+                    child: ListView.builder(
+                      itemCount: value.cart.length,
+                      itemBuilder: (context, index) {
+                        // Ensure the product list matches cart length
+                        if (index >= value.product.length) {
+                          return const SizedBox();
+                        }
 
-    // Find the matching product for this cart item
-    ProductModels matchingProduct = value.product.firstWhere(
-      (p) => p.id == value.cart[index].productId,
-      orElse: () => ProductModels(
-        name: "Unknown Product",
-        description: "No description available",
-        images: [],
-        oldPrice: 0,
-        newPrice: 0,
-        category: "Unknown",
-        id: value.cart[index].productId, // Assign cart product ID
-        maxQuantity: 0,
-        colorVariants: [],
-        sizeVariants: [],
-      ), // Handle missing products
-    );
+                        // Find the matching product for this cart item
+                        ProductModels matchingProduct =
+                            value.product.firstWhere(
+                          (p) => p.id == value.cart[index].productId,
+                          orElse: () => ProductModels(
+                            name: "Unknown Product",
+                            description: "No description available",
+                            images: [],
+                            oldPrice: 0,
+                            newPrice: 0,
+                            category: "Unknown",
+                            id: value.cart[index]
+                                .productId, // Assign cart product ID
+                            maxQuantity: 0,
+                            colorVariants: [],
+                            sizeVariants: [],
+                          ), // Handle missing products
+                        );
 
-    return CartItem(
-      image: (matchingProduct.images.isNotEmpty) 
-        ? matchingProduct.images[0] 
-        : "assets/placeholder.jpg",
-      name: matchingProduct.name,
-      newPrice: matchingProduct.newPrice,
-      size: value.cart[index].size,
-      color: value.cart[index].color,
-      cartId: value.cart[index].cartId,
-      maxQuantity: matchingProduct.maxQuantity, 
-      productId: matchingProduct.id,
-    );
-  },
-),
-
-),
-
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     itemCount: value.cart.length,
-                  //     itemBuilder: (context, index) {
-                  //       if (index >= value.product.length) {
-                  //         return const SizedBox(); // Prevent index out of bounds
-                  //       }
-
-                  //       return CartItem(
-                  //         image: (value.product[index].images.isNotEmpty)
-                  //             ? value.product[index].images[0]
-                  //             : "assets/placeholder.jpg",
-                  //         name: value.product[index].name,
-                  //         newPrice: value.product[index].newPrice,
-                  //         size: value.cart[index].size,
-                  //         color: value.cart[index].color,
-                  //         cartId: value.cart[index].cartId,
-                  //         maxQuantity:
-                  //             value.product[index].maxQuantity, // Add this
-                  //         productId: value.product[index].id,
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-                  // CouponInput(),
+                        return CartItem(
+                          image: (matchingProduct.images.isNotEmpty)
+                              ? matchingProduct.images[0]
+                              : "assets/placeholder.jpg",
+                          name: matchingProduct.name,
+                          newPrice: matchingProduct.newPrice,
+                          size: value.cart[index].size,
+                          color: value.cart[index].color,
+                          cartId: value.cart[index].cartId,
+                           maxQuantity: matchingProduct.maxQuantity,
+                          productId: matchingProduct.id,
+                        );
+                      },
+                    ),
+                  ),
                   OrderSummary(totalCost: value.totalCost.toString()),
-                  CustomButton(text: "Place Order", onPressed: () {})
+                  CustomButton(
+                      text: "Place Order",
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/checkout');
+                      })
                 ],
               );
             }
@@ -111,6 +90,3 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
-
-
-

@@ -9,14 +9,12 @@ import 'package:provider/provider.dart';
 class CartItem extends StatelessWidget {
   final String image, name, productId, cartId, color, size;
   final int newPrice, maxQuantity;
-  // selectedQuantity;
+
   CartItem({
     super.key,
     required this.image,
     required this.name,
     required this.productId,
-
-    // required this.selectedQuantity,
     required this.newPrice,
     required this.cartId,
     required this.color,
@@ -78,16 +76,17 @@ class CartItem extends StatelessWidget {
                               color: colorMap[color] ?? Colors.transparent,
                             ),
                           ),
-                          Spacer(),
+                       const   Spacer(),
                           IconButton(
-                            onPressed:  () async {
+                              onPressed: () async {
                                 Provider.of<CartProvider>(context,
                                         listen: false)
                                     .deleteItem(cartId);
                               },
-                         icon:    Icon(Icons.delete_outline_outlined,
-                            size: 20,)
-                          )
+                              icon: const Icon(
+                                Icons.delete_outline_outlined,
+                                size: 20,
+                              ))
                         ],
                       ),
                       Text("Size: $size"),
@@ -103,8 +102,7 @@ class CartItem extends StatelessWidget {
                                 .cart
                                 .firstWhere((item) => item.cartId == cartId)
                                 .quantity,
-                            maxQuantity:
-                                10, // You can get this from your product model
+                            maxQuantity: maxQuantity,
                           ),
                           const Spacer(),
                           Text(
@@ -113,7 +111,6 @@ class CartItem extends StatelessWidget {
                           ),
                         ],
                       ),
-                     
                     ],
                   ),
                 ),

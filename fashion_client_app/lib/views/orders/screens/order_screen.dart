@@ -1,11 +1,11 @@
-import 'package:fashion_admin_app/controllers/db_service.dart';
-import 'package:fashion_admin_app/models/order_model.dart';
-import 'package:fashion_admin_app/views/console/ordres/widgets/order_list.dart';
+import 'package:fashion_client_app/controllers/db_service.dart';
+import 'package:fashion_client_app/model/order_model.dart';
+import 'package:fashion_client_app/views/orders/widgets/order_list.dart';
+import 'package:fashion_client_app/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
-
-class OrderTabScreen  extends StatelessWidget {
-  const OrderTabScreen ({super.key});
+class OrderScreen extends StatelessWidget {
+  const OrderScreen({super.key});
 
   int totalQuantityCalculator(List<OrderProductModel> products) {
     return products.fold(0, (sum, item) => sum + item.quantity);
@@ -14,7 +14,7 @@ class OrderTabScreen  extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: const CustomAppBar(title: "My Orders"),
       body: StreamBuilder(
         stream: DbService().readOrders(),
         builder: (context, snapshot) {

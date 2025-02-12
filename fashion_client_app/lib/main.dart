@@ -2,6 +2,7 @@ import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/firebase_options.dart';
 import 'package:fashion_client_app/provider/auth_state_provider.dart';
 import 'package:fashion_client_app/provider/cart_provider.dart';
+import 'package:fashion_client_app/provider/checkout_provider.dart';
 import 'package:fashion_client_app/provider/wishlist_provider.dart';
 import 'package:fashion_client_app/provider/filter_state_provider.dart';
 import 'package:fashion_client_app/provider/home_state_provider.dart';
@@ -16,13 +17,18 @@ import 'package:fashion_client_app/views/authentication/sigup_screen.dart';
 import 'package:fashion_client_app/views/authentication/welcome_screen.dart';
 import 'package:fashion_client_app/views/cart/cart_screen.dart';
 import 'package:fashion_client_app/views/categories/categories_screen.dart';
+import 'package:fashion_client_app/views/check_out/screens/check_out_screen.dart';
 import 'package:fashion_client_app/views/discount/discount_screen.dart';
 import 'package:fashion_client_app/views/home/home_screen.dart';
+import 'package:fashion_client_app/views/orders/screens/order_screen.dart';
+import 'package:fashion_client_app/views/orders/screens/view_order_screen.dart';
 import 'package:fashion_client_app/views/search/search_screen.dart';
 import 'package:fashion_client_app/views/splash/splash_screen.dart';
 import 'package:fashion_client_app/widgets/custom_nav_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -30,6 +36,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await dotenv.load(fileName: ".env");
+  Stripe.publishableKey=dotenv.env["STRIPE_PUBLISH_KEY"]!;
+     Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  Stripe.urlScheme = 'flutterstripe';
+  await Stripe.instance.applySettings();
   runApp(const MyApp());
 }
 
@@ -48,6 +59,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => WishlistProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
+           ChangeNotifierProvider(create: (context) => CheckoutProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -79,7 +91,10 @@ class MyApp extends StatelessWidget {
           '/addDetails': (context) =>
               AddAddressScreen(id: "", isModify: false),
           '/forgot': (context) => const ForgotScreen(),
-          '/discount': (context) => const DiscountScreen()
+          '/discount': (context) => const DiscountScreen(),
+          '/checkout':(context)=> const CheckOutScreen(),
+           '/order':(context)=> const OrderScreen(),
+           '/vieworder':(context)=> const ViewOrderScreen()
         },
       ),
     );

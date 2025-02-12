@@ -33,6 +33,22 @@ class ProductInfo extends StatelessWidget {
                       ],
                     ),
                     liteSpacing,
+                  product.maxQuantity == 0
+                        ? Text(
+                            "Out of Stock",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.red),
+                          )
+                        : Text(
+                            "Only ${product.maxQuantity} left in stock",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueGrey),
+                          ),
+                    liteSpacing,
                     Text(
                       product.description,
                       style:

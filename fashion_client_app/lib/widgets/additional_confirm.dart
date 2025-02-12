@@ -1,3 +1,4 @@
+import 'package:fashion_client_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class AdditionalConfirm extends StatefulWidget {
@@ -12,7 +13,7 @@ class AdditionalConfirm extends StatefulWidget {
 class _AdditionalConfirmState extends State<AdditionalConfirm> {
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return AlertDialog( backgroundColor: whiteColor,
       title: Text("Are you sure"),
       content: Text(widget.contentText),
       actions: [

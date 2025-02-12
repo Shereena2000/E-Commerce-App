@@ -1,4 +1,5 @@
 import 'package:fashion_client_app/constants/colors.dart';
+import 'package:fashion_client_app/constants/spacing.dart';
 import 'package:flutter/material.dart';
 
 class OrderSummary extends StatelessWidget {
@@ -18,7 +19,7 @@ class OrderSummary extends StatelessWidget {
             children: [
               const Text("Order Summary",
                   style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 5),
+           liteSpacing,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [const Text("Total MRP"), Text("₹$totalCost")],

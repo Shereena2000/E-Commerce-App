@@ -14,31 +14,35 @@ class ConsoleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 5,
-     
       child: Scaffold(
-        appBar: AppBar(backgroundColor: beigeColor,
+        appBar: AppBar(
+          backgroundColor: beigeColor,
           automaticallyImplyLeading: false,
-          title: const Text('Console ',style: screenText,),
-          bottom: const TabBar(isScrollable: true,
-          labelStyle: normalText,
-            tabs: [ 
-              Tab(text: 'Orders',),
-             Tab(text: 'Products'),
+          title: const Text(
+            'Console ',
+            style: screenText,
+          ),
+          bottom: const TabBar(
+            isScrollable: true,
+            labelStyle: normalText,
+            tabs: [
+              Tab(text: 'Products'),
               Tab(text: 'Categories'),
+              Tab(
+                text: 'Orders',
+              ),
               Tab(text: 'Promos'),
               Tab(text: 'Banners'),
-            
             ],
           ),
         ),
         body: const TabBarView(
           children: [
-            OrderTabScreen(),
             ProductTabScreens(),
-           CategoriesTabScreen(),
+            CategoriesTabScreen(),
+            OrderTabScreen(),
             PropmotionTabScreen(),
             BannerTabScreen(),
-           
           ],
         ),
       ),

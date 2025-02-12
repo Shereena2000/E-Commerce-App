@@ -31,8 +31,8 @@ class CouponsScreens extends StatelessWidget {
           }
 
           List<CouponModel> coupons =
-              CouponModel.fromJsonList(snapshot.data!.docs)
-                  as List<CouponModel>;
+              CouponModel.fromJsonList(snapshot.data!.docs);
+                
 
           return ListView.builder(
             itemCount: coupons.length,

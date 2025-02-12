@@ -46,6 +46,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   mailer: ^6.4.1
   shimmer: ^3.0.0
+  badges: ^3.1.2
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
       - assets/logo.png
       - assets/titleImage.jpg
       - assets/google_icon.png
+      - .env
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -54,6 +54,7 @@ class DbService {
         .doc(doId)
         .delete();
   }
+
   //COUPON CODE
   // read coupon code from database
   Stream<QuerySnapshot> readCouponCode() {
@@ -80,5 +81,20 @@ class DbService {
         .collection("shop_coupons")
         .doc(docId)
         .delete();
+  }
+
+  // read the orders
+  Stream<QuerySnapshot> readOrders() {
+    return FirebaseFirestore.instance
+        .collection("shop_orders")
+        .orderBy("created_at", descending: true)
+        .snapshots();
+  }
+    Future updateOrderStatus(
+      {required String docId, required Map<String, dynamic> data}) async {
+    await FirebaseFirestore.instance
+        .collection("shop_orders")
+        .doc(docId)
+        .update(data);
   }
 }

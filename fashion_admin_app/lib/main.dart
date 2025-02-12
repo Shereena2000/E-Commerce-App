@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
+import 'views/console/ordres/view_order_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -59,6 +61,7 @@ class MyApp extends StatelessWidget {
           '/welcome': (context) => const WelcomeScreen(),
           '/home': (context) => const BottomNavWrapper(),
            '/coupon': (context) => const CouponsScreens(),
+             '/vieworder':(context)=> const ViewOrderScreen()
         },
 
       ),

@@ -47,7 +47,9 @@ class MoreScreen extends StatelessWidget {
             _buildMenuItem(
               icon: Icons.local_shipping,
               title: 'My Orders',
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, '/order');
+              },
             ),
             _buildMenuItem(
               icon: Icons.favorite,
@@ -60,7 +62,9 @@ class MoreScreen extends StatelessWidget {
             _buildMenuItem(
               icon: Icons.local_offer,
               title: 'Discount & offers',
-              onTap: () {Navigator.pushNamed(context, '/discount');},
+              onTap: () {
+                Navigator.pushNamed(context, '/discount');
+              },
             ),
             _buildMenuItem(
               icon: Icons.save_alt,
@@ -69,7 +73,7 @@ class MoreScreen extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>const SavedAddressScreen()));
+                        builder: (context) => const SavedAddressScreen()));
               },
             ),
             _buildMenuItem(
