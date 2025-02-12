@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavWrapper extends StatelessWidget {
-  const BottomNavWrapper({Key? key}) : super(key: key);
+ BottomNavWrapper({Key? key}) : super(key: key);
 
-  final List<Widget> _pages = const [
+  final List<Widget> _pages = [
     DashboardScreen(),
     AnalyticsScreen(),
     ConsoleScreen(),

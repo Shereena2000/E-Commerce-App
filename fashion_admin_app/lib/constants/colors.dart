@@ -8,7 +8,7 @@ const Color greyColor = Colors.blueGrey;
 const Color greenColor = Colors.green;
 const Color blueColor = Colors.blueAccent;
 const Color transparent = Colors.transparent;
-
+const Color brownColor = Color.fromARGB(255, 53, 15, 1);
 const Color beigeLiteShadowColor = Color.fromARGB(255, 226, 224, 213);
 const Color beigeDarkShadowColor = Color.fromARGB(255, 238, 234, 207);
 

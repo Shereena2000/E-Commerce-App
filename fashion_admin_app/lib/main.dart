@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
           '/signUp': (context) => SignUpScreen(),
           '/forgot': (context) => const ForgotScreen(),
           '/welcome': (context) => const WelcomeScreen(),
-          '/home': (context) => const BottomNavWrapper(),
+          '/home': (context) => BottomNavWrapper(),
            '/coupon': (context) => const CouponsScreens(),
              '/vieworder':(context)=> const ViewOrderScreen()
         },

@@ -20,11 +20,12 @@ class CategoriesScreen extends StatelessWidget {
       body: Column(
     
         children: [
-              const DiscountContainer(),
+                const DiscountContainer(), 
           Expanded(
             child: StreamBuilder(
               stream: categoriesService.fetchCategories(),
               builder: (context, snapshot) {
+             
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                     child: CircularProgressIndicator(),

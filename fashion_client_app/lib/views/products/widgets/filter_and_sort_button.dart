@@ -14,7 +14,7 @@ class FilterAndSortButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         buildFilterBottomSheet(context, width, height);
       },
