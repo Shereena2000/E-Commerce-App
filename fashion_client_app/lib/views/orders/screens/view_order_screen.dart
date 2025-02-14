@@ -27,7 +27,7 @@ class ViewOrderScreen extends StatelessWidget {
               OrderDetailsCard(args: args),
               moderateSpacing,       
               OrderProductList(args: args),
-              const SizedBox(height: 16),
+              moderateSpacing,
               OrderSummaryCard(args: args),
               moderateSpacing,
               args.status=="PAID" || args.status=="SHIPPED" ? 

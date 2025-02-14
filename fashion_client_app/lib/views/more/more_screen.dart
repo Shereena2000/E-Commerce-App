@@ -4,7 +4,7 @@ import 'package:fashion_client_app/views/more/widgets/user_alert_dialog.dart';
 import 'package:fashion_client_app/views/address/saved_address_screen.dart';
 import 'package:fashion_client_app/views/wishlist/wishlist_screen.dart';
 import 'package:fashion_client_app/widgets/additional_confirm.dart';
-import 'package:fashion_client_app/widgets/app_bar_logo_title.dart';
+import 'package:fashion_client_app/widgets/custom_main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +14,8 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: AppBarLogoTitle(),
-      ),
+      appBar:const CustomMainAppBar(),
+      
       body: SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -56,7 +55,7 @@ class MoreScreen extends StatelessWidget {
               title: 'My Wishlist',
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => WishlistScreen()));
+                    MaterialPageRoute(builder: (context) =>const WishlistScreen()));
               },
             ),
             _buildMenuItem(

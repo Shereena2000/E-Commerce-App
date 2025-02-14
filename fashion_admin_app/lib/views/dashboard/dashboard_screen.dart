@@ -1,6 +1,6 @@
 import 'package:fashion_admin_app/constants/colors.dart';
-import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/providers/admin_providers.dart';
+import 'package:fashion_admin_app/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -11,14 +11,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: beigeColor,
-        title: const Text(
-          'Dashboard',
-          style: screenText,
-        ),
-        centerTitle: true,
-      ),
+      appBar:const CustomAppBar(title: "Dashboard"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

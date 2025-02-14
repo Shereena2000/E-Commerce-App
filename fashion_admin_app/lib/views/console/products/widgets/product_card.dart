@@ -21,11 +21,13 @@ class ProductCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductViewScreen(
-                      products: products,
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductViewScreen(
+              products: products,
+            ),
+          ),
+        );
       },
       child: Card(
         shadowColor: Colors.grey,
@@ -38,23 +40,18 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FadeInImage.assetNetwork(
-                placeholder: "assets/placeholder.jpg",
-                fit: BoxFit.cover,
-                height: 150,
-                width: double.infinity,
-                image: products.images[0],
-                imageErrorBuilder: (context, error, StackTrace) {
-                  return Image.asset(
-                    "assets/placeholder.jpg",
-                    fit: BoxFit.contain,
-                  );
-                }),
-            // Image.network(
-            //   products.images[0],
-            //   fit: BoxFit.cover,
-            //   height: 150,
-            //   width: double.infinity,
-            // ),
+              placeholder: "assets/placeholder.jpg",
+              fit: BoxFit.cover,
+              height: 150,
+              width: double.infinity,
+              image: products.images[0],
+              imageErrorBuilder: (context, error, StackTrace) {
+                return Image.asset(
+                  "assets/placeholder.jpg",
+                  fit: BoxFit.contain,
+                );
+              },
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

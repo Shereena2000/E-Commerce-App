@@ -1,5 +1,6 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:recase/recase.dart';
 
 class ProductSubTitle extends StatelessWidget {
   final String productName;
@@ -19,20 +20,14 @@ class ProductSubTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          productName,
+          productName.titleCase,
           style:const TextStyle(fontSize: 13),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         Text('₹$newPrice',
             style:const TextStyle(color: greenColor, fontWeight: FontWeight.bold)),
-        // Text(
-        //  originalPrice,
-        //   style: TextStyle(
-        //     decoration: TextDecoration.lineThrough,
-        //     color: Colors.grey,
-        //   ),
-        // )
+       
       ],
     );
   }

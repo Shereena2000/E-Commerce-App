@@ -2,16 +2,16 @@ import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/controllers/db_service.dart';
-import 'package:fashion_admin_app/models/categories_model.dart';
-import 'package:fashion_admin_app/views/console/categories/add_and_modify_category.dart';
+import 'package:fashion_admin_app/models/promo_model.dart';
+import 'package:fashion_admin_app/views/console/promotions/widgets/add_modify_promos.dart';
 import 'package:fashion_admin_app/widgets/additional_confirm.dart';
 import 'package:flutter/material.dart';
 
-class CategoryListItem extends StatelessWidget {
-  final CategoriesModel categories;
-  const CategoryListItem({
+class PromoCard extends StatelessWidget {
+  final PromoModel promos;
+  const PromoCard({
     super.key,
-    required this.categories,
+    required this.promos,
   });
 
   @override
@@ -43,26 +43,24 @@ class CategoryListItem extends StatelessWidget {
               width: 100,
               child: FadeInImage.assetNetwork(
                   placeholder: "assets/placeholder.jpg",
-                  image: categories.image == ""
+                  image: promos.imageUrl == ""
                       ? "assets/placeholder.jpg"
-                      : categories.image,
+                      : promos.imageUrl,
                   imageErrorBuilder: (context, error, StackTrace) {
                     return Image.asset(
                       "assets/placeholder.jpg",
                       fit: BoxFit.contain,
                     );
                   }),
-
-             
             ),
             smallWidthSpacing,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(categories.name, style: boldText),
-                  Text("Priority: ${categories.priority}"),
-                  Text("Type: ${categories.type}"),
+                  Text(promos.category, style: boldText),
+                  Text("Title: ${promos.title}"),
+                   Text("Sub Title: ${promos.subTitle}"),
                 ],
               ),
             ),
@@ -103,7 +101,7 @@ class CategoryListItem extends StatelessWidget {
                 Navigator.pop(context);
               },
               onYes: () {
-                DbService().deleteCategories(doId: categories.id);
+                DbService().deletePromos(docId: promos.id);
                 Navigator.pop(context);
               },
             ));
@@ -112,13 +110,13 @@ class CategoryListItem extends StatelessWidget {
   void showEditDialog(BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) => AddAndModifyCategory(
+        builder: (context) => AddModifyPromos(
               isUpdating: true,
-              categoryId: categories.id,
-              priority: categories.priority,
-              type: categories.type,
-              image: categories.image,
-              name: categories.name,
+              promoId: promos.id,
+              title: promos.title,
+              image: promos.imageUrl,
+              subTitle: promos.subTitle,
+              promoCategory: promos.category,
             ));
   }
 }

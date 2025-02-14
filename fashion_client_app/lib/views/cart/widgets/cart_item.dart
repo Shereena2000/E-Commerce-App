@@ -5,6 +5,7 @@ import 'package:fashion_client_app/utils/app_utils.dart';
 import 'package:fashion_client_app/views/cart/widgets/quantity_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recase/recase.dart';
 
 class CartItem extends StatelessWidget {
   final String image, name, productId, cartId, color, size;
@@ -59,7 +60,7 @@ class CartItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        name,
+                        name.titleCase,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontWeight: FontWeight.bold),

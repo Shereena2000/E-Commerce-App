@@ -1,6 +1,8 @@
-import 'package:fashion_client_app/constants/texts.dart';
+
 import 'package:fashion_client_app/controllers/db_service.dart';
 import 'package:fashion_client_app/model/coupon_model.dart';
+import 'package:fashion_client_app/widgets/custom_app_bar.dart';
+
 import 'package:flutter/material.dart';
 
 class DiscountScreen extends StatelessWidget {
@@ -9,24 +11,17 @@ class DiscountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Discount Coupons",
-            style: headlineText,
-          ),
-          scrolledUnderElevation: 0,
-          forceMaterialTransparency: true,
-        ),
+        appBar:const CustomAppBar(title: "Discounts",),
         body: StreamBuilder(
             stream: DbService().readDiscounts(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<CouponModel> discounts =
-                    CouponModel.fromJsonList(snapshot.data!.docs)
-                        as List<CouponModel>;
+                    CouponModel.fromJsonList(snapshot.data!.docs);
+                      
 
                 if (discounts.isEmpty) {
-                  return SizedBox();
+                  return const SizedBox();
                 } else {
                   return ListView.builder(
                       itemCount: discounts.length,

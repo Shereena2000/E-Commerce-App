@@ -16,9 +16,8 @@ class ViewOrderScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title:const Text("Order Summary"),
+        title: const Text("Order Summary"),
       ),
-     
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -28,7 +27,7 @@ class ViewOrderScreen extends StatelessWidget {
               OrderDetailsCard(args: args),
               moderateSpacing,
               OrderProductList(args: args),
-              const SizedBox(height: 16), // Add spacing
+              moderateSpacing,
               OrderSummaryCard(args: args),
               moderateSpacing,
               Center(
@@ -36,10 +35,11 @@ class ViewOrderScreen extends StatelessWidget {
                   text: "Modify Order",
                   onPressed: () {
                     showDialog(
-                        context: context,
-                        builder: (context) => ModifyOrder(
-                              order: args,
-                            ));
+                      context: context,
+                      builder: (context) => ModifyOrder(
+                        order: args,
+                      ),
+                    );
                   },
                 ),
               ),

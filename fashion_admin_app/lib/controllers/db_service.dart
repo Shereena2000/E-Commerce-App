@@ -1,6 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DbService {
+//ad the user to firebase
+ User? user = FirebaseAuth.instance.currentUser;
+
+
+    Future saveUserData({required String name, required String email}) async {
+    try {
+      Map<String, dynamic> data = {"name": name, "email": email};
+      print("saving $data");
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user!.uid)
+          .set(data);
+    } catch (e) {
+      print("error on saving user data:$e");
+    }
+  }
+  //read user current user data
+  Stream<DocumentSnapshot> readUserData() {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .snapshots();
+  }
+
   //Categories
   Stream<QuerySnapshot> readCategories() {
     return FirebaseFirestore.instance
@@ -97,4 +122,41 @@ class DbService {
         .doc(docId)
         .update(data);
   }
+
+  //promos
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+   // Read Promos (Real-time updates)
+  Stream<QuerySnapshot> readPromos() {
+    return _firestore.collection("shop_promos").  orderBy( "category",).snapshots();
+  }
+
+// Create a new promo
+Future<String?> createPromos({required Map<String, dynamic> data}) async {
+  try {
+    DocumentReference docRef = await _firestore.collection("shop_promos").add(data);
+    return docRef.id; // Return document ID after creation
+  } catch (e) {
+    print("Error creating promo: $e");
+    return null;
+  }
 }
+
+// Update an existing promo
+Future<void> updatePromos({required String docId, required Map<String, dynamic> data}) async {
+  try {
+    await _firestore.collection("shop_promos").doc(docId).update(data);
+  } catch (e) {
+    print("Error updating promo: $e");
+  }
+}
+  // Delete a promo
+  Future<void> deletePromos({required String docId}) async {
+    try {
+      await _firestore.collection("shop_promos").doc(docId).delete();
+    } catch (e) {
+      print("Error deleting promo: $e");
+    }
+  }
+}
+

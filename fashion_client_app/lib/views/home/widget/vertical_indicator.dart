@@ -1,3 +1,4 @@
+import 'package:fashion_client_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class VerticalPageIndicator extends StatelessWidget {
@@ -12,8 +13,8 @@ class VerticalPageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: 20, // Adjust the position as needed
-      top: MediaQuery.of(context).size.height / 2 - (totalPages * 10), // Center vertically
+      left: 20, 
+      top: MediaQuery.of(context).size.height / 2, 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
@@ -23,10 +24,10 @@ class VerticalPageIndicator extends StatelessWidget {
             width: 8,
             height: 8,
             decoration: BoxDecoration(
-              shape: BoxShape.circle,
+
               color: verticalPageIndex == index
-                  ? Colors.white // Highlighted dot
-                  : Colors.grey.withOpacity(0.5), // Unhighlighted dot
+                  ? whiteColor // Highlighted dot
+                  : const Color.fromARGB(134, 198, 197, 197) // Unhighlighted dot
             ),
           ),
         ),

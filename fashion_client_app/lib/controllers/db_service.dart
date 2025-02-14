@@ -285,4 +285,13 @@ class DbService {
         .orderBy("created_at", descending: true)
         .snapshots();
   }
+  //promos
+    //read promos
+  Stream<QuerySnapshot> readPromos() {
+    return FirebaseFirestore.instance
+        .collection("shop_promos")
+        .orderBy("category",descending: true)
+        .snapshots();
+  }
+
 }

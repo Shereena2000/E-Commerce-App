@@ -1,10 +1,11 @@
-import 'package:fashion_client_app/constants/texts.dart';
 import 'package:fashion_client_app/model/products_model.dart';
 import 'package:fashion_client_app/provider/cart_provider.dart';
 import 'package:fashion_client_app/views/cart/widgets/cart_item.dart';
 import 'package:fashion_client_app/views/cart/widgets/order_summary.dart';
+import 'package:fashion_client_app/widgets/custom_app_bar.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -15,9 +16,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Shopping Cart", style: appBarText),
-      ),
+      appBar:const CustomAppBar(title: "Shopping Cart"),
       body: Consumer<CartProvider>(
         builder: (context, value, child) {
           if (value.isLoading) {
@@ -26,8 +25,9 @@ class CartScreen extends StatelessWidget {
             );
           } else {
             if (value.cart.isEmpty) {
-              return const Center(
-                child: Text("No cart item"),
+              return  Center(
+                
+                child: Container(height: 200,width: 200,child: Lottie.asset("assets/dress.json")),
               );
             } else {
               return Column(
@@ -36,12 +36,9 @@ class CartScreen extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: value.cart.length,
                       itemBuilder: (context, index) {
-                        // Ensure the product list matches cart length
                         if (index >= value.product.length) {
                           return const SizedBox();
                         }
-
-                        // Find the matching product for this cart item
                         ProductModels matchingProduct =
                             value.product.firstWhere(
                           (p) => p.id == value.cart[index].productId,
@@ -52,12 +49,11 @@ class CartScreen extends StatelessWidget {
                             oldPrice: 0,
                             newPrice: 0,
                             category: "Unknown",
-                            id: value.cart[index]
-                                .productId, // Assign cart product ID
+                            id: value.cart[index].productId,
                             maxQuantity: 0,
                             colorVariants: [],
                             sizeVariants: [],
-                          ), // Handle missing products
+                          ),
                         );
 
                         return CartItem(
@@ -69,7 +65,7 @@ class CartScreen extends StatelessWidget {
                           size: value.cart[index].size,
                           color: value.cart[index].color,
                           cartId: value.cart[index].cartId,
-                           maxQuantity: matchingProduct.maxQuantity,
+                          maxQuantity: matchingProduct.maxQuantity,
                           productId: matchingProduct.id,
                         );
                       },

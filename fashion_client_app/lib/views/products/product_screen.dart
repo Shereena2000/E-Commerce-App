@@ -1,7 +1,8 @@
-import 'package:fashion_client_app/constants/texts.dart';
+
 import 'package:fashion_client_app/provider/filter_state_provider.dart';
 import 'package:fashion_client_app/views/products/services/product_service.dart';
 import 'package:fashion_client_app/views/products/widgets/filter_and_sort_button.dart';
+import 'package:fashion_client_app/widgets/custom_app_bar.dart';
 import 'package:fashion_client_app/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +16,7 @@ class ProductScreen extends StatelessWidget {
     final productService = ProductService();
     final filterState = Provider.of<FilterStateProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(category, style: appBarText),
-      ),
+      appBar: CustomAppBar(title: category),
       body: Column(
         children: [
           const FilterAndSortButton(),

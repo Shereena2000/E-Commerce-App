@@ -1,3 +1,4 @@
+import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class AdditionalConfirm extends StatelessWidget {
@@ -8,11 +9,12 @@ class AdditionalConfirm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Are you sure"),
+      backgroundColor: whiteColor,
+      title:const Text("Are you sure"),
       content: Text(contentText),
       actions: [
-        TextButton(onPressed: onNo, child: Text("No")),
-        TextButton(onPressed: onYes, child: Text("Yes")),
+        TextButton(onPressed: onNo, child:const Text("No")),
+        TextButton(onPressed: onYes, child:const Text("Yes")),
       ],
     );
   }

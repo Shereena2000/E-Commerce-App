@@ -1,11 +1,13 @@
+import 'package:fashion_admin_app/controllers/db_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  Future<String> createAccountwithEmail(String email, String password) async {
+  Future<String> createAccountwithEmail(String name,String email, String password) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+          DbService().saveUserData(name: name, email: email);
       return "Account is created";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();

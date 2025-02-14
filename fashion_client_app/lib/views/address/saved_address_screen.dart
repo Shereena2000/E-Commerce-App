@@ -1,8 +1,8 @@
 import 'package:fashion_client_app/constants/spacing.dart';
-import 'package:fashion_client_app/constants/texts.dart';
 import 'package:fashion_client_app/model/address_model.dart';
 import 'package:fashion_client_app/provider/profile_provider.dart';
 import 'package:fashion_client_app/views/address/widgets/build_address_card.dart';
+import 'package:fashion_client_app/widgets/custom_app_bar.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,12 +13,7 @@ class SavedAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Saved Details',
-          style: appBarText,
-        ),
-      ),
+      appBar:const CustomAppBar(title: "Address Book"),
       body: Consumer<ProfileProvider>(
         builder: (context, value, child) {
           if (value.isLoading) {

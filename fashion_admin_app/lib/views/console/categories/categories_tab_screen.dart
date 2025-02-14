@@ -11,45 +11,47 @@ class CategoriesTabScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Consumer<AdminProviders>(
-      builder: (context, value, child) {
-        if (value.isLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+    return Scaffold(
+      body: Consumer<AdminProviders>(
+        builder: (context, value, child) {
+          if (value.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          List<CategoriesModel> categories =
+              CategoriesModel.fromJsonList(value.categories);
+          if (categories.isEmpty) {
+            return const Center(
+              child: Text("No Categories Found"),
+            );
+          }
+          return ListView.builder(
+            padding: const EdgeInsets.only(
+              top: 8,
+              left: 8,
+              right: 8,
+            ),
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              return CategoryListItem(categories: categories[index]);
+            },
           );
-        }
-        List<CategoriesModel> categories =
-            CategoriesModel.fromJsonList(value.categories);
-        if (categories.isEmpty) {
-          return const Center(
-            child: Text("No Categories Found"),
-          );
-        }
-
-        return ListView.builder(
-          padding: const EdgeInsets.only(
-            top: 8,
-            left: 8,
-            right: 8,
-          ),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            return CategoryListItem(categories: categories[index]);
-          },
-        );
-      },
-    ), floatingActionButton: CustomFloatingActionButton(
-      onPressed: () {
-        showDialog(
+        },
+      ),
+      floatingActionButton: CustomFloatingActionButton(
+        onPressed: () {
+          showDialog(
             context: context,
             builder: (context) => const AddAndModifyCategory(
-                  isUpdating: false,
-                  categoryId: "",
-                  priority: 0,
-                  type: "",
-                ));
-      },
-    ));
+              isUpdating: false,
+              categoryId: "",
+              priority: 0,
+              type: "",
+            ),
+          );
+        },
+      ),
+    );
   }
 }
-

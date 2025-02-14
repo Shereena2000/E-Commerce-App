@@ -10,50 +10,52 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatelessWidget {
-   SignUpScreen({super.key});
+  SignUpScreen({super.key});
 
   final formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
- final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
- final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
-final  TextEditingController _confirmPasswordController = TextEditingController();
-
-  
   void _handleSignUp(BuildContext context) async {
     if (formKey.currentState!.validate()) {
-     final authStateProvider = Provider.of<AuthStateProvider>(context, listen: false);
-     authStateProvider.signup(_emailController.text, _passwordController.text).then((result){
-
-     
-
-      if (result == "Account is created") {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Account created successfully"),
-        ));
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
-      }
-    });
+      final authStateProvider =
+          Provider.of<AuthStateProvider>(context, listen: false);
+      authStateProvider
+          .signup(_nameController.text,_emailController.text, _passwordController.text)
+          .then((result) {
+        if (result == "Account is created") {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Account created successfully"),
+          ));
+          Navigator.pushReplacementNamed(context, '/home');
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(result)));
+        }
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authStateProvider=Provider.of<AuthStateProvider>(context);
+    final authStateProvider = Provider.of<AuthStateProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
             SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   smallSpacing,
-                const  AuthHeader(
+                  const AuthHeader(
                     title: 'Create Account',
                     subtitle:
                         'Fill your information below or register with your social account',
@@ -65,6 +67,20 @@ final  TextEditingController _confirmPasswordController = TextEditingController(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         smallSpacing,
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            hintText: 'Enter your name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                          ),
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.name,
+                          controller: _nameController,
+                          validator: (value) =>
+                              MyValidator.displayNameValidator(value),
+                        ),
                         const Text(
                           'Email',
                           style: normalText,
@@ -79,7 +95,8 @@ final  TextEditingController _confirmPasswordController = TextEditingController(
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.emailAddress,
                             controller: _emailController,
-                            validator: (value) => MyValidator.emailValidator(value)),
+                            validator: (value) =>
+                                MyValidator.emailValidator(value)),
                         moderateSpacing,
                         const Text(
                           'Password',
@@ -102,37 +119,39 @@ final  TextEditingController _confirmPasswordController = TextEditingController(
                           style: normalText,
                         ),
                         TextFormField(
-                            obscureText: authStateProvider.obsecureText,
-                            decoration: InputDecoration(
-                              hintText: 'Re-enter Password',
-                            
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                 authStateProvider.toggleObsecureText();
-                                },
-                                icon: Icon(
-                                 authStateProvider.obsecureText
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined,
-                                ),
+                          obscureText: authStateProvider.obsecureText,
+                          decoration: InputDecoration(
+                            hintText: 'Re-enter Password',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                authStateProvider.toggleObsecureText();
+                              },
+                              icon: Icon(
+                                authStateProvider.obsecureText
+                                    ? Icons.visibility_off_outlined
+                                    : Icons.visibility_outlined,
                               ),
                             ),
-                            textInputAction: TextInputAction.next,
-                            controller: _confirmPasswordController,
-                            validator: (value) =>
-                                MyValidator.repeatPasswordValidator(
-                                    value: value,
-                                    password: _passwordController.text)),
+                          ),
+                          textInputAction: TextInputAction.next,
+                          controller: _confirmPasswordController,
+                          validator: (value) =>
+                              MyValidator.repeatPasswordValidator(
+                                  value: value,
+                                  password: _passwordController.text),
+                        ),
                       ],
                     ),
                   ),
                   largerSpacing,
                   CustomButton(
                     text: 'Sign Up',
-                    onPressed: (){_handleSignUp(context);},
+                    onPressed: () {
+                      _handleSignUp(context);
+                    },
                   ),
                   largerSpacing,
                   const AlternativeLoginWidget(),
@@ -157,8 +176,11 @@ final  TextEditingController _confirmPasswordController = TextEditingController(
             if (authStateProvider.isLoading)
               Container(
                 color: Colors.black54,
-                child: Center(
-                  child: CircularProgressIndicator(color: colorTheme,backgroundColor: beigeColor,),
+                child:const Center(
+                  child: CircularProgressIndicator(
+                    color: colorTheme,
+                    backgroundColor: beigeColor,
+                  ),
                 ),
               ),
           ],

@@ -25,8 +25,7 @@ class ProductGrid extends StatelessWidget {
         (products[index].images.isNotEmpty)
             ? products[index].images[0]
             : AppConstants.defaultImageUrl;
-        return ProductCard(
-        
+        return ProductCard(      
           products: products[index],
         );
       },

@@ -46,18 +46,19 @@ class SigupScreen extends StatelessWidget {
                       children: [
                         smallSpacing,
                         TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Name',
-                              hintText: 'Enter your name',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                            hintText: 'Enter your name',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
                             ),
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.name,
-                            controller: _nameController,
-                            validator: (value) =>
-                                MyValidator.displayNameValidator(value)),
+                          ),
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.name,
+                          controller: _nameController,
+                          validator: (value) =>
+                              MyValidator.displayNameValidator(value),
+                        ),
                         moderateSpacing,
                         TextFormField(
                             decoration: InputDecoration(

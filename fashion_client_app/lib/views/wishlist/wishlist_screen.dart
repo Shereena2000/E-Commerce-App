@@ -1,7 +1,6 @@
-import 'package:fashion_client_app/constants/texts.dart';
 import 'package:fashion_client_app/provider/wishlist_provider.dart';
+import 'package:fashion_client_app/widgets/custom_app_bar.dart';
 import 'package:fashion_client_app/widgets/product_card.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,12 +10,8 @@ class WishlistScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:const Text(
-          "Wishlist",
-          style: appBarText,
-        ),
-      ),body: Consumer<WishlistProvider>(builder: (context,wishlistProvider,child){
+      appBar:const CustomAppBar(title: "Wishlist")
+      ,body: Consumer<WishlistProvider>(builder: (context,wishlistProvider,child){
          if (wishlistProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
             

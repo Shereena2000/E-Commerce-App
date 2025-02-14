@@ -13,3 +13,5 @@ final Map<String, Color> colorMap = {
   "Men's Wear",
   "Kids Wear",
 ];
+
+const List<String> promoCategoryTitle=["Women","Men","Kids"];

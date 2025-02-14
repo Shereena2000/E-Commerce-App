@@ -2,6 +2,7 @@ import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/models/order_model.dart';
 import 'package:flutter/material.dart';
+import 'package:recase/recase.dart';
 
 class OrderProductList extends StatelessWidget {
   const OrderProductList({
@@ -19,8 +20,8 @@ class OrderProductList extends StatelessWidget {
           .map(
             (e) => Container(
               width: double.infinity,
-              padding: EdgeInsets.all(10),
-              margin: EdgeInsets.all(4),
+              padding:const EdgeInsets.all(10),
+              margin:const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: beigeColor,
                 borderRadius: BorderRadius.circular(10),
@@ -30,7 +31,7 @@ class OrderProductList extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
+                     SizedBox(
                         height: 80,
                         width: 80,
                         child: Image.network(e.image),
@@ -40,7 +41,7 @@ class OrderProductList extends StatelessWidget {
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(e.name),
+                          Text(e.name.titleCase),
                           Text(
                             "Price : ₹${e.single_price.toString()} x ${e.quantity.toString()} quantity",
                           ),

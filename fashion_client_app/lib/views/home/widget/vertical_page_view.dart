@@ -6,11 +6,15 @@ import 'package:provider/provider.dart';
 
 class VerticalPageView extends StatelessWidget {
   final PageController verticalController;
-  final List<PromoModel> promoData;
+  final PageController horizontalController;
+  final Map<String, List<PromoModel>> groupedPromos;
+  final List<String> categories;
 
   const VerticalPageView({
     required this.verticalController,
-    required this.promoData,
+    required this.horizontalController,
+    required this.groupedPromos,
+    required this.categories,
   });
 
   @override
@@ -18,15 +22,19 @@ class VerticalPageView extends StatelessWidget {
     return PageView.builder(
       scrollDirection: Axis.vertical,
       controller: verticalController,
-      itemCount: promoData.length,
+      itemCount: categories.length,
       onPageChanged: (index) {
         context.read<HomeStateProvider>().setVerticalPageIndex(index);
       },
-      itemBuilder: (context, index) {
-        return HomeView(promo: promoData[index]);
+      itemBuilder: (context, verticalIndex) {
+        final String category = categories[verticalIndex];
+        final List<PromoModel> promos = groupedPromos[category]!;
+
+        return HomeView(
+          promos: promos,
+          horizontalController: horizontalController,
+        );
       },
     );
   }
 }
-
-

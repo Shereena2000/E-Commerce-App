@@ -13,26 +13,32 @@ class ProductTabScreens extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<AdminProviders>(builder: (context, value, child) {
-        List<ProductModels> products =
-            ProductModels.fromJsonList(value.products);
+      body: Consumer<AdminProviders>(
+        builder: (context, value, child) {
+          List<ProductModels> products =
+              ProductModels.fromJsonList(value.products);
 
-        if (products.isEmpty) {
-          return const Center(
-            child: Text("no products found"),
-          );
-        }
-        return ProductGrid(products: products);
-      }),
-      floatingActionButton: CustomFloatingActionButton(onPressed: () {
-        Provider.of<ProductProvider>(context, listen: false).clearForm();
-        Navigator.push(
+          if (products.isEmpty) {
+            return const Center(
+              child: Text("no products found"),
+            );
+          }
+          return ProductGrid(products: products);
+        },
+      ),
+      floatingActionButton: CustomFloatingActionButton(
+        onPressed: () {
+          Provider.of<ProductProvider>(context, listen: false).clearForm();
+          Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const AddAndModifyProduct(
-                      isUpdating: false,
-                    )));
-      }),
+              builder: (context) => const AddAndModifyProduct(
+                isUpdating: false,
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

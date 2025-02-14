@@ -2,10 +2,11 @@ import 'package:fashion_client_app/utils/app_utils.dart';
 import 'package:fashion_client_app/views/categories/service/categories_service.dart';
 import 'package:fashion_client_app/views/categories/widgets/categoey_header.dart';
 import 'package:fashion_client_app/views/categories/widgets/category_card.dart';
+import 'package:fashion_client_app/widgets/custom_main_app_bar.dart';
 import 'package:fashion_client_app/widgets/discount_container.dart';
 import 'package:flutter/material.dart';
 import 'package:fashion_client_app/model/categories_model.dart';
-import 'package:fashion_client_app/widgets/app_bar_logo_title.dart';
+
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -14,9 +15,7 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final categoriesService = CategoriesService();
     return Scaffold(
-      appBar: AppBar(
-        title: const AppBarLogoTitle(),
-      ),
+      appBar: CustomMainAppBar(),
       body: Column(
     
         children: [

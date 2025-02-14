@@ -24,10 +24,10 @@ class AuthStateProvider with ChangeNotifier {
 
     return result;
   }
-  Future<String>signup(String email, String password)async{
+  Future<String>signup(String name,String email, String password)async{
     _isLoading=true;
     notifyListeners();
-    String result=await AuthService().createAccountwithEmail(email, password);
+    String result=await AuthService().createAccountwithEmail(name,email, password);
    _isLoading =false;
    notifyListeners();
    return result;

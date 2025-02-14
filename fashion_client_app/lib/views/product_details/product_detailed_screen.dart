@@ -4,9 +4,9 @@ import 'package:fashion_client_app/provider/product_detail_provider.dart';
 import 'package:fashion_client_app/views/product_details/widget/color_variant_selector.dart';
 import 'package:fashion_client_app/views/product_details/widget/product_info.dart';
 import 'package:fashion_client_app/views/product_details/widget/size_varaint_selector.dart';
-import 'package:fashion_client_app/widgets/app_bar_logo_title.dart';
 import 'package:fashion_client_app/widgets/cart_button.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
+import 'package:fashion_client_app/widgets/custom_main_app_bar.dart';
 import 'package:fashion_client_app/widgets/product_image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +21,7 @@ class ProductDetailedScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double paddingSize = width - (width * 0.85);
     return Scaffold(
-      appBar: AppBar(
-        title: const AppBarLogoTitle(),
-      ),
+      appBar:const CustomMainAppBar(),
       body:Consumer<ProductDetailProvider>(builder: (context,productDetailprovider,child){return  SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: paddingSize - 30),
