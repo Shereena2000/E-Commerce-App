@@ -1,4 +1,5 @@
-import 'package:fashion_client_app/provider/profile_provider.dart';
+import 'package:fashion_client_app/model/address_form_data.dart';
+import 'package:fashion_client_app/provider/address_provider.dart';
 import 'package:fashion_client_app/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class AddresslabelSelector extends StatelessWidget {
 
   final String id;
   final AddressFormData formData;
-  final ProfileProvider provider;
+  final AddressProvider provider;
 
   @override
   Widget build(BuildContext context) {

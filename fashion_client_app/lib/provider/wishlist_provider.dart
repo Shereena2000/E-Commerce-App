@@ -6,14 +6,13 @@ class WishlistProvider extends ChangeNotifier {
   final Map<String, bool> _favoriteStatus = {};
   final DbService _dbService = DbService();
   final List<ProductModels> _wishlistProducts = [];
-bool _isLoading = false;
- List<ProductModels> get wishlistProducts => _wishlistProducts;
+  bool _isLoading = false;
+  List<ProductModels> get wishlistProducts => _wishlistProducts;
   bool get isLoading => _isLoading;
   WishlistProvider() {
     _initializeWishlist();
   }
 
- 
   Future<void> _initializeWishlist() async {
     _isLoading = true;
     notifyListeners();
@@ -34,9 +33,11 @@ bool _isLoading = false;
 
         // Fetch product details if there are products in wishlist
         if (productIds.isNotEmpty) {
-          final productsSnapshot = await _dbService.searchProducts(productIds).first;
+          final productsSnapshot =
+              await _dbService.searchProducts(productIds).first;
           _wishlistProducts.clear();
-          _wishlistProducts.addAll(ProductModels.fromJsonList(productsSnapshot.docs));
+          _wishlistProducts
+              .addAll(ProductModels.fromJsonList(productsSnapshot.docs));
         } else {
           _wishlistProducts.clear();
         }

@@ -1,8 +1,8 @@
-
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/models/order_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class OrderDetailsCard extends StatelessWidget {
   const OrderDetailsCard({
@@ -14,7 +14,9 @@ class OrderDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    String formattedDate = DateFormat('dd MMM yyyy')
+        .format(DateTime.fromMillisecondsSinceEpoch(args.created_at));
+    return SizedBox(
       width: double.infinity,
       child: Card(
         color: beigeColor,
@@ -31,14 +33,20 @@ class OrderDetailsCard extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
               liteSpacing,
-              Text(
-                  "Ordered On: ${DateTime.fromMillisecondsSinceEpoch(args.created_at)}"),
+              Text("Ordered On: $formattedDate"),
               liteSpacing,
               Text("Order By: ${args.name}"),
               liteSpacing,
               Text("Phone No: ${args.phone}"),
               liteSpacing,
               Text("Delivery Address: ${args.address}"),
+              liteSpacing,
+              Text("Pin Code: ${args.addressDetails.pinCode}"),
+              liteSpacing,
+              Text("State: ${args.addressDetails.state}"),
+              liteSpacing,
+              Text("Address Lable: ${args.addressDetails.addressLabel}"),
+              liteSpacing,
             ],
           ),
         ),

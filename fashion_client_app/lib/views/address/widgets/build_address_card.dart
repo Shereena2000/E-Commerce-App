@@ -5,6 +5,7 @@ import 'package:fashion_client_app/controllers/db_service.dart';
 import 'package:fashion_client_app/views/address/add_address_screen.dart';
 import 'package:fashion_client_app/widgets/additional_confirm.dart';
 import 'package:flutter/material.dart';
+import 'package:recase/recase.dart';
 
 class BuildAddressCard extends StatelessWidget {
   final String id;
@@ -37,10 +38,11 @@ class BuildAddressCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                name,
+                name.titleCase,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
+            
                 ),
               ),
               IconButton(
@@ -100,7 +102,7 @@ class BuildAddressCard extends StatelessWidget {
               : const SizedBox(),
           Text(email, style: normalText),
           Text(phone, style: normalText),
-          liteSpacing,
+          smallSpacing,
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(

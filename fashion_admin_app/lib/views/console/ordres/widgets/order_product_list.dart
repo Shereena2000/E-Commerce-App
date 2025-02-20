@@ -44,7 +44,12 @@ class OrderProductList extends StatelessWidget {
                           Text(e.name.titleCase),
                           Text(
                             "Price : ₹${e.single_price.toString()} x ${e.quantity.toString()} quantity",
-                          ),
+                          ), Text(
+                              "Size : ${e.size}",
+                            ),
+                            Text(
+                              "Color : ${e.color}",
+                            ),
                           Text(
                             "Quantity :  ${e.quantity.toString()}",
                           ),

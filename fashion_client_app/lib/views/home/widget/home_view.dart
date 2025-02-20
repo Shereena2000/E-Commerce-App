@@ -16,11 +16,11 @@ class HomeView extends StatelessWidget {
   
     return Stack(
       children: [
-        HorizontalPageView(
+        HorizontalCarousel(
           promos: promos,
-          horizontalController: horizontalController,
+        
         ),
-        // Add additional UI elements here if needed
+       
       ],
     );
   }

@@ -17,7 +17,7 @@ class CouponInput extends StatelessWidget {
           child: TextField(
             controller: couponController,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               hintText: "Enter Coupon code",
               suffixIcon: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -35,7 +35,7 @@ class CouponInput extends StatelessWidget {
                       int percent = doc.get('discount');
 
                       print('Discount code: $code');
-                      checkoutData.discountCalculator(percent, 1000); // Assuming totalCost is 1000, replace as needed.
+                      checkoutData.discountCalculator(percent, 1000);
                     } else {
                       print('No discount code found');
                       checkoutData.setDiscountText("No discount code found");

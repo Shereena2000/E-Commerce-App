@@ -3,6 +3,7 @@ import 'package:fashion_client_app/provider/filter_state_provider.dart';
 import 'package:fashion_client_app/views/products/services/product_service.dart';
 import 'package:fashion_client_app/views/products/widgets/filter_and_sort_button.dart';
 import 'package:fashion_client_app/widgets/custom_app_bar.dart';
+import 'package:fashion_client_app/widgets/custom_empty_widget.dart';
 import 'package:fashion_client_app/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class ProductScreen extends StatelessWidget {
                 if (snapshot.hasData) {
                   final products = snapshot.data!;
                   if (products.isEmpty) {
-                    return const Center(child: Text("No products available"));
+                    return const CustomEmptyWidget(text: "Oops! No Products Here", asset: "assets/dress.json");
                   }
 
                   return Padding(

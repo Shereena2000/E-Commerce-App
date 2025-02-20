@@ -4,8 +4,8 @@ import 'package:fashion_client_app/views/cart/widgets/cart_item.dart';
 import 'package:fashion_client_app/views/cart/widgets/order_summary.dart';
 import 'package:fashion_client_app/widgets/custom_app_bar.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
+import 'package:fashion_client_app/widgets/custom_empty_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:const CustomAppBar(title: "Shopping Cart"),
+      appBar: const CustomAppBar(title: "Shopping Cart"),
       body: Consumer<CartProvider>(
         builder: (context, value, child) {
           if (value.isLoading) {
@@ -25,10 +25,7 @@ class CartScreen extends StatelessWidget {
             );
           } else {
             if (value.cart.isEmpty) {
-              return  Center(
-                
-                child: Container(height: 200,width: 200,child: Lottie.asset("assets/dress.json")),
-              );
+              return const CustomEmptyWidget(asset: "assets/empty.json",text: "Your bag is currently empty...",);
             } else {
               return Column(
                 children: [
@@ -86,3 +83,4 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
+

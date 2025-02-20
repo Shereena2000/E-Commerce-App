@@ -3,7 +3,7 @@ import 'package:fashion_client_app/provider/cart_provider.dart';
 import 'package:fashion_client_app/views/cart/cart_screen.dart';
 import 'package:fashion_client_app/views/categories/categories_screen.dart';
 import 'package:fashion_client_app/views/home/home_screen.dart';
-import 'package:fashion_client_app/views/more/more_screen.dart';
+import 'package:fashion_client_app/views/profile/profile_screen.dart';
 import 'package:fashion_client_app/views/search/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     const CategoriesScreen(),
     const SearchScreen(),
     const CartScreen(),
-    const MoreScreen(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -40,8 +40,8 @@ class _CustomNavBarState extends State<CustomNavBar> {
         children: _pages,
       ),
       bottomNavigationBar: NavigationBar(
-        shadowColor: Colors.grey,
-        indicatorColor: Colors.grey,
+        shadowColor:const Color.fromARGB(255, 208, 207, 207),
+        indicatorColor: const Color.fromARGB(255, 208, 207, 207),
         backgroundColor: Colors.white,
         selectedIndex: _selectedIndex,
         onDestinationSelected: _onItemTapped,

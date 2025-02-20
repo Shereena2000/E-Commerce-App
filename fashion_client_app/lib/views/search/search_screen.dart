@@ -6,6 +6,7 @@ import 'package:fashion_client_app/views/products/widgets/filter_and_sort_button
 import 'package:fashion_client_app/views/search/services/product_search_service.dart';
 import 'package:fashion_client_app/views/search/widgets/product_search_bar.dart';
 import 'package:fashion_client_app/widgets/custom_app_bar.dart';
+import 'package:fashion_client_app/widgets/custom_empty_widget.dart';
 import 'package:fashion_client_app/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final filterState = Provider.of<FilterStateProvider>(context);
     return Scaffold(
-      appBar: CustomAppBar(title: "Search Products"),
+      appBar:const CustomAppBar(title: "Search Products"),
       body: Column(
         children: [
           const Padding(
@@ -45,7 +46,7 @@ class SearchScreen extends StatelessWidget {
                   );
                 }
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text("No products found"));
+                  return const CustomEmptyWidget(text: "No Items Found", asset: "assets/purchased.json");
                 }
                 final products = snapshot.data!;
 

@@ -28,14 +28,7 @@ class CategoryItem extends StatelessWidget {
         child: Container(
           width: 150,
           height: 200,
-          decoration: BoxDecoration(
-
-              // image: DecorationImage(
-              //   image: NetworkImage(
-              //      image),
-              //   fit: BoxFit.cover,
-              // ),
-              ),
+         
           child: FadeInImage.assetNetwork(
             placeholder: "assets/placeholder.jpg",
             image: image,

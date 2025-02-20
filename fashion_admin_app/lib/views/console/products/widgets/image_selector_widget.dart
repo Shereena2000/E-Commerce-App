@@ -14,9 +14,12 @@ class ImageSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      List<String> imageUrls = provider.imageUrlsController.text.isNotEmpty
-      ? provider.imageUrlsController.text.split(',').where((url) => url.isNotEmpty && url.startsWith('http')).toList()
-      : [];
+    List<String> imageUrls = provider.imageUrlsController.text.isNotEmpty
+        ? provider.imageUrlsController.text
+            .split(',')
+            .where((url) => url.isNotEmpty && url.startsWith('http'))
+            .toList()
+        : [];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -33,7 +36,7 @@ class ImageSelectorWidget extends StatelessWidget {
         const Text('Pick Image'),
         const SizedBox(height: 10),
         provider.isLoading
-            ? const CircularProgressIndicator() // Show loading indicator for overall process
+            ? const CircularProgressIndicator()
             : imageUrls.isNotEmpty
                 ? Wrap(
                     spacing: 8.0,
@@ -43,7 +46,6 @@ class ImageSelectorWidget extends StatelessWidget {
                       String url = entry.value;
                       return Stack(
                         children: [
-                          // Display the uploaded image
                           Image.network(
                             url,
                             width: 100,
@@ -51,9 +53,9 @@ class ImageSelectorWidget extends StatelessWidget {
                             fit: BoxFit.cover,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) {
-                                return child; // Image is fully loaded
+                                return child;
                               }
-                              // Show a circular progress indicator while the image is loading
+
                               return Center(
                                 child: CircularProgressIndicator(
                                   value: loadingProgress.expectedTotalBytes !=
@@ -65,7 +67,6 @@ class ImageSelectorWidget extends StatelessWidget {
                               );
                             },
                           ),
-                          // Close button to remove the image
                           Positioned(
                             top: 5,
                             right: 5,
@@ -96,7 +97,7 @@ class ImageSelectorWidget extends StatelessWidget {
                       );
                     }).toList(),
                   )
-                : const SizedBox(), // Show nothing if no images are uploaded
+                : const SizedBox(),
       ],
     );
   }

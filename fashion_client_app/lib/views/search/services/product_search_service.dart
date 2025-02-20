@@ -1,27 +1,4 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:fashion_client_app/model/products_model.dart';
 
-// class ProductSearchService {
-//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  
-//   Stream<List<ProductModels>> searchProducts(String query) {
-  
-//   return _firestore
-//       .collection('shop_products')
-//       .snapshots()
-//       .map((snapshot) {
-//         final products = ProductModels.fromJsonList(snapshot.docs);
-//         if (query.isEmpty) {
-//           return products; // Return all products when query is empty
-//         }
-//         return products.where((product) {
-//           return product.name.toLowerCase().contains(query.toLowerCase());
-//         }).toList();
-//       });
-// }
-// }
-//-----------------
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fashion_client_app/model/products_model.dart';
 

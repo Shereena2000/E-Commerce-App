@@ -14,7 +14,7 @@ class OrderSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Card(
         color: whiteColor,
@@ -23,7 +23,7 @@ class OrderSummaryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0), // Added padding
+          padding: const EdgeInsets.all(16.0), 
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

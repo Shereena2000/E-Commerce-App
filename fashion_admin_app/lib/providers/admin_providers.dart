@@ -95,6 +95,18 @@ class AdminProviders extends ChangeNotifier {
 
       isLoading = false;
       notifyListeners();
-    });
+    }); 
+  }
+  void cancelProvider(){
+   _categorySubscription?.cancel();
+   _productsSubscription?.cancel();
+   _ordersSubscription?.cancel();
+   _productsSubscription?.cancel();
+  }
+  @override
+  void dispose() {
+    cancelProvider();
+    // TODO: implement dispose
+    super.dispose();
   }
 }

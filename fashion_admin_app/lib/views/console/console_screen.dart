@@ -1,10 +1,10 @@
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
-import 'package:fashion_admin_app/views/console/banners/banner_tab_screen.dart';
-import 'package:fashion_admin_app/views/console/categories/categories_tab_screen.dart';
-import 'package:fashion_admin_app/views/console/ordres/order_tab_screen.dart';
-import 'package:fashion_admin_app/views/console/products/product_tab_screens.dart';
-import 'package:fashion_admin_app/views/console/promotions/propmotion_tab_screen.dart';
+import 'package:fashion_admin_app/views/console/categories/screens/categories_tab_screen.dart';
+import 'package:fashion_admin_app/views/console/ordres/screens/order_tab_screen.dart';
+import 'package:fashion_admin_app/views/console/products/screens/product_tab_screens.dart';
+import 'package:fashion_admin_app/views/console/promotions/propmotion_screen.dart';
+
 import 'package:flutter/material.dart';
 
 class ConsoleScreen extends StatelessWidget {
@@ -13,7 +13,7 @@ class ConsoleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: beigeColor,
@@ -32,7 +32,7 @@ class ConsoleScreen extends StatelessWidget {
                 text: 'Orders',
               ),
               Tab(text: 'Promos'),
-              Tab(text: 'Banners'),
+             
             ],
           ),
         ),
@@ -41,8 +41,8 @@ class ConsoleScreen extends StatelessWidget {
             ProductTabScreens(),
             CategoriesTabScreen(),
             OrderTabScreen(),
-            PropmotionTabScreen(),
-            BannerTabScreen(),
+            PropmotionScreen(),
+           
           ],
         ),
       ),

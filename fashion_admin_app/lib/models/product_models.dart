@@ -9,7 +9,7 @@ class ProductModels {
   String category;
   String id;
   int maxQuantity;
-List<String> colorVariants;
+  List<String> colorVariants;
   List<String> sizeVariants;
   ProductModels({
     required this.name,
@@ -22,14 +22,12 @@ List<String> colorVariants;
     required this.maxQuantity,
     required this.colorVariants,
     required this.sizeVariants,
-      
   });
 
   factory ProductModels.fromJson(Map<String, dynamic> json, String id) {
-   
-     print("Parsed newPrice: ${json["new_price"]}");
+    print("Parsed newPrice: ${json["new_price"]}");
     return ProductModels(
-    name: json["name"] ?? "",
+      name: json["name"] ?? "",
       description: json["description"] ?? "no description",
       images: List<String>.from(json["images"] ?? []),
       oldPrice: json["oldPrice"] ?? 0,
@@ -44,7 +42,8 @@ List<String> colorVariants;
 
   static List<ProductModels> fromJsonList(List<QueryDocumentSnapshot> list) {
     return list
-        .map((e) => ProductModels.fromJson(e.data() as Map<String, dynamic>, e.id))
+        .map((e) =>
+            ProductModels.fromJson(e.data() as Map<String, dynamic>, e.id))
         .toList();
   }
 }

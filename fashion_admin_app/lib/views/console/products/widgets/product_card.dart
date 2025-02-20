@@ -2,7 +2,7 @@ import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/controllers/db_service.dart';
 import 'package:fashion_admin_app/models/product_models.dart';
 import 'package:fashion_admin_app/providers/product_provider.dart';
-import 'package:fashion_admin_app/views/console/products/add_and_modify_product.dart';
+import 'package:fashion_admin_app/views/console/products/screens/add_and_modify_product.dart';
 import 'package:fashion_admin_app/views/console/product_view/product_view_screen.dart';
 import 'package:fashion_admin_app/widgets/additional_confirm.dart';
 import 'package:flutter/material.dart';
@@ -102,16 +102,7 @@ class ProductCard extends StatelessWidget {
                           builder: (context) => AddAndModifyProduct(
                             isUpdating: true,
                             id: products.id,
-                            // name: products.name,
-                            // oldPrice: products.oldPrice.toString(),
-                            // newPrice: products.newPrice.toString(),
-                            // quantity: products.maxQuantity.toString(),
-                            // category: products.category,
-                            // description: products.description,
-                            // sizeVariants: products.sizeVariants,
-                            // colorVariants: products.colorVariants,
-                            // imageUrl: products.images,
-                            // id: products.id,
+                         
                           ),
                         ),
                       );

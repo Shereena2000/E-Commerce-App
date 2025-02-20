@@ -23,7 +23,7 @@ class Subtitle extends StatelessWidget {
         style: const TextStyle(
           color: whiteColor,
           fontWeight: FontWeight.bold,
-          fontSize: 30,
+          fontSize: 23,
         ),
       ),
     );

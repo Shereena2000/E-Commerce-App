@@ -26,8 +26,8 @@ class VerticalPageIndicator extends StatelessWidget {
             decoration: BoxDecoration(
 
               color: verticalPageIndex == index
-                  ? whiteColor // Highlighted dot
-                  : const Color.fromARGB(134, 198, 197, 197) // Unhighlighted dot
+                  ? whiteColor 
+                  : const Color.fromARGB(134, 198, 197, 197) 
             ),
           ),
         ),

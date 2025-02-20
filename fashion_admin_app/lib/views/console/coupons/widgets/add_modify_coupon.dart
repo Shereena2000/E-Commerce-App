@@ -1,3 +1,4 @@
+import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/controllers/db_service.dart';
 import 'package:fashion_admin_app/utils/form_validator.dart';
@@ -35,6 +36,7 @@ class _ModifyCouponState extends State<ModifyCoupon> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: whiteColor,
       title: Center(child: Text(widget.id.isNotEmpty ? "Update Coupon" : "Add Coupon")),
       content: SingleChildScrollView(
         child: Form(
@@ -77,7 +79,7 @@ class _ModifyCouponState extends State<ModifyCoupon> {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: Text("Cancel")),
+            child:const Text("Cancel")),
         TextButton(
           onPressed: () {
             if (formKey.currentState!.validate()) {

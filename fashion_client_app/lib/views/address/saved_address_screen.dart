@@ -1,6 +1,6 @@
 import 'package:fashion_client_app/constants/spacing.dart';
 import 'package:fashion_client_app/model/address_model.dart';
-import 'package:fashion_client_app/provider/profile_provider.dart';
+import 'package:fashion_client_app/provider/address_provider.dart';
 import 'package:fashion_client_app/views/address/widgets/build_address_card.dart';
 import 'package:fashion_client_app/widgets/custom_app_bar.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
@@ -14,7 +14,7 @@ class SavedAddressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:const CustomAppBar(title: "Address Book"),
-      body: Consumer<ProfileProvider>(
+      body: Consumer<AddressProvider>(
         builder: (context, value, child) {
           if (value.isLoading) {
             return const Center(
@@ -51,7 +51,7 @@ class SavedAddressScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: profiles.length,
                       itemBuilder: (context, index) {
-                        print("Address Label: ${profiles[index].addressLabel}");
+                    
                       
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),

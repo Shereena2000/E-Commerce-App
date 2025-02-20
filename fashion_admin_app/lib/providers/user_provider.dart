@@ -26,4 +26,13 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+  void cancelProvider(){
+   _userSubscription?.cancel();
+  }
+  @override
+  void dispose() {
+    cancelProvider();
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

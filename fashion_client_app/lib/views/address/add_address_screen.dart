@@ -1,6 +1,6 @@
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/constants/spacing.dart';
-import 'package:fashion_client_app/provider/profile_provider.dart';
+import 'package:fashion_client_app/provider/address_provider.dart';
 import 'package:fashion_client_app/utils/form_validator.dart';
 import 'package:fashion_client_app/utils/my_validator.dart';
 import 'package:fashion_client_app/views/address/widgets/address_label_selector.dart';
@@ -55,7 +55,7 @@ class AddAddressScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(isModify ? 'Modify Details' : 'Add Details'),
       ),
-      body: Consumer<ProfileProvider>(
+      body: Consumer<AddressProvider>(
         builder: (context, provider, child) {
           final formData = provider.getFormData(id);
           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -85,6 +85,20 @@ class AddAddressScreen extends StatelessWidget {
                     controller: emailController,
                     label: 'Email',
                     validator: (value) => MyValidator.emailValidator(value),
+                  ),
+                  moderateSpacing,
+                  InkWell(
+                    onTap: (){
+                      provider.getLocation(context,addressController,pinCodeController);
+                    },
+                    child: const Row(
+                      children: [
+                        litewidthspacing,
+                        Icon(Icons.location_on),
+                        moderateSpacing,
+                        Text("Use My Location")
+                      ],
+                    ),
                   ),
                   moderateSpacing,
                   BuildTextFeild(
@@ -130,7 +144,7 @@ class AddAddressScreen extends StatelessWidget {
                     formData: formData,
                     provider: provider,
                   ),
-        largerSpacing,
+                  largerSpacing,
                   Center(
                     child: CustomButton(
                       text: isModify ? "Update" : 'ADD',
@@ -147,7 +161,6 @@ class AddAddressScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                 
                 ],
               ),
             ),
@@ -157,4 +170,3 @@ class AddAddressScreen extends StatelessWidget {
     );
   }
 }
-

@@ -2,6 +2,7 @@ import 'package:fashion_client_app/controllers/db_service.dart';
 import 'package:fashion_client_app/model/order_model.dart';
 import 'package:fashion_client_app/views/orders/widgets/order_list.dart';
 import 'package:fashion_client_app/widgets/custom_app_bar.dart';
+import 'package:fashion_client_app/widgets/custom_empty_widget.dart';
 import 'package:flutter/material.dart';
 
 class OrderScreen extends StatelessWidget {
@@ -32,7 +33,7 @@ class OrderScreen extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text("No orders found"));
+            return const CustomEmptyWidget(text: "No Orders Yet", asset: "assets/purchased.json");
           }
 
           List<OrdersModel> orders =

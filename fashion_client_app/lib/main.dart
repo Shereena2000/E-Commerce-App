@@ -7,7 +7,7 @@ import 'package:fashion_client_app/provider/wishlist_provider.dart';
 import 'package:fashion_client_app/provider/filter_state_provider.dart';
 import 'package:fashion_client_app/provider/home_state_provider.dart';
 import 'package:fashion_client_app/provider/product_detail_provider.dart';
-import 'package:fashion_client_app/provider/profile_provider.dart';
+import 'package:fashion_client_app/provider/address_provider.dart';
 import 'package:fashion_client_app/provider/search_provider.dart';
 import 'package:fashion_client_app/provider/user_provider.dart';
 import 'package:fashion_client_app/views/address/add_address_screen.dart';
@@ -17,9 +17,12 @@ import 'package:fashion_client_app/views/authentication/sigup_screen.dart';
 import 'package:fashion_client_app/views/authentication/welcome_screen.dart';
 import 'package:fashion_client_app/views/cart/cart_screen.dart';
 import 'package:fashion_client_app/views/categories/categories_screen.dart';
-import 'package:fashion_client_app/views/check_out/screens/check_out_screen.dart';
+import 'package:fashion_client_app/views/check_out/screens/checkout_verify_screen.dart';
 import 'package:fashion_client_app/views/discount/discount_screen.dart';
 import 'package:fashion_client_app/views/home/home_screen.dart';
+import 'package:fashion_client_app/views/legal_agreement/about_us_screen.dart';
+import 'package:fashion_client_app/views/legal_agreement/privacy_policy_screen.dart';
+import 'package:fashion_client_app/views/legal_agreement/terms_of_use_screen.dart';
 import 'package:fashion_client_app/views/orders/screens/order_screen.dart';
 import 'package:fashion_client_app/views/orders/screens/view_order_screen.dart';
 import 'package:fashion_client_app/views/search/search_screen.dart';
@@ -37,8 +40,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load(fileName: ".env");
-  Stripe.publishableKey=dotenv.env["STRIPE_PUBLISH_KEY"]!;
-     Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  Stripe.publishableKey = dotenv.env["STRIPE_PUBLISH_KEY"]!;
+  Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
   Stripe.urlScheme = 'flutterstripe';
   await Stripe.instance.applySettings();
   runApp(const MyApp());
@@ -51,7 +54,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => HomeStateProvider()),
-        ChangeNotifierProvider(create: (context) => ProfileProvider()),
+        ChangeNotifierProvider(create: (context) => AddressProvider()),
         ChangeNotifierProvider(create: (context) => AuthStateProvider()),
         ChangeNotifierProvider(create: (context) => ProductDetailProvider()),
         ChangeNotifierProvider(create: (context) => SearchProvider()),
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => WishlistProvider()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
-           ChangeNotifierProvider(create: (context) => CheckoutProvider()),
+        ChangeNotifierProvider(create: (context) => CheckoutProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -88,13 +91,15 @@ class MyApp extends StatelessWidget {
           '/categories': (context) => const CategoriesScreen(),
           '/search': (context) => const SearchScreen(),
           '/cart': (context) => const CartScreen(),
-          '/addDetails': (context) =>
-              AddAddressScreen(id: "", isModify: false),
+          '/addDetails': (context) => AddAddressScreen(id: "", isModify: false),
           '/forgot': (context) => const ForgotScreen(),
           '/discount': (context) => const DiscountScreen(),
-          '/checkout':(context)=> const CheckOutScreen(),
-           '/order':(context)=> const OrderScreen(),
-           '/vieworder':(context)=> const ViewOrderScreen()
+          '/checkout': (context) => const CheckoutVerifyScreen(),
+          '/order': (context) => const OrderScreen(),
+          '/vieworder': (context) => const ViewOrderScreen(),
+          '/about_us': (context) => const AboutUsScreen(),
+          'terms_of_use': (context) => const TermsOfUseScreen(),
+          '/privacy_policy': (context) => const PrivacyPolicyScreen()
         },
       ),
     );

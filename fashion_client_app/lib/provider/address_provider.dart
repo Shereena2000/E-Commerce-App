@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fashion_client_app/controllers/db_service.dart';
+import 'package:fashion_client_app/model/address_form_data.dart';
 import 'package:flutter/material.dart';
-class ProfileProvider extends ChangeNotifier {
-  ProfileProvider() {
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+class AddressProvider extends ChangeNotifier {
+  AddressProvider() {
     getProfiles();
   }
 
@@ -56,6 +59,59 @@ class ProfileProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+
+
+
+
+Future<void> getLocation(BuildContext context, TextEditingController addressController, TextEditingController pinCodeController) async {
+  LocationPermission permission = await Geolocator.checkPermission();
+
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+    
+      print('Location permissions are denied');
+      return;
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+
+    print('Location permissions are permanently denied, please enable them in settings');
+    await Geolocator.openAppSettings(); 
+    return;
+  }
+
+
+  Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high);
+  
+  print("Latitude: ${position.latitude}, Longitude: ${position.longitude}");
+
+  try {
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    if (placemarks.isNotEmpty) {
+      Placemark place = placemarks[0];
+      String address = "${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+      String pinCode = place.postalCode ?? '';
+
+    
+      addressController.text = address;
+      pinCodeController.text = pinCode;
+
+      
+      notifyListeners();
+    }
+  } catch (e) {
+    print("Error fetching address: $e");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error fetching address: ${e.toString()}"))
+    );
+  }
+}
+
 
   Future<void> handleSubmit({
     required GlobalKey<FormState> formKey,
@@ -112,14 +168,5 @@ class ProfileProvider extends ChangeNotifier {
   }
 }
 
-// Data class to hold form state
-class AddressFormData {
-  final String addressLabel;
-  final String state;
 
-  AddressFormData({
-    required this.addressLabel,
-    required this.state,
-  });
-}
 

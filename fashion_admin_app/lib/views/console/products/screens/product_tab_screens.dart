@@ -1,7 +1,7 @@
 import 'package:fashion_admin_app/models/product_models.dart';
 import 'package:fashion_admin_app/providers/admin_providers.dart';
 import 'package:fashion_admin_app/providers/product_provider.dart';
-import 'package:fashion_admin_app/views/console/products/add_and_modify_product.dart';
+import 'package:fashion_admin_app/views/console/products/screens/add_and_modify_product.dart';
 import 'package:fashion_admin_app/views/console/products/widgets/product_grid.dart';
 import 'package:fashion_admin_app/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';

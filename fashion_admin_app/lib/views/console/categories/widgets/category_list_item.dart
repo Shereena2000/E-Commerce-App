@@ -3,7 +3,7 @@ import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/controllers/db_service.dart';
 import 'package:fashion_admin_app/models/categories_model.dart';
-import 'package:fashion_admin_app/views/console/categories/add_and_modify_category.dart';
+import 'package:fashion_admin_app/views/console/categories/widgets/add_and_modify_category.dart';
 import 'package:fashion_admin_app/widgets/additional_confirm.dart';
 import 'package:flutter/material.dart';
 

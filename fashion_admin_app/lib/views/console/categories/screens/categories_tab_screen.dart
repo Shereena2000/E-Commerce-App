@@ -1,6 +1,6 @@
 import 'package:fashion_admin_app/models/categories_model.dart';
 import 'package:fashion_admin_app/providers/admin_providers.dart';
-import 'package:fashion_admin_app/views/console/categories/add_and_modify_category.dart';
+import 'package:fashion_admin_app/views/console/categories/widgets/add_and_modify_category.dart';
 import 'package:fashion_admin_app/views/console/categories/widgets/category_list_item.dart';
 import 'package:fashion_admin_app/widgets/custom_floating_action_button.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,5 @@
-import 'package:fashion_client_app/constants/colors.dart';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fashion_client_app/model/promo_model.dart';
 import 'package:fashion_client_app/provider/home_state_provider.dart';
 import 'package:fashion_client_app/views/home/widget/background_image.dart';
@@ -8,64 +9,49 @@ import 'package:fashion_client_app/views/home/widget/title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HorizontalPageView extends StatelessWidget {
+class HorizontalCarousel extends StatelessWidget {
   final List<PromoModel> promos;
-  final PageController horizontalController;
 
-  const HorizontalPageView({
-    required this.promos,
-    required this.horizontalController,
-  });
+  const HorizontalCarousel({required this.promos});
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      scrollDirection: Axis.horizontal,
-      controller: horizontalController,
+    return CarouselSlider.builder(
+      options: CarouselOptions(
+        height: MediaQuery.of(context).size.height,
+        autoPlay: true,
+        autoPlayInterval: Duration(seconds: 3),
+        viewportFraction: 1.0, 
+        onPageChanged: (index, reason) {
+          context.read<HomeStateProvider>().setHorizontalPageIndex(index);
+        },
+      ),
       itemCount: promos.length,
-      onPageChanged: (index) {
-        context.read<HomeStateProvider>().setHorizontalPageIndex(index);
-      },
-      itemBuilder: (context, horizontalIndex) {
-        final PromoModel promo = promos[horizontalIndex];
-        
-        return Stack(
-          children: [
+      itemBuilder: (context, index, realIndex) {
+        final PromoModel promo = promos[index];
+
+        return GestureDetector(
+          onTap: (){  Navigator.pushNamed(context, '/categories');},
+          child: Stack(
+            children: [
             BackgroundImage(imageUrl: promo.imageUrl),
-            Logo(),
-          const  ScrollArrow(),
-            CustomTitle(
-              title: promo.title,
-              bottom: 180,
-              right: 70,
-            ),
-            Subtitle(
-              subtitle: promo.subTitle,
-              bottom: 150,
-              right: 100,
-            ),
-          ],
+              Logo(),
+                 
+              CustomTitle(
+                title: promo.title,
+                bottom: 180,
+                right: 70,
+              ),
+              Subtitle(
+                subtitle: promo.subTitle,
+                bottom: 150,
+                right: 100,
+              ),
+            ],
+          ),
         );
       },
     );
   }
 }
 
-class ScrollArrow extends StatelessWidget {
-  const ScrollArrow({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      right: 20,
-      bottom: MediaQuery.of(context).size.height / 2 - 40,
-      child:const Icon(
-        Icons.chevron_right,
-        color: whiteColor,
-        size: 40,
-      ),
-    );
-  }
-}
