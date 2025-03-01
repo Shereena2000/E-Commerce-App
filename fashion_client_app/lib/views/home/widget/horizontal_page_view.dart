@@ -16,6 +16,7 @@ class HorizontalCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return CarouselSlider.builder(
       options: CarouselOptions(
         height: MediaQuery.of(context).size.height,

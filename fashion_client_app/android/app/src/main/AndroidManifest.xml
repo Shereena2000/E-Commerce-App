@@ -4,9 +4,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
-        android:label="fashion_client_app"
+        android:label="Fashion"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon"
+        android:theme="@style/NormalTheme">
         <activity
             android:name=".MainActivity"
             android:exported="true"

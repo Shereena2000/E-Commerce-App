@@ -20,8 +20,8 @@ class CustomOutlineButton extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // Set width and height based on screen size with a fallback to default
-    final buttonWidth = screenWidth * 0.6; // 30% of screen width
+
+    final buttonWidth = screenWidth * 0.6; 
     final buttonHeight = screenHeight * 0.06;
     return InkWell(
       onTap: onPressed,

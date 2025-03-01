@@ -52,9 +52,13 @@ class ProductImageContainer extends StatelessWidget {
                           image: productImage[0],
                           fit: BoxFit.cover,
                           imageErrorBuilder: (context, error, StackTrace) {
+                              print('Error loading network image: $error');
                             return Image.asset(
                               "assets/placeholder.jpg",
-                              fit: BoxFit.contain,
+                              fit: BoxFit.contain,errorBuilder: (context, error, StackTrace) {
+                              print('Error loading placeholder image: $error');
+                              return Icon(Icons.error); // Fallback widget
+                            },
                             );
                           })),
             ),
@@ -81,8 +85,8 @@ class ProductImageContainer extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: provider.currentPage == index
-                            ? Colors.white // Highlighted dot
-                            : Colors.grey.withOpacity(0.5), // Unhighlighted dot
+                            ? Colors.white 
+                            : Colors.grey, 
                       ),
                     ),
                   ),

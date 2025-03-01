@@ -16,13 +16,18 @@ class UserProvider extends ChangeNotifier {
     _userSubscription?.cancel();
     _userSubscription = DbService().readUserData().listen((snapshot) {
       print(snapshot.data());
-
+ if (snapshot.exists && snapshot.data() != null) {
       // Extract data from the snapshot
       final UserModel data =
           UserModel.fromJson(snapshot.data() as Map<String, dynamic>);
           name=data.name;
           email=data.email;
-          notifyListeners();
+          notifyListeners();}else {
+
+        name = "User";
+        email = "";
+        notifyListeners();
+      }
     });
   }
     void cancelProvider(){

@@ -14,9 +14,7 @@ class ForgotScreen extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     TextEditingController emailController = TextEditingController();
     return Scaffold(
-      appBar: AppBar(
-       
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 8.0,
@@ -58,9 +56,14 @@ class ForgotScreen extends StatelessWidget {
               onPressed: () {
                 AuthService().resetPassword(emailController.text).then((value) {
                   if (value == "Mail Sent") {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content:
-                            Text('Password reset link sent to your email')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Password reset link sent to your email'),
+                      ),
+                    );
+                    Future.delayed(Duration(seconds: 2), () {
+                      Navigator.pop(context);
+                    });
                   } else {
                     ScaffoldMessenger.of(context)
                         .showSnackBar(SnackBar(content: Text(value)));

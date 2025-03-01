@@ -1,4 +1,5 @@
 import 'package:fashion_client_app/constants/colors.dart';
+import 'package:fashion_client_app/constants/spacing.dart';
 import 'package:fashion_client_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class WelcomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Spacer(
-                  flex: 3,
+                  flex: 4,
                 ),
                 CustomButton(
                   text: 'Get Started',
@@ -47,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),   const SizedBox(height: 30),
+                  ),  greatterSpacing,
                 const  AlternativeLoginWidget(colour: whiteColor,textColor: whiteColor,),const Spacer(flex: 2),
               ],
             ),

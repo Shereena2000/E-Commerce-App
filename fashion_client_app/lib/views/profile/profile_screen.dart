@@ -21,12 +21,13 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: const CustomMainAppBar(),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
+          
           children: [
             Consumer<UserProvider>(
               builder: (context, userProvider, child) {
+              
+                print(userProvider.name);
                 return UserNameWidget(
                   name: userProvider.name,
                   email: userProvider.email,
@@ -106,7 +107,7 @@ class ProfileScreen extends StatelessWidget {
                 legalInfo(
                     title: "Terms of Use",
                     onTap: () {
-                      Navigator.pushNamed(context, 'terms_of_use');
+                      Navigator.pushNamed(context, '/terms_of_use');
                     }),
                 legalInfo(
                     title: "Privacy Policy",
@@ -115,7 +116,7 @@ class ProfileScreen extends StatelessWidget {
                     }),
               ],
             ),
-            const Spacer(),
+          largerSpacing,
             const Padding(
                 padding: EdgeInsets.all(8.0), child: AppVersionWidget())
           ],

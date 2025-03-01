@@ -14,7 +14,7 @@ class VerticalPageIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       left: 20, 
-      top: MediaQuery.of(context).size.height / 2, 
+      top: MediaQuery.of(context).size.height / 2+100, 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(

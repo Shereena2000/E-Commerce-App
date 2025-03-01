@@ -4,16 +4,14 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  // final double height;
-  // final double width;
+
   final Gradient gradient;
   final Icon? icon;
   const CustomButton({
     super.key,
     required this.text,
     required this.onPressed,
-    // this.height = 45,
-    // this.width = 120,
+ 
     this.gradient = linearBlacColor,
     this.icon,
   });
@@ -23,8 +21,7 @@ class CustomButton extends StatelessWidget {
       final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // Set width and height based on screen size with a fallback to default
-    final buttonWidth = screenWidth * 0.6; // 30% of screen width
+    final buttonWidth = screenWidth * 0.6; 
     final buttonHeight =  screenHeight * 0.06;
     return InkWell(
       onTap: onPressed,

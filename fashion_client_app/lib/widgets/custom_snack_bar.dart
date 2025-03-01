@@ -48,7 +48,7 @@ class CustomSnackBar extends StatelessWidget {
           left: -10,
           top: -10,
           child: Container(
-            width: 30, // Adjust size as needed
+            width: 30, 
             height: 30,
             decoration: BoxDecoration(
               color: blackColor,
@@ -71,11 +71,3 @@ class CustomSnackBar extends StatelessWidget {
     );
   }
 }
-//  ScaffoldMessenger.of(context).showSnackBar(
-//         const  SnackBar(
-//             content: CustomSnackBar(errorMessage: "hhhhh",),
-//             behavior: SnackBarBehavior.floating,
-//             backgroundColor: Colors.transparent,
-//             elevation: 0,
-//           ),
-//         );

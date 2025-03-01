@@ -1,3 +1,4 @@
+import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/constants/texts.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +14,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return AppBar(
-      title: Text(title, style: appBarText),
+      backgroundColor: whiteColor,
+      title: Center(
+        child: Text(title, style: appBarText),
+      )
     );
   }
 

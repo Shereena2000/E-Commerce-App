@@ -8,18 +8,27 @@ class CartButton extends StatelessWidget {
   final String productId;
   final String? selectedSize;
   final String? selectedColor;
-
+ final int maxQuantity; 
   const CartButton({
     super.key,
     required this.productId,
     required this.selectedSize,
-    required this.selectedColor,
+    required this.selectedColor, required this.maxQuantity,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+         if (maxQuantity == 0) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Product is out of stock"),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          return; // Exit the function if the product is out of stock
+        }
         if (selectedSize == null || selectedSize!.isEmpty || selectedColor == null || selectedColor!.isEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(

@@ -25,6 +25,7 @@ import 'package:fashion_client_app/views/legal_agreement/privacy_policy_screen.d
 import 'package:fashion_client_app/views/legal_agreement/terms_of_use_screen.dart';
 import 'package:fashion_client_app/views/orders/screens/order_screen.dart';
 import 'package:fashion_client_app/views/orders/screens/view_order_screen.dart';
+import 'package:fashion_client_app/views/profile/profile_screen.dart';
 import 'package:fashion_client_app/views/search/search_screen.dart';
 import 'package:fashion_client_app/views/splash/splash_screen.dart';
 import 'package:fashion_client_app/widgets/custom_nav_bar.dart';
@@ -40,7 +41,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await dotenv.load(fileName: ".env");
-  Stripe.publishableKey = dotenv.env["STRIPE_PUBLISH_KEY"]!;
+    String? stripeKey = dotenv.env["STRIPE_PUBLISH_KEY"];
+  if (stripeKey == null || stripeKey.isEmpty) {
+    throw Exception("Stripe publishable key is missing in .env file");
+  }
+  Stripe.publishableKey = stripeKey;
   Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
   Stripe.urlScheme = 'flutterstripe';
   await Stripe.instance.applySettings();
@@ -98,8 +103,9 @@ class MyApp extends StatelessWidget {
           '/order': (context) => const OrderScreen(),
           '/vieworder': (context) => const ViewOrderScreen(),
           '/about_us': (context) => const AboutUsScreen(),
-          'terms_of_use': (context) => const TermsOfUseScreen(),
-          '/privacy_policy': (context) => const PrivacyPolicyScreen()
+          '/terms_of_use': (context) => const TermsOfUseScreen(),
+          '/privacy_policy': (context) => const PrivacyPolicyScreen(),
+          'profile': (context) => const ProfileScreen(),
         },
       ),
     );

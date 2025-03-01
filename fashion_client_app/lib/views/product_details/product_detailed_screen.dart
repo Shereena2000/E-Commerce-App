@@ -66,7 +66,16 @@ class ProductDetailedScreen extends StatelessWidget {
                       CustomButton(
                           text: "BUY NOW",
                           onPressed: () {
-                            DbService().emptyCard();
+                            if (product.maxQuantity == 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Product is out of stock"),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                              return;
+                            }
+
                             if (productDetailprovider.selectedSize == null ||
                                 productDetailprovider.selectedSize!.isEmpty ||
                                 productDetailprovider.selectedColor == null ||
@@ -79,6 +88,7 @@ class ProductDetailedScreen extends StatelessWidget {
                                 ),
                               );
                             } else {
+                              DbService().emptyCard();
                               Provider.of<CartProvider>(context, listen: false)
                                   .buyProduct(
                                       context: context,
@@ -95,6 +105,7 @@ class ProductDetailedScreen extends StatelessWidget {
                         productId: product.id,
                         selectedSize: productDetailprovider.selectedSize,
                         selectedColor: productDetailprovider.selectedColor,
+                        maxQuantity: product.maxQuantity,
                       ),
                     ],
                   ),

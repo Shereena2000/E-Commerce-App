@@ -106,7 +106,7 @@ class SigninScreen extends StatelessWidget {
                           _emailController.text, _passwordController.text,formKey);
                     },
                   ),
-                  largerSpacing,
+                largerSpacing,
                   const AlternativeLoginWidget(),
                   largerSpacing,
                   Row(
@@ -127,7 +127,7 @@ class SigninScreen extends StatelessWidget {
           ),
           if (authStateProvider.isLoading)
             Container(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black87,
               child: const Center(
                 child: CircularProgressIndicator(
                   color: blackColor,

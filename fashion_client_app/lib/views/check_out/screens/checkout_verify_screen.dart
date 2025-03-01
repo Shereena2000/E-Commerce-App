@@ -37,6 +37,9 @@ class CheckoutVerifyScreen extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             checkoutData.setDefaultAddress(address);
           });
+          if (cartData.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
