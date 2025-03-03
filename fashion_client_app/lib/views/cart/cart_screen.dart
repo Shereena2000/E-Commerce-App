@@ -1,7 +1,10 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:fashion_client_app/controllers/connectivity_service.dart';
 import 'package:fashion_client_app/model/products_model.dart';
 import 'package:fashion_client_app/provider/cart_provider.dart';
 import 'package:fashion_client_app/views/cart/widgets/cart_item.dart';
 import 'package:fashion_client_app/views/cart/widgets/order_summary.dart';
+import 'package:fashion_client_app/views/offline/offline_screen.dart';
 import 'package:fashion_client_app/widgets/custom_app_bar.dart';
 import 'package:fashion_client_app/widgets/custom_button.dart';
 import 'package:fashion_client_app/widgets/custom_empty_widget.dart';
@@ -15,6 +18,20 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final connectivityService = Provider.of<ConnectivityService>(context, listen: false);
+
+    return StreamBuilder<List<ConnectivityResult>>(
+      stream: connectivityService.connectivityStream,
+      builder: (context, connectivitySnapshot) {
+        // Check if the device is offline
+        final bool isOffline = connectivitySnapshot.hasData &&
+            connectivitySnapshot.data!.contains(ConnectivityResult.none);
+
+        // If offline, show a text message on the Scaffold
+        if (isOffline) {
+          return OfflineScreen();
+        }
+
     return Scaffold(
       appBar: const CustomAppBar(title: "Shopping Cart"),
       body: Consumer<CartProvider>(
@@ -82,5 +99,8 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
+  );
+  }
 }
+
 

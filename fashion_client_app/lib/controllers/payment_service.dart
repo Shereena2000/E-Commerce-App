@@ -1,3 +1,4 @@
+import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/controllers/db_service.dart';
 import 'package:fashion_client_app/model/cart_model.dart';
 import 'package:fashion_client_app/provider/cart_provider.dart';
@@ -12,6 +13,7 @@ class PaymentService {
     CheckoutProvider checkoutProvider,
     CartProvider cartData,
   ) async {
+    
     try {
       print("Starting payment process...");
 
@@ -21,7 +23,14 @@ class PaymentService {
           checkoutProvider.selectedAddress!.phone.isEmpty ||
           checkoutProvider.selectedAddress!.name.isEmpty ||
           checkoutProvider.selectedAddress!.email.isEmpty) {
-        throw Exception("Please fill in your delivery details.");
+             ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text("Please fill in your delivery details.",style: TextStyle(color: whiteColor),),
+      backgroundColor:blackColor,
+    ),
+  ); 
+  return;
+       
       }
 
      

@@ -1,12 +1,16 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:fashion_client_app/controllers/connectivity_service.dart';
 import 'package:fashion_client_app/utils/app_utils.dart';
 import 'package:fashion_client_app/views/categories/service/categories_service.dart';
 import 'package:fashion_client_app/views/categories/widgets/categoey_header.dart';
 import 'package:fashion_client_app/views/categories/widgets/category_card.dart';
+import 'package:fashion_client_app/views/offline/offline_screen.dart';
 import 'package:fashion_client_app/widgets/custom_empty_widget.dart';
 import 'package:fashion_client_app/widgets/custom_main_app_bar.dart';
 import 'package:fashion_client_app/widgets/discount_container.dart';
 import 'package:flutter/material.dart';
 import 'package:fashion_client_app/model/categories_model.dart';
+import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -14,6 +18,19 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoriesService = CategoriesService();
+     final connectivityService = Provider.of<ConnectivityService>(context, listen: false);
+
+    return StreamBuilder<List<ConnectivityResult>>(
+      stream: connectivityService.connectivityStream,
+      builder: (context, connectivitySnapshot) {
+        // Check if the device is offline
+        final bool isOffline = connectivitySnapshot.hasData &&
+            connectivitySnapshot.data!.contains(ConnectivityResult.none);
+
+        // If offline, show a text message on the Scaffold
+        if (isOffline) {
+          return OfflineScreen();
+        }
     return Scaffold(
       appBar:const CustomMainAppBar(),
       body: Column(
@@ -88,6 +105,6 @@ class CategoriesScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
+    );});
   }
 }

@@ -52,6 +52,7 @@ class AddressProvider extends ChangeNotifier {
   void getProfiles() {
     _profileSubscription?.cancel();
     isLoading = true;
+    notifyListeners();
     _profileSubscription = DbService().readAddress().listen((snapshot) {
       profiles = snapshot.docs;
       totalProfiles = snapshot.docs.length;
@@ -159,11 +160,22 @@ Future<void> getLocation(BuildContext context, TextEditingController addressCont
       }
     }
   }
-
+void cancelProvider() {
+  _profileSubscription?.cancel(); // Cancel the Firestore subscription
+  _profileSubscription = null;
+  _formDataMap.clear(); // Clear the form data map
+  isLoading = true; // Reset loading state
+  notifyListeners();
+}
+  // @override
+  // void dispose() {
+  //   _profileSubscription?.cancel();
+  //   _formDataMap.clear();
+  //   super.dispose();
+  // }
   @override
   void dispose() {
-    _profileSubscription?.cancel();
-    _formDataMap.clear();
+  cancelProvider();
     super.dispose();
   }
 }

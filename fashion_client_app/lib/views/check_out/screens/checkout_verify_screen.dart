@@ -20,11 +20,9 @@ class CheckoutVerifyScreen extends StatelessWidget {
     super.key,
   });
 
-  
-
   @override
   Widget build(BuildContext context) {
-     WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CheckoutProvider>(context, listen: false).resetDiscount();
     });
 
@@ -37,9 +35,11 @@ class CheckoutVerifyScreen extends StatelessWidget {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             checkoutData.setDefaultAddress(address);
           });
+
           if (cartData.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
+
           return SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -52,8 +52,8 @@ class CheckoutVerifyScreen extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: address.length,
                     itemBuilder: (context, index) {
-                      return buildAddressCard(context, checkoutData, address, index);
-                      
+                      return buildAddressCard(
+                          context, checkoutData, address, index);
                     },
                   ),
                   const AddAddressButton(),
@@ -73,7 +73,7 @@ class CheckoutVerifyScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           buildSummaryRow("Total Quantity of Product",
-                              cartData.totalQuantity.toString()),
+                              cartData.totalQuantity.toString(),isMoney: false),
                           buildSummaryRow(
                               "Sub Total", cartData.totalCost.toString()),
                           buildSummaryRow("Extra Discount",
@@ -91,8 +91,8 @@ class CheckoutVerifyScreen extends StatelessWidget {
                     child: CustomButton(
                       text: "Continue To Payment",
                       onPressed: () async {
-                        PaymentService().processPayment(context, checkoutData, cartData);
-                        
+                        PaymentService()
+                            .processPayment(context, checkoutData, cartData);
                       },
                     ),
                   ),
@@ -105,6 +105,3 @@ class CheckoutVerifyScreen extends StatelessWidget {
     );
   }
 }
-
-
-

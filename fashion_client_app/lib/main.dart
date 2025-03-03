@@ -1,4 +1,5 @@
 import 'package:fashion_client_app/constants/colors.dart';
+import 'package:fashion_client_app/controllers/connectivity_service.dart';
 import 'package:fashion_client_app/firebase_options.dart';
 import 'package:fashion_client_app/provider/auth_state_provider.dart';
 import 'package:fashion_client_app/provider/cart_provider.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => CheckoutProvider()),
+        Provider<ConnectivityService>(create: (context) => ConnectivityService()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

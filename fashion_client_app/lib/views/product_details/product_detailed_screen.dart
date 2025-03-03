@@ -23,9 +23,9 @@ class ProductDetailedScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double paddingSize = width - (width * 0.85);
     return Scaffold(
-        appBar: const CustomMainAppBar(),
-        body: Consumer<ProductDetailProvider>(
-            builder: (context, productDetailprovider, child) {
+      appBar: const CustomMainAppBar(),
+      body: Consumer<ProductDetailProvider>(
+        builder: (context, productDetailprovider, child) {
           return SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: paddingSize - 30),
@@ -114,6 +114,8 @@ class ProductDetailedScreen extends StatelessWidget {
               ),
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 }

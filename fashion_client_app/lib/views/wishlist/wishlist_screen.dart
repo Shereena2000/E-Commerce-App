@@ -10,14 +10,14 @@ class WishlistScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:const CustomAppBar(title: "Wishlist")
-      ,body: Consumer<WishlistProvider>(builder: (context,wishlistProvider,child){
-         if (wishlistProvider.isLoading) {
+      appBar: const CustomAppBar(title: "Wishlist"),
+      body: Consumer<WishlistProvider>(
+        builder: (context, wishlistProvider, child) {
+          if (wishlistProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
-            
           }
-   final products = wishlistProvider.wishlistProducts;
-   if (products.isEmpty) {
+          final products = wishlistProvider.wishlistProducts;
+          if (products.isEmpty) {
             return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -32,18 +32,18 @@ class WishlistScreen extends StatelessWidget {
               ),
             );
           }
-      return    GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.75,
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        return ProductCard(product: products[index]);
-                      },
-                    );
-      },)
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.75,
+            ),
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              return ProductCard(product: products[index]);
+            },
+          );
+        },
+      ),
     );
   }
 }

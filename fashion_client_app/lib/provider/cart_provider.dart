@@ -6,7 +6,6 @@ import 'package:fashion_client_app/model/products_model.dart';
 import 'package:fashion_client_app/widgets/custom_snack_bar.dart';
 import 'package:flutter/material.dart';
 
-
 class CartProvider extends ChangeNotifier {
   StreamSubscription<QuerySnapshot>? _cartSubscription;
   StreamSubscription<QuerySnapshot>? _productSubscription;
@@ -28,6 +27,7 @@ class CartProvider extends ChangeNotifier {
 
   void readCartData() {
     isLoading = true;
+    notifyListeners(); //
     print("Fetching cart data...");
     _cartSubscription?.cancel();
     _cartSubscription = DbService().readCart().listen((snapshot) {
@@ -43,8 +43,13 @@ class CartProvider extends ChangeNotifier {
         print("Calling readCartProducts with UIDs: $cartUids");
         readCartProducts(cartUids);
       }
+     else {
+      product.clear(); // Clear product list if cart is empty
+      totalCost = 0; // Reset total cost
+      totalQuantity = 0; // Reset total quantity
       isLoading = false;
-      notifyListeners();
+      notifyListeners(); // Notify listeners to rebuild the UI
+    }
     });
   }
 
@@ -78,28 +83,31 @@ class CartProvider extends ChangeNotifier {
       Map<String, ProductModels> productMap = {};
 
       for (var doc in snapshot.docs) {
-        var product = ProductModels.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+        var product =
+            ProductModels.fromJson(doc.data() as Map<String, dynamic>, doc.id);
         productMap[product.id] = product;
       }
 
       product = cart.map((cartItem) {
-        return productMap[cartItem.productId] ?? ProductModels(
-          name: "Unknown Product",
-          description: "No description available",
-          images: [],
-          oldPrice: 0,
-          newPrice: 0,
-          category: "Unknown",
-          id: cartItem.productId,
-          maxQuantity: 0,
-          colorVariants: [],
-          sizeVariants: [],
-        );
+        return productMap[cartItem.productId] ??
+            ProductModels(
+              name: "Unknown Product",
+              description: "No description available",
+              images: [],
+              oldPrice: 0,
+              newPrice: 0,
+              category: "Unknown",
+              id: cartItem.productId,
+              maxQuantity: 0,
+              colorVariants: [],
+              sizeVariants: [],
+            );
       }).toList();
 
       print("Cart Products: ${product.length} items fetched");
       addCost(product, cart);
       calculateTotalQuantity();
+      isLoading=false;
       notifyListeners();
     });
   }
@@ -122,7 +130,12 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void buyProduct({required BuildContext context, required String selectedSize, required String selectedColor, required String productId,bool isCart=true}) {
+  void buyProduct(
+      {required BuildContext context,
+      required String selectedSize,
+      required String selectedColor,
+      required String productId,
+      bool isCart = true}) {
     if (selectedSize.isEmpty || selectedColor.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -145,21 +158,28 @@ class CartProvider extends ChangeNotifier {
           cartId: cartId,
         ),
       );
-if (isCart) {
-  ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Added to cart"),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-}
-      
+      if (isCart) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Added to cart"),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
-
+void resetState() {
+  cart.clear();
+  product.clear();
+  totalCost = 0;
+  totalQuantity = 0;
+  isLoading = false;
+  notifyListeners();
+}
   void cancelProvider() {
     _cartSubscription?.cancel();
     _productSubscription?.cancel();
+    resetState();
   }
 
   @override

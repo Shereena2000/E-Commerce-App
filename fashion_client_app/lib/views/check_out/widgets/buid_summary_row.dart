@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget buildSummaryRow(String label, String value, {bool isBold = false}) {
+Widget buildSummaryRow(String label, String value, {bool isBold = false,bool isMoney=true}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
@@ -11,7 +11,7 @@ Widget buildSummaryRow(String label, String value, {bool isBold = false}) {
             fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
       ),
       Text(
-        "₹$value",
+      isMoney?  "₹$value":value,
         style: TextStyle(
             fontSize: 15,
             fontWeight: isBold ? FontWeight.bold : FontWeight.normal),

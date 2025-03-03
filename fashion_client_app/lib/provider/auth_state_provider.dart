@@ -17,11 +17,13 @@ class AuthStateProvider extends ChangeNotifier {
       String password, GlobalKey<FormState> formKey) async {
     if (formKey.currentState!.validate()) {
       _isLoading = true;
+       notifyListeners();
       print("Signing up with Email: '$email'");
       final result =
           await AuthService().createAccountwithEmail(name, email, password);
 
       _isLoading = false;
+       notifyListeners();
       print(result);
       if (result == "Account is created") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -39,11 +41,11 @@ class AuthStateProvider extends ChangeNotifier {
       GlobalKey<FormState> formKey) {
     if (formKey.currentState!.validate()) {
       _isLoading = true;
-
+ notifyListeners();
       AuthService().loginWithEmail(email, password).then(
         (value) {
           _isLoading = false;
-
+ notifyListeners();
           if (value == "Login Success") {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Login Successful")),
@@ -58,7 +60,7 @@ class AuthStateProvider extends ChangeNotifier {
       ).catchError(
         (error) {
           _isLoading = false;
-
+  notifyListeners();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Error: $error")),
           );

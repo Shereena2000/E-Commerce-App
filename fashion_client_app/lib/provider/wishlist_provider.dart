@@ -75,4 +75,12 @@ class WishlistProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  @override
+  void dispose() {
+    // Clear state variables
+    _favoriteStatus.clear();
+    _wishlistProducts.clear();
+    _isLoading = false;
+    super.dispose();
+  }
 }
