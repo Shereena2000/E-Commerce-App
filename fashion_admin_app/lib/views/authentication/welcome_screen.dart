@@ -1,6 +1,5 @@
 import 'package:fashion_admin_app/constants/Texts.dart';
 import 'package:fashion_admin_app/constants/colors.dart';
-import 'package:fashion_admin_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -53,11 +52,11 @@ class WelcomeScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const AlternativeLoginWidget(
-                  whiteSocialButton: true,
-                  colour: whiteColor,
-                  textColor: whiteColor,
-                ),
+                // const AlternativeLoginWidget(
+                //   whiteSocialButton: true,
+                //   colour: whiteColor,
+                //   textColor: whiteColor,
+                // ),
                 const Spacer(flex: 2),
               ],
             ),

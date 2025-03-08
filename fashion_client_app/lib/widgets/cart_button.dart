@@ -19,7 +19,7 @@ class CartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: ()async {
          if (maxQuantity == 0) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -37,7 +37,7 @@ class CartButton extends StatelessWidget {
             ),
           );
         } else {
-          Provider.of<CartProvider>(context, listen: false).buyProduct(
+       await    Provider.of<CartProvider>(context, listen: false).buyProduct(
             context: context,
             selectedSize: selectedSize!,
             selectedColor: selectedColor!,

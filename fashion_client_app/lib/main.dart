@@ -87,7 +87,8 @@ class MyApp extends StatelessWidget {
           ),
           iconTheme: const IconThemeData(color: Colors.black),
         ),
-        initialRoute: '/',
+     
+       initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),
           '/signin': (context) => SigninScreen(),

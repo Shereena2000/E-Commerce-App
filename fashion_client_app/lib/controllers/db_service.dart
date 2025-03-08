@@ -65,6 +65,10 @@ class DbService {
   //cart
   //read cart
   Stream<QuerySnapshot> readCart() {
+    if (user == null) {
+    print("User is null");
+  return const Stream.empty();
+  }
     return FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -107,16 +111,15 @@ class DbService {
   }
 
   Future emptyCard() async {
-    await FirebaseFirestore.instance
+     final cartRef = FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
-        .collection("cart")
-        .get()
-        .then((value) {
-      for (DocumentSnapshot ds in value.docs) {
-        ds.reference.delete();
-      }
-    });
+        .collection("cart");
+        final querySnapshot = await cartRef.get();
+       final batch = FirebaseFirestore.instance.batch();
+  for (final doc in querySnapshot.docs) {
+    batch.delete(doc.reference);
+  } await batch.commit();
   }
 
   Future decreaseCount({required String cartId}) async {

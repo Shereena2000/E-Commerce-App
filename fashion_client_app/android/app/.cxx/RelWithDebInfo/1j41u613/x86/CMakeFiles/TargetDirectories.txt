@@ -1,0 +1,2 @@
+/Users/shereenamj/Flutter/e-commerce-app/fashion_client_app/android/app/.cxx/RelWithDebInfo/1j41u613/x86/CMakeFiles/edit_cache.dir
+/Users/shereenamj/Flutter/e-commerce-app/fashion_client_app/android/app/.cxx/RelWithDebInfo/1j41u613/x86/CMakeFiles/rebuild_cache.dir

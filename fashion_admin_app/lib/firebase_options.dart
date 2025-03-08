@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -63,6 +60,18 @@ class DefaultFirebaseOptions {
     messagingSenderId: '111153909184',
     projectId: 'admin-app-1f284',
     storageBucket: 'admin-app-1f284.firebasestorage.app',
+    androidClientId: '111153909184-08mqjnfrd1hav0584060otf117s2joot.apps.googleusercontent.com',
+    iosClientId: '111153909184-7d9jdaj0pi7qc0vkho060et2o7r5e3em.apps.googleusercontent.com',
     iosBundleId: 'com.example.fashionAdminApp',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyC7g1b2a0vk1bv7R-Vfq2QGPbHPmhEyaqw',
+    appId: '1:111153909184:web:36aa9548469970036b0c25',
+    messagingSenderId: '111153909184',
+    projectId: 'admin-app-1f284',
+    authDomain: 'admin-app-1f284.firebaseapp.com',
+    storageBucket: 'admin-app-1f284.firebasestorage.app',
+  );
+
 }

@@ -20,8 +20,8 @@ class CartProvider extends ChangeNotifier {
     readCartData();
   }
 
-  void addToCart(CartModel cartData) {
-    DbService().addToCart(cartData: cartData);
+Future<void>  addToCart(CartModel cartData)async  {
+   await  DbService().addToCart(cartData: cartData);
     notifyListeners();
   }
 
@@ -130,12 +130,12 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void buyProduct(
+  Future<void> buyProduct(
       {required BuildContext context,
       required String selectedSize,
       required String selectedColor,
       required String productId,
-      bool isCart = true}) {
+      bool isCart = true})async {
     if (selectedSize.isEmpty || selectedColor.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -149,7 +149,7 @@ class CartProvider extends ChangeNotifier {
       );
     } else {
       String cartId = "${productId}_${selectedSize}_${selectedColor}";
-      addToCart(
+  await    addToCart(
         CartModel(
           productId: productId,
           quantity: 1,
@@ -168,6 +168,7 @@ class CartProvider extends ChangeNotifier {
       }
     }
   }
+  
 void resetState() {
   cart.clear();
   product.clear();

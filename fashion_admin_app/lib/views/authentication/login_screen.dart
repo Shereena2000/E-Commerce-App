@@ -3,7 +3,6 @@ import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/providers/auth_state_provider.dart';
 import 'package:fashion_admin_app/utils/auth_validator.dart';
-import 'package:fashion_admin_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class LoginScreen extends StatelessWidget {
 
   final TextEditingController _passwordController = TextEditingController();
 
-  // bool _obsecureText = true;
+
   @override
   Widget build(BuildContext context) {
     final authStateProvider=Provider.of<AuthStateProvider>(context);
@@ -103,9 +102,9 @@ class LoginScreen extends StatelessWidget {
                     text: 'Sign In',
                     onPressed: (){_handleSignIn(context);},
                   ),
-                  largerSpacing,
-                  const AlternativeLoginWidget(),
-                  largerSpacing,
+               //   largerSpacing,
+              //    const AlternativeLoginWidget(),
+             smallSpacing,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

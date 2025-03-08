@@ -1,9 +1,7 @@
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
-import 'package:fashion_admin_app/constants/texts.dart';
 import 'package:fashion_admin_app/providers/auth_state_provider.dart';
 import 'package:fashion_admin_app/utils/auth_validator.dart';
-import 'package:fashion_admin_app/views/authentication/widgets/alternative_login_widget.dart';
 import 'package:fashion_admin_app/views/authentication/widgets/auth_header.dart';
 import 'package:fashion_admin_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -81,12 +79,10 @@ class SignUpScreen extends StatelessWidget {
                           validator: (value) =>
                               MyValidator.displayNameValidator(value),
                         ),
-                        const Text(
-                          'Email',
-                          style: normalText,
-                        ),
+                       moderateSpacing,
                         TextFormField(
                             decoration: InputDecoration(
+                                labelText: 'Email',
                               hintText: 'Enter your email',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25),
@@ -98,12 +94,10 @@ class SignUpScreen extends StatelessWidget {
                             validator: (value) =>
                                 MyValidator.emailValidator(value)),
                         moderateSpacing,
-                        const Text(
-                          'Password',
-                          style: normalText,
-                        ),
+                        
                         TextFormField(
                             decoration: InputDecoration(
+                                 labelText: 'Password',
                               hintText: 'Enter your password',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25),
@@ -114,13 +108,10 @@ class SignUpScreen extends StatelessWidget {
                             validator: (value) =>
                                 MyValidator.PasswordValidator(value)),
                         moderateSpacing,
-                        const Text(
-                          'Confirm Password',
-                          style: normalText,
-                        ),
+                      
                         TextFormField(
                           obscureText: authStateProvider.obsecureText,
-                          decoration: InputDecoration(
+                          decoration: InputDecoration(   labelText: 'Password',
                             hintText: 'Re-enter Password',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
@@ -153,9 +144,9 @@ class SignUpScreen extends StatelessWidget {
                       _handleSignUp(context);
                     },
                   ),
-                  largerSpacing,
-                  const AlternativeLoginWidget(),
-                  largerSpacing,
+                  // largerSpacing,
+                  // const AlternativeLoginWidget(),
+            smallSpacing,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

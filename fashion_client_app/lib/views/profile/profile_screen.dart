@@ -19,9 +19,10 @@ import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-bool _isDeviceOffline(AsyncSnapshot<List<ConnectivityResult>> snapshot) {
+  bool _isDeviceOffline(AsyncSnapshot<List<ConnectivityResult>> snapshot) {
     return snapshot.hasData && snapshot.data!.contains(ConnectivityResult.none);
   }
+
   @override
   Widget build(BuildContext context) {
     final connectivityService =
@@ -31,7 +32,7 @@ bool _isDeviceOffline(AsyncSnapshot<List<ConnectivityResult>> snapshot) {
       stream: connectivityService.connectivityStream,
       builder: (context, connectivitySnapshot) {
         // Check if the device is offline
-         if (_isDeviceOffline(connectivitySnapshot)) {
+        if (_isDeviceOffline(connectivitySnapshot)) {
           return const OfflineScreen();
         }
         return Scaffold(
@@ -103,8 +104,13 @@ bool _isDeviceOffline(AsyncSnapshot<List<ConnectivityResult>> snapshot) {
                             Provider.of<CartProvider>(context, listen: false)
                                 .cancelProvider();
                             await AuthService().logOut();
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/signin', (route) => false);
+                            if (context.mounted) {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                '/',
+                                (route) => false,
+                              );
+                            }
                           } catch (e) {
                             print("Error during logout: $e");
                           }
@@ -139,7 +145,9 @@ bool _isDeviceOffline(AsyncSnapshot<List<ConnectivityResult>> snapshot) {
                 ),
                 largerSpacing,
                 const Padding(
-                    padding: EdgeInsets.all(8.0), child: AppVersionWidget())
+                  padding: EdgeInsets.all(8.0),
+                  child: AppVersionWidget(),
+                )
               ],
             ),
           ),

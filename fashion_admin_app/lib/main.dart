@@ -22,6 +22,7 @@ import 'views/console/ordres/screens/view_order_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+ 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

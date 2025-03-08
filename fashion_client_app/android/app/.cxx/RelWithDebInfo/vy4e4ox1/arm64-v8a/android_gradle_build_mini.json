@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/shereenamj/Flutter/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/shereenamj/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/shereenamj/Flutter/e-commerce-app/fashion_client_app/android/app/.cxx/RelWithDebInfo/vy4e4ox1/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/shereenamj/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/shereenamj/Flutter/e-commerce-app/fashion_client_app/android/app/.cxx/RelWithDebInfo/vy4e4ox1/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

@@ -19,6 +19,7 @@ class AuthService {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+   
       return "Login Success";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
@@ -26,7 +27,15 @@ class AuthService {
   }
 
   Future logOut() async {
-    await FirebaseAuth.instance.signOut();
+    try {
+      await FirebaseAuth.instance.signOut();
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut(); 
+
+    print("Logged out of Firebase and Google");
+    } catch (e) {
+       print("Error during logout: $e");
+    }
   }
 
   Future resetPassword(String email) async {

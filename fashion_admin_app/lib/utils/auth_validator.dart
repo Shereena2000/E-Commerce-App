@@ -1,6 +1,6 @@
 class MyValidator {
   static String? displayNameValidator(String?displayName){
-    if (displayName==null|| displayName.isEmpty) {
+    if (displayName==null|| displayName.trim().isEmpty) {
       return 'Display name cannot be empty';
     }
     if (displayName.length<3||displayName.length>20) {

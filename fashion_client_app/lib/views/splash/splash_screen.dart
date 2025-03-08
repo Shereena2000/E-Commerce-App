@@ -6,7 +6,6 @@ class SplashScreen extends StatefulWidget {
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
-  
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -14,25 +13,30 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _navigateToWelcomeScreen();
+   _navigateToWelcomeScreen();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center( child: Image.asset('assets/logo.png'),),
+      body: Center(
+        child: Image.asset('assets/logo.png'),
+      ),
     );
   }
-  
-  Future<void>_navigateToWelcomeScreen() async{
-     await Future.delayed(const Duration(seconds: 2));
-     if (mounted) {
-      AuthService().isLoggedIn().then((value) {
-        if (value) {
-        Navigator.pushReplacementNamed(context, '/navBar');}
-      else {
-          Navigator.pushReplacementNamed(context, '/welcome');
-        }
-      });
-  }
-}
+
+  Future<void> _navigateToWelcomeScreen() async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (mounted) {
+      AuthService().isLoggedIn().then(
+        (value) {
+          if (value) {
+            Navigator.pushReplacementNamed(context, '/navBar');
+          } else {
+            Navigator.pushReplacementNamed(context, '/welcome');
+          }
+        },
+      );
+    }
+   }
 }

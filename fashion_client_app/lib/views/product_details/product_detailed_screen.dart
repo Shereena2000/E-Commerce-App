@@ -64,43 +64,44 @@ class ProductDetailedScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CustomButton(
-                          text: "BUY NOW",
-                          onPressed: () {
-                            if (product.maxQuantity == 0) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Product is out of stock"),
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
-                              return;
-                            }
+                        text: "BUY NOW",
+                        onPressed: () async{
+                          if (product.maxQuantity == 0) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Product is out of stock"),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                            return;
+                          }
 
-                            if (productDetailprovider.selectedSize == null ||
-                                productDetailprovider.selectedSize!.isEmpty ||
-                                productDetailprovider.selectedColor == null ||
-                                productDetailprovider.selectedColor!.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text("Please select both size and color"),
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
-                            } else {
-                              DbService().emptyCard();
-                              Provider.of<CartProvider>(context, listen: false)
-                                  .buyProduct(
-                                      context: context,
-                                      selectedSize:
-                                          productDetailprovider.selectedSize!,
-                                      selectedColor:
-                                          productDetailprovider.selectedColor!,
-                                      productId: product.id,
-                                      isCart: false);
-                              Navigator.pushNamed(context, '/checkout');
-                            }
-                          }),
+                          if (productDetailprovider.selectedSize == null ||
+                              productDetailprovider.selectedSize!.isEmpty ||
+                              productDetailprovider.selectedColor == null ||
+                              productDetailprovider.selectedColor!.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                    Text("Please select both size and color"),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          } else {
+                         await   DbService().emptyCard();
+                      await      Provider.of<CartProvider>(context, listen: false)
+                                .buyProduct(
+                                    context: context,
+                                    selectedSize:
+                                        productDetailprovider.selectedSize!,
+                                    selectedColor:
+                                        productDetailprovider.selectedColor!,
+                                    productId: product.id,
+                                    isCart: false);
+                            Navigator.pushNamed(context, '/checkout');
+                          }
+                        },
+                      ),
                       CartButton(
                         productId: product.id,
                         selectedSize: productDetailprovider.selectedSize,
