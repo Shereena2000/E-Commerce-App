@@ -8,6 +8,15 @@ class CheckoutProvider extends ChangeNotifier {
   int discount = 0;
   String discountText = "";
    AddressModel? selectedAddress;
+
+   void clear() {
+    selectedAddressIndex = 0;
+    discount = 0;
+    discountText = "";
+    selectedAddress = null;
+    notifyListeners();
+  }
+
    void resetDiscount() {
     discount = 0;
     discountText = "";
@@ -71,4 +80,5 @@ class CheckoutProvider extends ChangeNotifier {
       );
     }
   }
+  
 }

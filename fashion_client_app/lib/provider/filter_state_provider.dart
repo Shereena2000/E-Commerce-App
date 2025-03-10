@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class FilterStateProvider with ChangeNotifier {
   final Map<String, bool> _tappedStates = {};
   final Map<String, Map<String, bool>> _checklistStates = {};
@@ -48,7 +49,8 @@ class FilterStateProvider with ChangeNotifier {
       }
     } else if (normalizedKey == 'prizerange') {
       if (value) {
-        if (!tempSelectedPriceRange.contains(item)) tempSelectedPriceRange.add(item);
+        if (!tempSelectedPriceRange.contains(item))
+          tempSelectedPriceRange.add(item);
       } else {
         tempSelectedPriceRange.remove(item);
       }
@@ -61,6 +63,18 @@ class FilterStateProvider with ChangeNotifier {
     selectedSize = List.from(tempSelectedSize);
     selectedColor = List.from(tempSelectedColor);
     selectedPriceRange = List.from(tempSelectedPriceRange);
+    notifyListeners();
+  }
+
+  void resetFilters() {
+    _tappedStates.clear();
+    _checklistStates.clear();
+    selectedSize = [];
+    selectedColor = [];
+    selectedPriceRange = [];
+    tempSelectedColor = [];
+    tempSelectedColor = [];
+    tempSelectedPriceRange = [];
     notifyListeners();
   }
 }

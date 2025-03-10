@@ -1,10 +1,14 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fashion_client_app/constants/spacing.dart';
-import 'package:fashion_client_app/controllers/auth_service.dart';
 import 'package:fashion_client_app/controllers/connectivity_service.dart';
 import 'package:fashion_client_app/provider/address_provider.dart';
+import 'package:fashion_client_app/provider/auth_state_provider.dart';
 import 'package:fashion_client_app/provider/cart_provider.dart';
+import 'package:fashion_client_app/provider/checkout_provider.dart';
+import 'package:fashion_client_app/provider/filter_state_provider.dart';
+import 'package:fashion_client_app/provider/product_detail_provider.dart';
 import 'package:fashion_client_app/provider/user_provider.dart';
+import 'package:fashion_client_app/provider/wishlist_provider.dart';
 import 'package:fashion_client_app/views/offline/offline_screen.dart';
 import 'package:fashion_client_app/views/profile/widgets/build_menu_item.dart';
 import 'package:fashion_client_app/views/profile/widgets/legal_info_widget.dart';
@@ -31,7 +35,7 @@ class ProfileScreen extends StatelessWidget {
     return StreamBuilder<List<ConnectivityResult>>(
       stream: connectivityService.connectivityStream,
       builder: (context, connectivitySnapshot) {
-        // Check if the device is offline
+     
         if (_isDeviceOffline(connectivitySnapshot)) {
           return const OfflineScreen();
         }
@@ -97,13 +101,31 @@ class ProfileScreen extends StatelessWidget {
                         onYes: () async {
                           print("Logging out...");
                           try {
+                      
+                            Provider.of<WishlistProvider>(context,
+                                    listen: false)
+                                .clearWishlist();
+                            Provider.of<FilterStateProvider>(context,
+                                    listen: false)
+                                .resetFilters();
+                            Provider.of<ProductDetailProvider>(context,
+                                    listen: false)
+                                .resetSelections();
+                            Provider.of<CheckoutProvider>(context,
+                                    listen: false)
+                                .clear();
                             Provider.of<AddressProvider>(context, listen: false)
                                 .cancelProvider();
                             Provider.of<UserProvider>(context, listen: false)
                                 .cancelProvider();
                             Provider.of<CartProvider>(context, listen: false)
                                 .cancelProvider();
-                            await AuthService().logOut();
+                            final authProvider = Provider.of<AuthStateProvider>(
+                                context,
+                                listen: false);
+                                 
+                            await authProvider.logout();
+
                             if (context.mounted) {
                               Navigator.pushNamedAndRemoveUntil(
                                 context,

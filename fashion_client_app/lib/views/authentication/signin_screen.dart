@@ -15,7 +15,7 @@ class SigninScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
-    final formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class SigninScreen extends StatelessWidget {
                   ),
                   largerSpacing,
                   Form(
-                    key:formKey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -102,11 +102,16 @@ class SigninScreen extends StatelessWidget {
                   CustomButton(
                     text: 'Sign In',
                     onPressed: () {
-                      authStateProvider.handleSignIn(context,
-                          _emailController.text, _passwordController.text,formKey);
+                      authStateProvider.handleSignIn(
+                          context,
+                          _emailController.text,
+                          _passwordController.text,
+                          formKey);
+
+                 
                     },
                   ),
-                largerSpacing,
+                  largerSpacing,
                   const AlternativeLoginWidget(),
                   largerSpacing,
                   Row(

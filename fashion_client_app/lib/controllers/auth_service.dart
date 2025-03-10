@@ -2,13 +2,14 @@ import 'package:fashion_client_app/controllers/db_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 class AuthService {
-  Future<String> createAccountwithEmail(String name,String email, String password) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<String> createAccountwithEmail(
+      String name, String email, String password) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-          DbService().saveUserData(name: name, email: email);
+      DbService().saveUserData(name: name, email: email);
       return "Account is created";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
@@ -19,7 +20,7 @@ class AuthService {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-   
+
       return "Login Success";
     } on FirebaseAuthException catch (e) {
       return e.message.toString();
@@ -30,14 +31,18 @@ class AuthService {
     try {
       await FirebaseAuth.instance.signOut();
       final GoogleSignIn googleSignIn = GoogleSignIn();
-    await googleSignIn.signOut(); 
-
-    print("Logged out of Firebase and Google");
+      await googleSignIn.signOut();
+      await resetFirebaseAuth();
+      await _auth.currentUser?.reload();
+      print("Logged out of Firebase and Google");
     } catch (e) {
-       print("Error during logout: $e");
+      print("Error during logout: $e");
     }
   }
-
+Future<void> resetFirebaseAuth() async {
+    await _auth.setPersistence(Persistence.NONE);
+    await _auth.signOut();
+  }
   Future resetPassword(String email) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
@@ -54,7 +59,7 @@ class AuthService {
 
   Future<String> signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
 
     try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
@@ -72,11 +77,13 @@ class AuthService {
         idToken: googleAuth.idToken,
       );
 
-      await firebaseAuth.signInWithCredential(credential);
+      await _auth.signInWithCredential(credential);
 
       return "Google sign-in successful";
     } catch (e) {
       return "Error occurred during Google sign-in: $e";
     }
   }
+
+  
 }

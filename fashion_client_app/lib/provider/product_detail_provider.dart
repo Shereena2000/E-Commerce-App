@@ -35,4 +35,10 @@ class ProductDetailProvider extends ChangeNotifier {
     _selectedColor = null;
     notifyListeners();
   }
+  @override
+void dispose() {
+resetSelections();
+  super.dispose();
+}
+
 }

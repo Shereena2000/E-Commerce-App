@@ -1,3 +1,4 @@
+
 import 'package:fashion_client_app/constants/colors.dart';
 import 'package:fashion_client_app/controllers/connectivity_service.dart';
 import 'package:fashion_client_app/firebase_options.dart';
@@ -41,6 +42,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+ 
   await dotenv.load(fileName: ".env");
     String? stripeKey = dotenv.env["STRIPE_PUBLISH_KEY"];
   if (stripeKey == null || stripeKey.isEmpty) {
@@ -59,9 +61,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+         ChangeNotifierProvider(create: (context) => AuthStateProvider()),
         ChangeNotifierProvider(create: (context) => HomeStateProvider()),
         ChangeNotifierProvider(create: (context) => AddressProvider()),
-        ChangeNotifierProvider(create: (context) => AuthStateProvider()),
+       
         ChangeNotifierProvider(create: (context) => ProductDetailProvider()),
         ChangeNotifierProvider(create: (context) => SearchProvider()),
         ChangeNotifierProvider(create: (context) => FilterStateProvider()),

@@ -4,6 +4,7 @@ import 'package:fashion_client_app/controllers/db_service.dart';
 import 'package:fashion_client_app/model/cart_model.dart';
 import 'package:fashion_client_app/model/products_model.dart';
 import 'package:fashion_client_app/widgets/custom_snack_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CartProvider extends ChangeNotifier {
@@ -17,17 +18,30 @@ class CartProvider extends ChangeNotifier {
   int totalQuantity = 0;
 
   CartProvider() {
-    readCartData();
+   // In provider constructor:
+FirebaseAuth.instance.authStateChanges().listen((User? user) {
+  if (user != null) {
+    // User is signed in, load data
+  readCartData();
+  } else {
+    // User is signed out, clear data
+    cancelProvider();
   }
-
-Future<void>  addToCart(CartModel cartData)async  {
-   await  DbService().addToCart(cartData: cartData);
+});
+  }
+void reloadData() {
+  if (FirebaseAuth.instance.currentUser != null) {
+   readCartData();
+  }
+}
+  Future<void> addToCart(CartModel cartData) async {
+    await DbService().addToCart(cartData: cartData);
     notifyListeners();
   }
 
   void readCartData() {
     isLoading = true;
-    notifyListeners(); //
+    notifyListeners();
     print("Fetching cart data...");
     _cartSubscription?.cancel();
     _cartSubscription = DbService().readCart().listen((snapshot) {
@@ -42,19 +56,18 @@ Future<void>  addToCart(CartModel cartData)async  {
       if (cart.isNotEmpty) {
         print("Calling readCartProducts with UIDs: $cartUids");
         readCartProducts(cartUids);
+      } else {
+        product.clear();
+        totalCost = 0;
+        totalQuantity = 0;
+        isLoading = false;
+        notifyListeners();
       }
-     else {
-      product.clear(); // Clear product list if cart is empty
-      totalCost = 0; // Reset total cost
-      totalQuantity = 0; // Reset total quantity
-      isLoading = false;
-      notifyListeners(); // Notify listeners to rebuild the UI
-    }
     });
   }
 
-  void deleteItem(String cartId) {
-    DbService().deleteItemFromCart(cartId: cartId);
+  void deleteItem(String cartId) async {
+    await DbService().deleteItemFromCart(cartId: cartId);
     readCartData();
     notifyListeners();
   }
@@ -107,7 +120,7 @@ Future<void>  addToCart(CartModel cartData)async  {
       print("Cart Products: ${product.length} items fetched");
       addCost(product, cart);
       calculateTotalQuantity();
-      isLoading=false;
+      isLoading = false;
       notifyListeners();
     });
   }
@@ -135,7 +148,7 @@ Future<void>  addToCart(CartModel cartData)async  {
       required String selectedSize,
       required String selectedColor,
       required String productId,
-      bool isCart = true})async {
+      bool isCart = true}) async {
     if (selectedSize.isEmpty || selectedColor.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -149,7 +162,7 @@ Future<void>  addToCart(CartModel cartData)async  {
       );
     } else {
       String cartId = "${productId}_${selectedSize}_${selectedColor}";
-  await    addToCart(
+      await addToCart(
         CartModel(
           productId: productId,
           quantity: 1,
@@ -168,19 +181,24 @@ Future<void>  addToCart(CartModel cartData)async  {
       }
     }
   }
-  
-void resetState() {
-  cart.clear();
-  product.clear();
-  totalCost = 0;
-  totalQuantity = 0;
-  isLoading = false;
-  notifyListeners();
-}
+
+  void resetState() {
+    cart.clear();
+    cartUids = [];
+    cart = [];
+    product = [];
+    product.clear();
+    totalCost = 0;
+    totalQuantity = 0;
+    isLoading = false;
+    notifyListeners();
+  }
+
   void cancelProvider() {
     _cartSubscription?.cancel();
     _productSubscription?.cancel();
     resetState();
+    notifyListeners();
   }
 
   @override

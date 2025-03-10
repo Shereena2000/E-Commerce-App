@@ -3,17 +3,15 @@ import 'package:fashion_client_app/model/cart_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class DbService {
-  User? user = FirebaseAuth.instance.currentUser;
-
-//ad the user to firebase
-
   Future saveUserData({required String name, required String email}) async {
     try {
+         User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
       Map<String, dynamic> data = {"name": name, "email": email};
       print("saving $data");
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(user!.uid)
+          .doc(user.uid)
           .set(data);
     } catch (e) {
       print("error on saving user data:$e");
@@ -22,17 +20,24 @@ class DbService {
 
 //update otherdata in database
   Future updateUserData({required Map<String, dynamic> data}) async {
+       User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .update(data);
   }
 
 //read user current user data
   Stream<DocumentSnapshot> readUserData() {
+      User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      // Return an empty stream if no user is logged in
+      return Stream.empty();
+    }
     return FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .snapshots();
   }
 
@@ -65,13 +70,15 @@ class DbService {
   //cart
   //read cart
   Stream<QuerySnapshot> readCart() {
+
+User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-    print("User is null");
-  return const Stream.empty();
-  }
+      print("User is null");
+      return Stream.empty();
+    }
     return FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection("cart")
         .snapshots();
   }
@@ -79,11 +86,13 @@ class DbService {
 //add cart data
   Future addToCart({required CartModel cartData}) async {
     try {
+       User? user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
       String cartId = cartData.cartId;
 
       DocumentReference cartRef = FirebaseFirestore.instance
           .collection("users")
-          .doc(user!.uid)
+          .doc(user.uid)
           .collection("cart")
           .doc(cartId);
 
@@ -102,18 +111,22 @@ class DbService {
   }
 
   Future deleteItemFromCart({required String cartId}) async {
+     User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection("cart")
         .doc(cartId)
         .delete();
   }
 
   Future emptyCard() async {
+     User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
      final cartRef = FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection("cart");
         final querySnapshot = await cartRef.get();
        final batch = FirebaseFirestore.instance.batch();
@@ -123,9 +136,11 @@ class DbService {
   }
 
   Future decreaseCount({required String cartId}) async {
+      User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
     DocumentReference cartRef = FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection("cart")
         .doc(cartId);
 
@@ -151,13 +166,15 @@ class DbService {
   //readwishlist
   Stream<QuerySnapshot> readWishlist() {
     try {
+      
+      User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         print("User is not logged in");
-        return const Stream.empty();
+        return Stream.empty();
       }
       return FirebaseFirestore.instance
           .collection("users")
-          .doc(user!.uid)
+          .doc(user.uid)
           .collection("wishlist")
           .snapshots();
     } on FirebaseException catch (e) {
@@ -169,13 +186,14 @@ class DbService {
 // Add to wishlist
   Future addToWishlist({required String productId}) async {
     try {
+       User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         print("User is not logged in");
         return;
       }
       final wishlistRef = FirebaseFirestore.instance
           .collection("users")
-          .doc(user!.uid)
+          .doc(user.uid)
           .collection("wishlist")
           .doc(productId);
 
@@ -195,13 +213,14 @@ class DbService {
 // Delete from wishlist
   Future deleteItemFromWishlist({required String productId}) async {
     try {
+      User? user = FirebaseAuth.instance.currentUser;
       if (user == null) {
         print("User is not logged in");
         return;
       }
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(user!.uid)
+          .doc(user.uid)
           .collection("wishlist")
           .doc(productId)
           .delete();
@@ -212,18 +231,23 @@ class DbService {
 
   // profle for saving address
   Future addAddress({required Map<String, dynamic> data}) async {
+     User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection("address")
         .add(data);
   }
 
   Future updateAddress(
       {required String doId, required Map<String, dynamic> data}) async {
+          User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+    
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection("address")
         .doc(doId)
         .update(data);
@@ -232,18 +256,27 @@ class DbService {
   Future deleteAddress({
     required String doId,
   }) async {
+
+     User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection("address")
         .doc(doId)
         .delete();
   }
 
   Stream<QuerySnapshot> readAddress() {
+ User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return Stream.empty();
+    }
+
     return FirebaseFirestore.instance
         .collection("users")
-        .doc(user!.uid)
+        .doc(user.uid)
         .collection("address")
         .snapshots();
   }
@@ -282,9 +315,13 @@ class DbService {
 
   // read the order data of specific user
   Stream<QuerySnapshot> readOrders() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return Stream.empty();
+    }
     return FirebaseFirestore.instance
         .collection("shop_orders")
-        .where("user_id", isEqualTo: user!.uid)
+        .where("user_id", isEqualTo: user.uid)
         .orderBy("created_at", descending: true)
         .snapshots();
   }
@@ -297,4 +334,14 @@ class DbService {
         .snapshots();
   }
 
+Future<void> clearFirestoreCache() async {
+    try {
+      // Terminate the Firestore instance to clear the cache
+      await FirebaseFirestore.instance.terminate();
+      // Reinitialize Firestore
+      await FirebaseFirestore.instance.clearPersistence();
+    } catch (e) {
+      print("Error clearing Firestore cache: $e");
+    }
+  }
 }

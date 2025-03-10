@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:fashion_client_app/controllers/db_service.dart';
 import 'package:fashion_client_app/model/products_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class WishlistProvider extends ChangeNotifier {
@@ -9,17 +12,32 @@ class WishlistProvider extends ChangeNotifier {
   bool _isLoading = false;
   List<ProductModels> get wishlistProducts => _wishlistProducts;
   bool get isLoading => _isLoading;
+  StreamSubscription? _wishlistSubscription;
   WishlistProvider() {
+    // In provider constructor:
+FirebaseAuth.instance.authStateChanges().listen((User? user) {
+  if (user != null) {
+    // User is signed in, load data
+   _initializeWishlist();
+  } else {
+    // User is signed out, clear data
+    clearWishlist();
+  }
+});
+  }
+void reloadData() {
+  if (FirebaseAuth.instance.currentUser != null) {
     _initializeWishlist();
   }
-
-  Future<void> _initializeWishlist() async {
+}
+  void _initializeWishlist() {
     _isLoading = true;
     notifyListeners();
 
     try {
       // Listen to wishlist changes
-      _dbService.readWishlist().listen((wishlistSnapshot) async {
+      _wishlistSubscription =
+          _dbService.readWishlist().listen((wishlistSnapshot) async {
         // Get product IDs from wishlist
         final productIds = wishlistSnapshot.docs
             .map((doc) => doc.get('product_id') as String)
@@ -75,12 +93,20 @@ class WishlistProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  @override
-  void dispose() {
-    // Clear state variables
+
+  void clearWishlist() {
+    _wishlistSubscription?.cancel();
+    _wishlistSubscription = null;
     _favoriteStatus.clear();
     _wishlistProducts.clear();
     _isLoading = false;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    // Clear state variables
+    clearWishlist();
     super.dispose();
   }
 }
