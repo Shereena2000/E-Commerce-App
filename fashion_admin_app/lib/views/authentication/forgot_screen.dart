@@ -14,6 +14,8 @@ class ForgotScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     TextEditingController emailController = TextEditingController();
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWeb = screenWidth > 600; 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: beigeColor,
@@ -22,54 +24,61 @@ class ForgotScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           horizontal: 8.0,
         ),
-        child: Column(
-          children: [
-            const AuthHeader(
-              title: 'Forgot',
-              subtitle: 'Please enter your email to reset your password',
-            ),
-            largerSpacing,
-            Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Email',
-                    style: normalText,
-                  ),
-                  smallSpacing,
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'Enter your email',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                      maxWidth: isWeb ? 600 : screenWidth,
                     ),
-                    keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
-                    validator: (value) => MyValidator.emailValidator(value),
+            child: Column(
+              children: [
+                const AuthHeader(
+                  title: 'Forgot',
+                  subtitle: 'Please enter your email to reset your password',
+                ),
+                largerSpacing,
+                Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Email',
+                        style: normalText,
+                      ),
+                      smallSpacing,
+                      TextFormField(
+                        decoration: InputDecoration(
+                          hintText: 'Enter your email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        controller: emailController,
+                        validator: (value) => MyValidator.emailValidator(value),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                smallSpacing,
+                CustomButton(
+                  text: 'Continue',
+                  onPressed: () {
+                    AuthService().resetPassword(emailController.text).then((value) {
+                      if (value == "Mail Sent") {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content:
+                                Text('Password reset link sent to your email')));
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text(value)));
+                      }
+                    });
+                  },
+                )
+              ],
             ),
-            smallSpacing,
-            CustomButton(
-              text: 'Continue',
-              onPressed: () {
-                AuthService().resetPassword(emailController.text).then((value) {
-                  if (value == "Mail Sent") {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content:
-                            Text('Password reset link sent to your email')));
-                  } else {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text(value)));
-                  }
-                });
-              },
-            )
-          ],
+          ),
         ),
       ),
     );

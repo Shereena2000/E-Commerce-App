@@ -1,3 +1,4 @@
+
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/models/order_model.dart';
@@ -14,8 +15,12 @@ class OrderDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWeb = screenWidth > 600;
+
     String formattedDate = DateFormat('dd MMM yyyy')
         .format(DateTime.fromMillisecondsSinceEpoch(args.created_at));
+
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -25,13 +30,17 @@ class OrderDetailsCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(isWeb ? 24.0 : 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Order ID: ${args.id}",
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+              Text(
+                "Order ID: ${args.id}",
+                style: TextStyle(
+                  fontSize: isWeb ? 18 : 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               liteSpacing,
               Text("Ordered On: $formattedDate"),
               liteSpacing,
@@ -45,7 +54,7 @@ class OrderDetailsCard extends StatelessWidget {
               liteSpacing,
               Text("State: ${args.addressDetails.state}"),
               liteSpacing,
-              Text("Address Lable: ${args.addressDetails.addressLabel}"),
+              Text("Address Label: ${args.addressDetails.addressLabel}"),
               liteSpacing,
             ],
           ),

@@ -1,3 +1,5 @@
+
+
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/models/product_models.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +9,12 @@ class ProductImage extends StatefulWidget {
     super.key,
     required this.width,
     required this.products,
+    this.imageHeight,
   });
 
   final double width;
   final ProductModels products;
+  final double? imageHeight; // Optional height parameter for custom sizing
 
   @override
   State<ProductImage> createState() => _ProductImageState();
@@ -18,37 +22,48 @@ class ProductImage extends StatefulWidget {
 
 class _ProductImageState extends State<ProductImage> {
   int selectedImage = 0;
+  
   @override
   Widget build(BuildContext context) {
+    // Adjust layout based on screen width
+    final isDesktop = MediaQuery.of(context).size.width > 1024;
+    final isTablet = MediaQuery.of(context).size.width > 600 && MediaQuery.of(context).size.width <= 1024;
+    
     return Column(
       children: [
         SizedBox(
           width: widget.width,
+          height: widget.imageHeight,
           child: AspectRatio(
-            aspectRatio: 1,
+            aspectRatio: isDesktop ? 1 : (isTablet ? 1.2 : 1),
             child: FadeInImage.assetNetwork(
-                placeholder: "assets/placeholder.jpg",
-                image: widget.products.images[selectedImage],
-                imageErrorBuilder: (context, error, StackTrace) {
-                  return Image.asset(
-                    "assets/placeholder.jpg",
-                    fit: BoxFit.contain,
-                  );
-                }),
+              placeholder: "assets/placeholder.jpg",
+              image: widget.products.images[selectedImage],
+              fit: BoxFit.contain,
+              imageErrorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  "assets/placeholder.jpg",
+                  fit: BoxFit.contain,
+                );
+              }
+            ),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ...List.generate(widget.products.images.length,
-                (index) => buildSmallPreview(index))
-          ],
+        Container(
+          margin: const EdgeInsets.only(top: 15),
+          height: 70,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: widget.products.images.length,
+            itemBuilder: (context, index) => buildSmallPreview(index),
+          ),
         )
       ],
     );
   }
 
-  GestureDetector buildSmallPreview(int index) {
+  Widget buildSmallPreview(int index) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -56,32 +71,33 @@ class _ProductImageState extends State<ProductImage> {
         });
       },
       child: Container(
-        margin: EdgeInsets.only(right: 15, top: 15),
-        width: 50,
+        margin: const EdgeInsets.only(right: 15),
+        padding: const EdgeInsets.all(2),
+        width: 60,
+        height: 60,
         decoration: BoxDecoration(
-            color: beigeColor,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-                color:
-                    selectedImage == index ? blackColor : Colors.transparent)),
-        child: ClipRRect(
+          color: beigeColor,
           borderRadius: BorderRadius.circular(10),
-          child: FadeInImage.assetNetwork(
-                placeholder: "assets/placeholder.jpg",
-               
-                image:widget.products.images[index],
-                imageErrorBuilder: (context, error, StackTrace) {
-                  return Image.asset(
-                    "assets/placeholder.jpg",
-                    fit: BoxFit.contain,
-                  );
-                }),
-
-          //  Image.network(
-          //   widget.products.images[index],
+          border: Border.all(
+            color: selectedImage == index ? blackColor : Colors.transparent,
+            width: 2,
           ),
         ),
-      );
-    
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: FadeInImage.assetNetwork(
+            placeholder: "assets/placeholder.jpg",
+            image: widget.products.images[index],
+            fit: BoxFit.cover,
+            imageErrorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                "assets/placeholder.jpg",
+                fit: BoxFit.cover,
+              );
+            }
+          ),
+        ),
+      ),
+    );
   }
 }

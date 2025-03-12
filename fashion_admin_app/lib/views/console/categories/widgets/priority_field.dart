@@ -12,7 +12,7 @@ class PriorityField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: provider.priorityController,
-      validator: (value) => validateNotEmpty(value),
+      validator: (value) => validateNumber(value),
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),

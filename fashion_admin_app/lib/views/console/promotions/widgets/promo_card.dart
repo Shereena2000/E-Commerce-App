@@ -56,6 +56,7 @@ class PromoCard extends StatelessWidget {
             smallWidthSpacing,
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(promos.category, style: boldText),

@@ -1,3 +1,4 @@
+
 import 'package:fashion_admin_app/constants/app_constants.dart';
 import 'package:fashion_admin_app/models/product_models.dart';
 import 'package:fashion_admin_app/views/console/products/widgets/product_card.dart';
@@ -13,23 +14,54 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(8),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-        childAspectRatio: 0.7,
-      ),
-      itemBuilder: (context, index) {
-        (products[index].images.isNotEmpty)
-            ? products[index].images[0]
-            : AppConstants.defaultImageUrl;
-        return ProductCard(      
-          products: products[index],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Determine grid layout based on available width
+        int crossAxisCount;
+        double childAspectRatio;
+        
+        if (constraints.maxWidth > 1200) {
+          // Large desktop
+          crossAxisCount = 5;
+          childAspectRatio = 0.8;
+        } else if (constraints.maxWidth > 900) {
+          // Desktop
+          crossAxisCount = 4;
+          childAspectRatio = 0.75;
+        } else if (constraints.maxWidth > 600) {
+          // Tablet
+          crossAxisCount = 3;
+          childAspectRatio = 0.7;
+        } else if (constraints.maxWidth > 450) {
+          // Large phone
+          crossAxisCount = 2;
+          childAspectRatio = 0.7;
+        } else {
+          // Small phone
+          crossAxisCount = 2;
+          childAspectRatio = 0.8;
+        }
+        
+        return GridView.builder(
+          padding: const EdgeInsets.all(8),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+            childAspectRatio: childAspectRatio,
+          ),
+          itemBuilder: (context, index) {
+            final imageUrl = (products[index].images.isNotEmpty)
+                ? products[index].images[0]
+                : AppConstants.defaultImageUrl;
+                
+            return ProductCard(      
+              products: products[index],
+            );
+          },
+          itemCount: products.length,
         );
       },
-      itemCount: products.length,
     );
   }
 }

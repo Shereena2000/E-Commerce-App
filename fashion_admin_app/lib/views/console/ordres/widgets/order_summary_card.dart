@@ -14,6 +14,9 @@ class OrderSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWeb = screenWidth > 600;
+
     return Container(
       width: double.infinity,
       child: Card(
@@ -23,19 +26,27 @@ class OrderSummaryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16.0), // Added padding
+          padding: EdgeInsets.all(isWeb ? 24.0 : 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Order Summary",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(
+                "Order Summary",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: isWeb ? 18 : 16,
+                ),
+              ),
               liteSpacing,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Discount : ₹${args.discount}",
-                  )
+                    style: TextStyle(
+                      fontSize: isWeb ? 16 : 14,
+                    ),
+                  ),
                 ],
               ),
               Row(
@@ -43,17 +54,24 @@ class OrderSummaryCard extends StatelessWidget {
                 children: [
                   Text(
                     "Total : ₹${args.total}",
-                  )
+                    style: TextStyle(
+                      fontSize: isWeb ? 16 : 14,
+                    ),
+                  ),
                 ],
               ),
               const Divider(),
-              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Staus",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-               statusIcon(args.status)
+                  Text(
+                    "Status",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: isWeb ? 18 : 16,
+                    ),
+                  ),
+                  statusIcon(args.status),
                 ],
               ),
             ],
@@ -63,5 +81,4 @@ class OrderSummaryCard extends StatelessWidget {
     );
   }
 }
-
 

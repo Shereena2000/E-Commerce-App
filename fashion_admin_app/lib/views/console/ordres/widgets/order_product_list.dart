@@ -1,3 +1,4 @@
+
 import 'package:fashion_admin_app/constants/colors.dart';
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/models/order_model.dart';
@@ -14,14 +15,17 @@ class OrderProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWeb = screenWidth > 600;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: args.products
           .map(
             (e) => Container(
               width: double.infinity,
-              padding:const EdgeInsets.all(10),
-              margin:const EdgeInsets.all(4),
+              padding: EdgeInsets.all(isWeb ? 16.0 : 10.0),
+              margin: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: beigeColor,
                 borderRadius: BorderRadius.circular(10),
@@ -31,36 +35,41 @@ class OrderProductList extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                     SizedBox(
-                        height: 80,
-                        width: 80,
+                      SizedBox(
+                        height: isWeb ? 120 : 80,
+                        width: isWeb ? 120 : 80,
                         child: Image.network(e.image),
                       ),
                       liteSpacing,
                       Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(e.name.titleCase),
-                          Text(
-                            "Price : ₹${e.single_price.toString()} x ${e.quantity.toString()} quantity",
-                          ), Text(
-                              "Size : ${e.size}",
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              e.name.titleCase,
+                              style: TextStyle(
+                                fontSize: isWeb ? 16 : 14,
+                              ),
                             ),
                             Text(
-                              "Color : ${e.color}",
+                              "Price : ₹${e.single_price.toString()} x ${e.quantity.toString()} quantity",
                             ),
-                          Text(
-                            "Quantity :  ${e.quantity.toString()}",
-                          ),
-                          Text(
-                            "Total ₹${e.total_price.toString()}",
-                          ),
-                        ],
-                      )),
+                            Text("Size : ${e.size}"),
+                            Text("Color : ${e.color}"),
+                            Text("Quantity : ${e.quantity.toString()}"),
+                            Text(
+                              "Total ₹${e.total_price.toString()}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: isWeb ? 16 : 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                  const Divider()
+                  const Divider(),
                 ],
               ),
             ),

@@ -36,6 +36,7 @@ class CategoryListItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
@@ -58,7 +59,8 @@ class CategoryListItem extends StatelessWidget {
             smallWidthSpacing,
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+               crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(categories.name, style: boldText),
                   Text("Priority: ${categories.priority}"),

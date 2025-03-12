@@ -1,3 +1,4 @@
+
 import 'package:fashion_admin_app/constants/spacing.dart';
 import 'package:fashion_admin_app/models/order_model.dart';
 import 'package:fashion_admin_app/views/console/ordres/widgets/modify_order_showdialog.dart';
@@ -13,6 +14,8 @@ class ViewOrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as OrdersModel;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWeb = screenWidth > 600; // Adjust this threshold as needed
 
     return Scaffold(
       appBar: AppBar(
@@ -20,31 +23,41 @@ class ViewOrderScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              OrderDetailsCard(args: args),
-              moderateSpacing,
-              OrderProductList(args: args),
-              moderateSpacing,
-              OrderSummaryCard(args: args),
-              moderateSpacing,
-              Center(
-                child: CustomOutlineButton(
-                  text: "Modify Order",
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => ModifyOrder(
-                        order: args,
-                      ),
-                    );
-                  },
-                ),
+          padding: EdgeInsets.symmetric(
+            horizontal: isWeb ? screenWidth * 0.1 : 16.0,
+            vertical: 16.0,
+          ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: isWeb ? 800 : screenWidth,
               ),
-              moderateSpacing
-            ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  OrderDetailsCard(args: args),
+                  moderateSpacing,
+                  OrderProductList(args: args),
+                  moderateSpacing,
+                  OrderSummaryCard(args: args),
+                  moderateSpacing,
+                  Center(
+                    child: CustomOutlineButton(
+                      text: "Modify Order",
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => ModifyOrder(
+                            order: args,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  moderateSpacing,
+                ],
+              ),
+            ),
           ),
         ),
       ),

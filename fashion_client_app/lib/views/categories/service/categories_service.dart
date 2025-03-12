@@ -15,3 +15,4 @@ class CategoriesService {
     return categories.where((category) => category.type == type).toList();
   }
 }
+
